@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { url } from "inspector";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +17,16 @@ export const metadata: Metadata = {
     email: false,
     address: false,
     telephone: false,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: true,
+    },
   },
 };
 
