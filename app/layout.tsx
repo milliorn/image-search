@@ -6,7 +6,10 @@ const inter = Inter({ subsets: ["latin"] });
 
 // https://nextjs.org/docs/app/api-reference/functions/generate-viewport
 export const viewport: Viewport = {
-  themeColor: "black",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "cyan" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
 };
 
 export const metadata: Metadata = {
