@@ -28,6 +28,8 @@ export const metadata: Metadata = {
       noimageindex: true,
     },
   },
+  // https://nextjs.org/docs/app/api-reference/functions/generate-metadata#icons
+  icons: {},
 };
 
 export default function RootLayout({
