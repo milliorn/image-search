@@ -87,19 +87,26 @@ export default function Home() {
         <div className="grid grid-cols-3 gap-4">
           {images.map(
             (image: {
+              height: number | `${number}` | undefined;
+              width: number | `${number}` | undefined;
               alt_description?: string;
               id: string;
               urls: { small: string };
-            }) => (
-              <Image
-                alt={image.alt_description || "image"}
-                className="rounded shadow-lg"
-                key={image.id}
-                src={image.urls.small}
-                width={300}
-                height={200}
-              />
-            )
+            }) => {
+              // Log the image object to see its properties
+              // console.log(image);
+
+              return (
+                <Image
+                  alt={image.alt_description || "image"}
+                  className="rounded shadow-lg"
+                  key={image.id}
+                  src={image.urls.small}
+                  width={image.width}
+                  height={image.height}
+                />
+              );
+            }
           )}
         </div>
       )}
