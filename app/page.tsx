@@ -65,6 +65,7 @@ export default function Home() {
           ref={searchInput}
         />
       </form>
+
       <div className="flex justify-center gap-4 mb-4">
         {["random", "nature", "holidays", "cooking"].map((filter) => (
           <button
@@ -76,6 +77,7 @@ export default function Home() {
           </button>
         ))}
       </div>
+
       {loading ? (
         <SyncLoader
           color="#4A90E2"
@@ -110,6 +112,7 @@ export default function Home() {
           )}
         </div>
       )}
+
       <div className="flex justify-between mt-4">
         {page > 1 && (
           <button
