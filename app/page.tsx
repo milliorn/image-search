@@ -1,4 +1,10 @@
 import Image from "next/image";
+import axios from "axios";
+import { useCallback, useEffect, useRef, useState } from "react";
+import SyncLoader from "react-spinners/SyncLoader";
+
+const API_URL = "https://api.unsplash.com/search/photos";
+const IMAGES_PER_PAGE = 10;
 
 export default function Home() {
   return (
