@@ -20,9 +20,14 @@ export default function Home() {
     if (searchInput.current && searchInput.current.value) {
       setLoading(true);
       try {
-        const { data } = await axios.get(
-          `${API_URL}?query=${searchInput.current.value}&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${process.env.NEXT_PUBLIC_API_KEY}`
+        const response = await fetch(
+          `/api/images?query=${encodeURIComponent(
+            searchInput.current.value
+          )}&page=${page}`
         );
+
+        const data = await response.json();
+
         setImages(data.results);
         setTotalPages(data.total_pages);
       } catch (error) {
