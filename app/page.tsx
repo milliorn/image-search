@@ -4,16 +4,39 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
 
-const API_URL = "https://api.unsplash.com/search/photos";
-const IMAGES_PER_PAGE = 10;
-
+/**
+ * Renders the Home component.
+ * This component displays an image search page with a search input, filter buttons, and a grid of images.
+ */
 export default function Home() {
+  /**
+   * Ref to the search input element.
+   */
   const searchInput = useRef<HTMLInputElement | null>(null);
+
+  /**
+   * State variable to store the fetched images.
+   */
   const [images, setImages] = useState([]);
+
+  /**
+   * State variable to store the current page number.
+   */
   const [page, setPage] = useState(1);
+
+  /**
+   * State variable to store the total number of pages.
+   */
   const [totalPages, setTotalPages] = useState(0);
+
+  /**
+   * State variable to indicate if images are being fetched.
+   */
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Fetches images from the API based on the search query and current page.
+   */
   const fetchImages = useCallback(async () => {
     // Ensure searchInput.current is not null before accessing .value
     if (searchInput.current && searchInput.current.value) {
@@ -41,12 +64,22 @@ export default function Home() {
     fetchImages();
   }, [fetchImages]);
 
+  /**
+   * Event handler for the search input change event.
+   * Resets the page number to 1 and fetches images.
+   * @param event - The input change event.
+   */
   const handleInputChange = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     setPage(1);
     fetchImages();
   };
 
+  /**
+   * Event handler for the filter button selection.
+   * Sets the search input value to the selected filter, resets the page number to 1, and fetches images.
+   * @param selection - The selected filter.
+   */
   const handleSelection = (selection: string) => {
     // Ensure searchInput.current is not null before accessing .value
     if (searchInput.current) {
