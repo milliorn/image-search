@@ -63,6 +63,7 @@ export default function Home() {
           placeholder="Type something to search..."
           className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm"
           ref={searchInput}
+          id="searchInput"
         />
       </form>
 
@@ -96,7 +97,9 @@ export default function Home() {
               urls: { small: string };
             }) => {
               // Log the image object to see its properties
-              // console.log(image);
+              console.log(image);
+              const img_width: number = (image.width as number) * 0.1;
+              const img_height: number = (image.height as number) * 0.1;
 
               return (
                 <Image
@@ -104,8 +107,8 @@ export default function Home() {
                   className="rounded shadow-lg"
                   key={image.id}
                   src={image.urls.small}
-                  width={image.width}
-                  height={image.height}
+                  width={img_width}
+                  height={img_height}
                 />
               );
             }
