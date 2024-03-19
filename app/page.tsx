@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import axios from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
 
