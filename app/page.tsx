@@ -124,9 +124,12 @@ export default function Home() {
           size={15}
         />
       ) : (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4">
           {images.map(
             (image: {
+              blur_hash: string;
+              likes: number;
+              description: string;
               height: number | `${number}` | undefined;
               width: number | `${number}` | undefined;
               alt_description?: string;
@@ -139,14 +142,18 @@ export default function Home() {
               const img_height: number = image.height as number;
 
               return (
-                <Image
-                  alt={image.alt_description || "image"}
-                  className="rounded shadow-lg"
-                  key={image.id}
-                  src={image.urls.small}
-                  width={img_width}
-                  height={img_height}
-                />
+                <>
+                  <Image
+                    alt={image.alt_description || "image"}
+                    className="rounded shadow-lg"
+                    key={image.id}
+                    src={image.urls.small}
+                    width={img_width}
+                    height={img_height}
+                    blurDataURL={image.blur_hash}
+                    placeholder="blur"
+                  />
+                </>
               );
             }
           )}
