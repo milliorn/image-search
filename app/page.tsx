@@ -135,8 +135,8 @@ export default function Home() {
             }) => {
               // Log the image object to see its properties
               console.log(image);
-              const img_width: number = (image.width as number) * 0.1;
-              const img_height: number = (image.height as number) * 0.1;
+              const img_width: number = image.width as number;
+              const img_height: number = image.height as number;
 
               return (
                 <Image
