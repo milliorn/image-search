@@ -142,18 +142,20 @@ export default function Home() {
               const img_height: number = image.height as number;
 
               return (
-                <>
-                  <Image
-                    alt={image.alt_description || "image"}
-                    className="rounded shadow-lg"
-                    key={image.id}
-                    src={image.urls.small}
-                    width={img_width}
-                    height={img_height}
-                    blurDataURL={image.blur_hash}
-                    placeholder="blur"
-                  />
-                </>
+                <Image
+                  alt={image.alt_description || "image"}
+                  blurDataURL={image.blur_hash}
+                  className="rounded shadow-lg"
+                  height={img_height}
+                  key={image.id}
+                  placeholder="blur"
+                  src={image.urls.small}
+                  width={img_width}
+                  onLoad={() => console.log(`Image ID : ${image.id}`)}
+                  onError={(e) =>
+                    console.error(`Failed to load image: ${e.target}`)
+                  }
+                />
               );
             }
           )}
