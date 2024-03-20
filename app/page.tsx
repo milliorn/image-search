@@ -1,28 +1,55 @@
 "use client";
 
 import Image from "next/image";
-import axios from "axios";
 import { useCallback, useEffect, useRef, useState } from "react";
 import SyncLoader from "react-spinners/SyncLoader";
 
-const API_URL = "https://api.unsplash.com/search/photos";
-const IMAGES_PER_PAGE = 10;
-
+/**
+ * Renders the Home component.
+ * This component displays an image search page with a search input, filter buttons, and a grid of images.
+ */
 export default function Home() {
+  /**
+   * Ref to the search input element.
+   */
   const searchInput = useRef<HTMLInputElement | null>(null);
+
+  /**
+   * State variable to store the fetched images.
+   */
   const [images, setImages] = useState([]);
+
+  /**
+   * State variable to store the current page number.
+   */
   const [page, setPage] = useState(1);
+
+  /**
+   * State variable to store the total number of pages.
+   */
   const [totalPages, setTotalPages] = useState(0);
+
+  /**
+   * State variable to indicate if images are being fetched.
+   */
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Fetches images from the API based on the search query and current page.
+   */
   const fetchImages = useCallback(async () => {
     // Ensure searchInput.current is not null before accessing .value
     if (searchInput.current && searchInput.current.value) {
       setLoading(true);
       try {
-        const { data } = await axios.get(
-          `${API_URL}?query=${searchInput.current.value}&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${process.env.NEXT_PUBLIC_API_KEY}`
+        const response = await fetch(
+          `/api/images?query=${encodeURIComponent(
+            searchInput.current.value
+          )}&page=${page}`
         );
+
+        const data = await response.json();
+
         setImages(data.results);
         setTotalPages(data.total_pages);
       } catch (error) {
@@ -37,12 +64,22 @@ export default function Home() {
     fetchImages();
   }, [fetchImages]);
 
+  /**
+   * Event handler for the search input change event.
+   * Resets the page number to 1 and fetches images.
+   * @param event - The input change event.
+   */
   const handleInputChange = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     setPage(1);
     fetchImages();
   };
 
+  /**
+   * Event handler for the filter button selection.
+   * Sets the search input value to the selected filter, resets the page number to 1, and fetches images.
+   * @param selection - The selected filter.
+   */
   const handleSelection = (selection: string) => {
     // Ensure searchInput.current is not null before accessing .value
     if (searchInput.current) {
@@ -63,6 +100,7 @@ export default function Home() {
           placeholder="Type something to search..."
           className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm"
           ref={searchInput}
+          id="searchInput"
         />
       </form>
 
@@ -96,7 +134,9 @@ export default function Home() {
               urls: { small: string };
             }) => {
               // Log the image object to see its properties
-              // console.log(image);
+              console.log(image);
+              const img_width: number = (image.width as number) * 0.1;
+              const img_height: number = (image.height as number) * 0.1;
 
               return (
                 <Image
@@ -104,8 +144,8 @@ export default function Home() {
                   className="rounded shadow-lg"
                   key={image.id}
                   src={image.urls.small}
-                  width={image.width}
-                  height={image.height}
+                  width={img_width}
+                  height={img_height}
                 />
               );
             }
