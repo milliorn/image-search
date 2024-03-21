@@ -56,13 +56,13 @@ export default function Home() {
     // Ensure searchInput.current is not null before accessing .value
     if (searchInput.current && searchInput.current.value) {
       setLoading(true);
-      try {
-        const response = await fetch(
-          `/api/images?query=${encodeURIComponent(
-            searchInput.current.value
-          )}&page=${page}`
-        );
 
+      try {
+        const apiURL = `/api/images?query=${encodeURIComponent(
+          searchInput.current.value
+        )}&page=${page}`;
+
+        const response = await fetch(apiURL);
         const data = await response.json();
 
         setImages(data.results);
