@@ -111,19 +111,19 @@ export default function Home() {
       <h1 className="text-3xl font-bold text-center mb-4">Image Search</h1>
       <form onSubmit={handleInputChange} className="mb-4">
         <input
-          type="search"
-          placeholder="Type something to search..."
           className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm text-black"
-          ref={searchInput}
           id="searchInput"
+          placeholder="Type something to search..."
+          ref={searchInput}
+          type="search"
         />
       </form>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 justify-center gap-2 mb-4 text-black">
         {imageButtons.map((filter) => (
           <button
-            key={filter}
             className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded"
+            key={filter}
             onClick={() => handleSelection(filter)}
           >
             {filter.charAt(0).toUpperCase() + filter.slice(1)}
@@ -134,27 +134,27 @@ export default function Home() {
       {loading ? (
         <SyncLoader
           color="#4A90E2"
-          loading={loading}
           cssOverride={{ display: "block", margin: "0 auto" }}
+          loading={loading}
           size={15}
         />
       ) : (
         <div className="grid grid-cols-1 gap-4">
           {images.map(
             (image: {
+              alt_description?: string;
               blur_hash: string;
-              likes: number;
               description: string;
               height: number | `${number}` | undefined;
-              width: number | `${number}` | undefined;
-              alt_description?: string;
               id: string;
+              likes: number;
               urls: { small: string };
+              width: number | `${number}` | undefined;
             }) => {
               // Log the image object to see its properties
               console.log(image);
-              const img_width: number = image.width as number;
               const img_height: number = image.height as number;
+              const img_width: number = image.width as number;
 
               return (
                 <Image
