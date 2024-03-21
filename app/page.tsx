@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import SyncLoader from "react-spinners/SyncLoader";
+import { BarLoader } from "react-spinners";
 
 /**
  * Renders the Home component.
@@ -110,7 +110,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-4">Image Search</h1>
+      <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
       <form onSubmit={handleInputChange} className="mb-4">
         <input
           className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm text-black"
@@ -134,12 +134,9 @@ export default function Home() {
       </div>
 
       {loading ? (
-        <SyncLoader
-          color="#4A90E2"
-          cssOverride={{ display: "block", margin: "0 auto" }}
-          loading={loading}
-          size={15}
-        />
+        <div className="flex justify-center items-center">
+          <BarLoader color="#3949AB" loading={loading} height={16} />
+        </div>
       ) : (
         <div className="grid grid-cols-1 gap-4">
           {images.map(
