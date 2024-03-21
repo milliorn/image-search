@@ -123,7 +123,7 @@ export default function Home() {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 justify-center gap-2 mb-4 text-black">
         {imageButtons.map((filter) => (
           <button
-            className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded"
+            className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded text-xl"
             key={filter}
             onClick={() => handleSelection(filter)}
           >
