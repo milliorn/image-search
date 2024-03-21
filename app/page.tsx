@@ -124,9 +124,12 @@ export default function Home() {
           size={15}
         />
       ) : (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4">
           {images.map(
             (image: {
+              blur_hash: string;
+              likes: number;
+              description: string;
               height: number | `${number}` | undefined;
               width: number | `${number}` | undefined;
               alt_description?: string;
@@ -135,17 +138,23 @@ export default function Home() {
             }) => {
               // Log the image object to see its properties
               console.log(image);
-              const img_width: number = (image.width as number) * 0.1;
-              const img_height: number = (image.height as number) * 0.1;
+              const img_width: number = image.width as number;
+              const img_height: number = image.height as number;
 
               return (
                 <Image
                   alt={image.alt_description || "image"}
+                  blurDataURL={image.blur_hash}
                   className="rounded shadow-lg"
+                  height={img_height}
                   key={image.id}
+                  placeholder="blur"
                   src={image.urls.small}
                   width={img_width}
-                  height={img_height}
+                  onLoad={() => console.log(`Image ID : ${image.id}`)}
+                  onError={(e) =>
+                    console.error(`Failed to load image: ${e.target}`)
+                  }
                 />
               );
             }
