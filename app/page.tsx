@@ -153,8 +153,7 @@ export default function Home() {
       ) : (
         <div className="grid grid-cols-1 gap-4">
           {images.map((image: ImageDetails) => {
-            // Log the image object to see its properties
-            console.log(image);
+            // console.log(image);
             const img_height: number = image.height as number;
             const img_width: number = image.width as number;
 
