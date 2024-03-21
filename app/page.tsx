@@ -11,19 +11,19 @@ import SyncLoader from "react-spinners/SyncLoader";
 export default function Home() {
   const imageButtons = [
     "random",
-    "nature",
-    "travel",
-    "food",
-    "space",
     "animals",
-    "sports",
-    "seasons",
     "anime",
     "art",
-    "wallpaper",
+    "food",
     "home",
+    "nature",
+    "seasons",
+    "space",
+    "sports",
+    "travel",
+    "wallpaper",
   ];
-  
+
   /**
    * Ref to the search input element.
    */
@@ -119,11 +119,11 @@ export default function Home() {
         />
       </form>
 
-      <div className="grid grid-cols-2 sm:flex justify-center gap-2 mb-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 justify-center gap-2 mb-4">
         {imageButtons.map((filter) => (
           <button
             key={filter}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs"
+            className="bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={() => handleSelection(filter)}
           >
             {filter.charAt(0).toUpperCase() + filter.slice(1)}
