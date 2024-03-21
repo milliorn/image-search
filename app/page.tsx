@@ -113,17 +113,17 @@ export default function Home() {
         <input
           type="search"
           placeholder="Type something to search..."
-          className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+          className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm text-black"
           ref={searchInput}
           id="searchInput"
         />
       </form>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 justify-center gap-2 mb-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 justify-center gap-2 mb-4 text-black">
         {imageButtons.map((filter) => (
           <button
             key={filter}
-            className="bg-indigo-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded"
             onClick={() => handleSelection(filter)}
           >
             {filter.charAt(0).toUpperCase() + filter.slice(1)}
