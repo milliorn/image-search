@@ -35,6 +35,11 @@ export default function Home() {
   const [images, setImages] = useState([]);
 
   /**
+   * State variable to indicate if images are being fetched.
+   */
+  const [loading, setLoading] = useState(false);
+
+  /**
    * State variable to store the current page number.
    */
   const [page, setPage] = useState(1);
@@ -43,11 +48,6 @@ export default function Home() {
    * State variable to store the total number of pages.
    */
   const [totalPages, setTotalPages] = useState(0);
-
-  /**
-   * State variable to indicate if images are being fetched.
-   */
-  const [loading, setLoading] = useState(false);
 
   /**
    * Fetches images from the API based on the search query and current page.
@@ -72,6 +72,8 @@ export default function Home() {
       } finally {
         setLoading(false);
       }
+    } else {
+      console.error("searchInput.current is null");
     }
   }, [page]);
 
