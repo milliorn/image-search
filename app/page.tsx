@@ -72,8 +72,6 @@ export default function Home() {
       } finally {
         setLoading(false);
       }
-    } else {
-      console.error("fetchImages: searchInput.current is null");
     }
   }, [page]);
 
@@ -108,7 +106,7 @@ export default function Home() {
     }
   };
 
-  interface ImageDetails {
+  type ImageDetails = {
     alt_description?: string;
     blur_hash: string;
     description: string;
@@ -119,7 +117,7 @@ export default function Home() {
       small: string;
     };
     width: number | `${number}` | undefined;
-  }
+  };
 
   return (
     <div className="container mx-auto p-4">
