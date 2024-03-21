@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
+import { ImageDetails } from "./models/ImageDetails";
 
 /**
  * Renders the Home component.
@@ -104,19 +105,6 @@ export default function Home() {
     } else {
       console.error("handleSelection: searchInput.current is null");
     }
-  };
-
-  type ImageDetails = {
-    alt_description?: string;
-    blur_hash: string;
-    description: string;
-    height: number | `${number}` | undefined;
-    id: string;
-    likes: number;
-    urls: {
-      small: string;
-    };
-    width: number | `${number}` | undefined;
   };
 
   return (
