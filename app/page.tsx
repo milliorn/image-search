@@ -9,7 +9,21 @@ import SyncLoader from "react-spinners/SyncLoader";
  * This component displays an image search page with a search input, filter buttons, and a grid of images.
  */
 export default function Home() {
-  const imageButtons = ["random", "nature", "holidays", "cooking"];
+  const imageButtons = [
+    "random",
+    "nature",
+    "travel",
+    "food",
+    "space",
+    "animals",
+    "sports",
+    "seasons",
+    "anime",
+    "art",
+    "wallpaper",
+    "home",
+  ];
+  
   /**
    * Ref to the search input element.
    */
@@ -105,11 +119,11 @@ export default function Home() {
         />
       </form>
 
-      <div className="flex justify-center gap-4 mb-4">
+      <div className="grid grid-cols-2 sm:flex justify-center gap-2 mb-4">
         {imageButtons.map((filter) => (
           <button
             key={filter}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs"
             onClick={() => handleSelection(filter)}
           >
             {filter.charAt(0).toUpperCase() + filter.slice(1)}
