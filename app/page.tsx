@@ -73,7 +73,7 @@ export default function Home() {
         setLoading(false);
       }
     } else {
-      console.error("searchInput.current is null");
+      console.error("fetchImages: searchInput.current is null");
     }
   }, [page]);
 
@@ -104,9 +104,22 @@ export default function Home() {
       setPage(1);
       fetchImages();
     } else {
-      console.error("searchInput.current is null");
+      console.error("handleSelection: searchInput.current is null");
     }
   };
+
+  interface ImageDetails {
+    alt_description?: string;
+    blur_hash: string;
+    description: string;
+    height: number | `${number}` | undefined;
+    id: string;
+    likes: number;
+    urls: {
+      small: string;
+    };
+    width: number | `${number}` | undefined;
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -139,40 +152,29 @@ export default function Home() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4">
-          {images.map(
-            (image: {
-              alt_description?: string;
-              blur_hash: string;
-              description: string;
-              height: number | `${number}` | undefined;
-              id: string;
-              likes: number;
-              urls: { small: string };
-              width: number | `${number}` | undefined;
-            }) => {
-              // Log the image object to see its properties
-              console.log(image);
-              const img_height: number = image.height as number;
-              const img_width: number = image.width as number;
+          {images.map((image: ImageDetails) => {
+            // Log the image object to see its properties
+            console.log(image);
+            const img_height: number = image.height as number;
+            const img_width: number = image.width as number;
 
-              return (
-                <Image
-                  alt={image.alt_description || "image"}
-                  blurDataURL={image.blur_hash}
-                  className="rounded shadow-lg"
-                  height={img_height}
-                  key={image.id}
-                  placeholder="blur"
-                  src={image.urls.small}
-                  width={img_width}
-                  onLoad={() => console.log(`Image ID : ${image.id}`)}
-                  onError={(e) =>
-                    console.error(`Failed to load image: ${e.target}`)
-                  }
-                />
-              );
-            }
-          )}
+            return (
+              <Image
+                alt={image.alt_description || "image"}
+                blurDataURL={image.blur_hash}
+                className="rounded shadow-lg"
+                height={img_height}
+                key={image.id}
+                placeholder="blur"
+                src={image.urls.small}
+                width={img_width}
+                onLoad={() => console.log(`Image ID : ${image.id}`)}
+                onError={(e) =>
+                  console.error(`Failed to load image: ${e.target}`)
+                }
+              />
+            );
+          })}
         </div>
       )}
 
