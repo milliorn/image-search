@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
 import { ImageDetails } from "./models/ImageDetails";
 import { imageButtons } from "./utils/constants";
+import useFetchImages from "./services/fetchImages";
 
 /**
  * Renders the Home component.
@@ -39,28 +40,13 @@ export default function Home() {
   /**
    * Fetches images from the API based on the search query and current page.
    */
-  const fetchImages = useCallback(async () => {
-    // Ensure searchInput.current is not null before accessing .value
-    if (searchInput.current && searchInput.current.value) {
-      setLoading(true);
-
-      try {
-        const apiURL = `/api/images?query=${encodeURIComponent(
-          searchInput.current.value
-        )}&page=${page}`;
-
-        const response = await fetch(apiURL);
-        const data = await response.json();
-
-        setImages(data.results);
-        setTotalPages(data.total_pages);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-  }, [page]);
+  const fetchImages = useFetchImages(
+    searchInput,
+    setLoading,
+    page,
+    setImages,
+    setTotalPages
+  );
 
   useEffect(() => {
     fetchImages();
