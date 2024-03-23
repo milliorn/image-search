@@ -139,7 +139,9 @@ export default function Home() {
       ) : (
         <div className="grid grid-cols-1 gap-4">
           {images.map((image: ImageDetails) => {
-            // console.log(image);
+            console.log(image);
+            console.log(typeof image.alternative_slugs);
+
             const img_height: number = image.height as number;
             const img_width: number = image.width as number;
 
@@ -151,7 +153,7 @@ export default function Home() {
                 height={img_height}
                 key={image.id}
                 placeholder="blur"
-                src={image.urls.small}
+                src={image.urls.thumb}
                 width={img_width}
                 onLoad={() => console.log(`Image ID : ${image.id}`)}
                 onError={(e) =>
