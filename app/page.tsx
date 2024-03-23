@@ -4,27 +4,13 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
 import { ImageDetails } from "./models/ImageDetails";
+import { imageButtons } from "./utils/constants";
 
 /**
  * Renders the Home component.
  * This component displays an image search page with a search input, filter buttons, and a grid of images.
  */
 export default function Home() {
-  const imageButtons = [
-    "random",
-    "animals",
-    "anime",
-    "art",
-    "food",
-    "home",
-    "nature",
-    "seasons",
-    "space",
-    "sports",
-    "travel",
-    "wallpaper",
-  ];
-
   /**
    * Ref to the search input element.
    */
