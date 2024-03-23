@@ -1,4 +1,5 @@
 "use client";
+
 export type ImageDetails = {
   alt_description?: string;
   blur_hash: string;
