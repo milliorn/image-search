@@ -2,13 +2,29 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import SyncLoader from "react-spinners/SyncLoader";
+import { BarLoader } from "react-spinners";
+import { ImageDetails } from "./models/ImageDetails";
 
 /**
  * Renders the Home component.
  * This component displays an image search page with a search input, filter buttons, and a grid of images.
  */
 export default function Home() {
+  const imageButtons = [
+    "random",
+    "animals",
+    "anime",
+    "art",
+    "food",
+    "home",
+    "nature",
+    "seasons",
+    "space",
+    "sports",
+    "travel",
+    "wallpaper",
+  ];
+
   /**
    * Ref to the search input element.
    */
@@ -18,6 +34,11 @@ export default function Home() {
    * State variable to store the fetched images.
    */
   const [images, setImages] = useState([]);
+
+  /**
+   * State variable to indicate if images are being fetched.
+   */
+  const [loading, setLoading] = useState(false);
 
   /**
    * State variable to store the current page number.
@@ -30,24 +51,19 @@ export default function Home() {
   const [totalPages, setTotalPages] = useState(0);
 
   /**
-   * State variable to indicate if images are being fetched.
-   */
-  const [loading, setLoading] = useState(false);
-
-  /**
    * Fetches images from the API based on the search query and current page.
    */
   const fetchImages = useCallback(async () => {
     // Ensure searchInput.current is not null before accessing .value
     if (searchInput.current && searchInput.current.value) {
       setLoading(true);
-      try {
-        const response = await fetch(
-          `/api/images?query=${encodeURIComponent(
-            searchInput.current.value
-          )}&page=${page}`
-        );
 
+      try {
+        const apiURL = `/api/images?query=${encodeURIComponent(
+          searchInput.current.value
+        )}&page=${page}`;
+
+        const response = await fetch(apiURL);
         const data = await response.json();
 
         setImages(data.results);
@@ -87,28 +103,28 @@ export default function Home() {
       setPage(1);
       fetchImages();
     } else {
-      console.error("searchInput.current is null");
+      console.error("handleSelection: searchInput.current is null");
     }
   };
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-center mb-4">Image Search</h1>
+      <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
       <form onSubmit={handleInputChange} className="mb-4">
         <input
-          type="search"
-          placeholder="Type something to search..."
-          className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-          ref={searchInput}
+          className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm text-black"
           id="searchInput"
+          placeholder="Type something to search..."
+          ref={searchInput}
+          type="search"
         />
       </form>
 
-      <div className="flex justify-center gap-4 mb-4">
-        {["random", "nature", "holidays", "cooking"].map((filter) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 justify-center gap-2 mb-4 text-black">
+        {imageButtons.map((filter) => (
           <button
+            className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded text-xl"
             key={filter}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={() => handleSelection(filter)}
           >
             {filter.charAt(0).toUpperCase() + filter.slice(1)}
@@ -117,48 +133,33 @@ export default function Home() {
       </div>
 
       {loading ? (
-        <SyncLoader
-          color="#4A90E2"
-          loading={loading}
-          cssOverride={{ display: "block", margin: "0 auto" }}
-          size={15}
-        />
+        <div className="flex justify-center items-center">
+          <BarLoader color="#3949AB" loading={loading} height={16} />
+        </div>
       ) : (
         <div className="grid grid-cols-1 gap-4">
-          {images.map(
-            (image: {
-              blur_hash: string;
-              likes: number;
-              description: string;
-              height: number | `${number}` | undefined;
-              width: number | `${number}` | undefined;
-              alt_description?: string;
-              id: string;
-              urls: { small: string };
-            }) => {
-              // Log the image object to see its properties
-              console.log(image);
-              const img_width: number = image.width as number;
-              const img_height: number = image.height as number;
+          {images.map((image: ImageDetails) => {
+            // console.log(image);
+            const img_height: number = image.height as number;
+            const img_width: number = image.width as number;
 
-              return (
-                <Image
-                  alt={image.alt_description || "image"}
-                  blurDataURL={image.blur_hash}
-                  className="rounded shadow-lg"
-                  height={img_height}
-                  key={image.id}
-                  placeholder="blur"
-                  src={image.urls.small}
-                  width={img_width}
-                  onLoad={() => console.log(`Image ID : ${image.id}`)}
-                  onError={(e) =>
-                    console.error(`Failed to load image: ${e.target}`)
-                  }
-                />
-              );
-            }
-          )}
+            return (
+              <Image
+                alt={image.alt_description || "image"}
+                blurDataURL={image.blur_hash}
+                className="rounded shadow-lg"
+                height={img_height}
+                key={image.id}
+                placeholder="blur"
+                src={image.urls.small}
+                width={img_width}
+                onLoad={() => console.log(`Image ID : ${image.id}`)}
+                onError={(e) =>
+                  console.error(`Failed to load image: ${e.target}`)
+                }
+              />
+            );
+          })}
         </div>
       )}
 
