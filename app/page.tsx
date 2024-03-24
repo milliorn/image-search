@@ -3,10 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
+import { useHandleInputChange } from "./hooks/handleInputChange";
+import { useSelectionHandler } from "./hooks/selectionHandler";
 import { ImageDetails } from "./models/ImageDetails";
 import { imageButtons } from "./utils/constants";
 import useFetchImages from "./hooks/fetchImages";
-import { useHandleInputChange } from "./hooks/handleInputChange";
 
 /**
  * Renders the Home component.
@@ -67,20 +68,14 @@ export default function Home() {
   });
 
   /**
-   * Event handler for the filter button selection.
-   * Sets the search input value to the selected filter, resets the page number to 1, and fetches images.
-   * @param selection - The selected filter.
+   * Event handler for the filter buttons.
+   * Fetches images based on the selected filter.
    */
-  const handleSelection = (selection: string) => {
-    // Ensure searchInput.current is not null before accessing .value
-    if (searchInput.current) {
-      searchInput.current.value = selection;
-      setPage(1);
-      fetchImages();
-    } else {
-      console.error("handleSelection: searchInput.current is null");
-    }
-  };
+  const handleSelection = useSelectionHandler({
+    setPage,
+    fetchImages,
+    searchInput,
+  });
 
   return (
     <div className="container mx-auto p-4">
