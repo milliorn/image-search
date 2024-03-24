@@ -1,30 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
 import { ImageDetails } from "./models/ImageDetails";
+import { imageButtons } from "./utils/constants";
+import useFetchImages from "./services/fetchImages";
 
 /**
  * Renders the Home component.
  * This component displays an image search page with a search input, filter buttons, and a grid of images.
  */
 export default function Home() {
-  const imageButtons = [
-    "random",
-    "animals",
-    "anime",
-    "art",
-    "food",
-    "home",
-    "nature",
-    "seasons",
-    "space",
-    "sports",
-    "travel",
-    "wallpaper",
-  ];
-
   /**
    * Ref to the search input element.
    */
@@ -53,28 +40,13 @@ export default function Home() {
   /**
    * Fetches images from the API based on the search query and current page.
    */
-  const fetchImages = useCallback(async () => {
-    // Ensure searchInput.current is not null before accessing .value
-    if (searchInput.current && searchInput.current.value) {
-      setLoading(true);
-
-      try {
-        const apiURL = `/api/images?query=${encodeURIComponent(
-          searchInput.current.value
-        )}&page=${page}`;
-
-        const response = await fetch(apiURL);
-        const data = await response.json();
-
-        setImages(data.results);
-        setTotalPages(data.total_pages);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-  }, [page]);
+  const fetchImages = useFetchImages(
+    searchInput,
+    setLoading,
+    page,
+    setImages,
+    setTotalPages
+  );
 
   useEffect(() => {
     fetchImages();
@@ -139,7 +111,9 @@ export default function Home() {
       ) : (
         <div className="grid grid-cols-1 gap-4">
           {images.map((image: ImageDetails) => {
-            // console.log(image);
+            console.log(image);
+            console.log(typeof image.alternative_slugs);
+
             const img_height: number = image.height as number;
             const img_width: number = image.width as number;
 
@@ -151,7 +125,7 @@ export default function Home() {
                 height={img_height}
                 key={image.id}
                 placeholder="blur"
-                src={image.urls.small}
+                src={image.urls.thumb}
                 width={img_width}
                 onLoad={() => console.log(`Image ID : ${image.id}`)}
                 onError={(e) =>

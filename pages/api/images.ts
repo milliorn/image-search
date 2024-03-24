@@ -1,11 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-interface UnsplashResponse {
-  // Define the structure of the response from the Unsplash API
-  // based on the actual response structure
-  // Example: { total: number, results: Image[] }
-}
-
 /**
  * Handles the API request for searching images.
  *
@@ -13,7 +7,7 @@ interface UnsplashResponse {
  * @param {Object} res - The response object.
  * @returns {Promise<void>} - A promise that resolves when the request is handled.
  */
-export default async function handler(req: NextApiRequest, res: NextApiResponse<UnsplashResponse>): Promise<void> {
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   const { query, page } = req.query;
 
   const IMAGES_PER_PAGE: number = 12;
@@ -26,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   try {
     const response = await fetch(apiUrl);
-    const data: UnsplashResponse = await response.json();
+    const data = await response.json();
 
     res.status(200).json(data);
   } catch (error) {
