@@ -82,20 +82,29 @@ export default function Home() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
-      <form onSubmit={handleInputChange} className="mb-4">
+      <form
+        onSubmit={handleInputChange}
+        className="mb-4 flex justify-between items-center"
+      >
         <input
-          className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm text-black"
+          className="form-input mt-0 block w-full rounded-lg border-gray-300 shadow-sm text-black mr-2 py-1"
           id="searchInput"
           placeholder="Type something to search..."
           ref={searchInput}
           type="search"
         />
+        <button
+          className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg"
+          type="submit"
+        >
+          Search
+        </button>
       </form>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 justify-center gap-2 mb-4 text-black">
         {imageButtons.map((filter) => (
           <button
-            className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded text-xl"
+            className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl"
             key={filter}
             onClick={() => handleSelection(filter)}
           >
