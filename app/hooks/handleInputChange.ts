@@ -9,7 +9,7 @@ import { HandleInputChangeParams } from "../models/HandleInputChangeParams";
  * @param searchInput - The reference to the search input element.
  * @returns The event handler function.
  */
-export const handleInputChange = ({
+export const useHandleInputChange = ({
   setPage,
   fetchImages,
   searchInput,

@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
 import { ImageDetails } from "./models/ImageDetails";
 import { imageButtons } from "./utils/constants";
-import useFetchImages from "./services/fetchImages";
-import { handleInputChange } from "./services/handleInputChange";
+import useFetchImages from "./hooks/fetchImages";
+import { useHandleInputChange } from "./hooks/handleInputChange";
 
 /**
  * Renders the Home component.
@@ -60,7 +60,7 @@ export default function Home() {
    * Event handler for the search input change event.
    * Resets the page number to 1 and fetches images.
    */
-  const onChange = handleInputChange({
+  const onChange = useHandleInputChange({
     setPage,
     fetchImages,
     searchInput,
