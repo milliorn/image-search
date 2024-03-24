@@ -6,6 +6,7 @@ import { BarLoader } from "react-spinners";
 import { ImageDetails } from "./models/ImageDetails";
 import { imageButtons } from "./utils/constants";
 import useFetchImages from "./services/fetchImages";
+import { handleInputChange } from "./services/handleInputChange";
 
 /**
  * Renders the Home component.
@@ -48,6 +49,9 @@ export default function Home() {
     setTotalPages
   );
 
+  /**
+   * Fetch images when the component mounts.
+   */
   useEffect(() => {
     fetchImages();
   }, [fetchImages]);
@@ -55,13 +59,12 @@ export default function Home() {
   /**
    * Event handler for the search input change event.
    * Resets the page number to 1 and fetches images.
-   * @param event - The input change event.
    */
-  const handleInputChange = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    setPage(1);
-    fetchImages();
-  };
+  const onChange = handleInputChange({
+    setPage,
+    fetchImages,
+    searchInput,
+  });
 
   /**
    * Event handler for the filter button selection.
@@ -83,7 +86,7 @@ export default function Home() {
     <div className="container mx-auto p-4">
       <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
       <form
-        onSubmit={handleInputChange}
+        onSubmit={onChange}
         className="mb-4 flex justify-between items-center"
       >
         <input
