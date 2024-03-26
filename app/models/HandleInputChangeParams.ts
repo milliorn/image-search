@@ -1,3 +1,5 @@
+"use client";
+
 import { SetStateAction, Dispatch, RefObject } from "react";
 
 /**

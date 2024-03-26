@@ -9,7 +9,7 @@ const useFetchImages = (
   searchInput: MutableRefObject<HTMLInputElement | null>,
   setLoading: (value: SetStateAction<boolean>) => void,
   page: number,
-  setImages: (value: SetStateAction<never[]>) => void, // Changed never[] to any[] for broader compatibility
+  setImages: (value: SetStateAction<never[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void
 ): (() => Promise<void>) => {
   return useCallback(async () => {
