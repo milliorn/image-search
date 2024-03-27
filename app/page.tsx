@@ -3,9 +3,12 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
+import useFetchImages from "./hooks/fetchImages";
+import useHandleInputChange from "./hooks/handleInputChange";
+import useSelectionHandler from "./hooks/selectionHandler";
 import { ImageDetails } from "./models/ImageDetails";
 import { imageButtons } from "./utils/constants";
-import useFetchImages from "./services/fetchImages";
+import SearchInput from "./ui/SearchInput";
 
 /**
  * Renders the Home component.
@@ -48,54 +51,42 @@ export default function Home() {
     setTotalPages
   );
 
+  /**
+   * Event handler for the search input change event.
+   * Resets the page number to 1 and fetches images.
+   */
+  const onChange = useHandleInputChange({
+    setPage,
+    fetchImages,
+    searchInput,
+  });
+
+  /**
+   * Event handler for the filter buttons.
+   * Fetches images based on the selected filter.
+   */
+  const handleSelection = useSelectionHandler({
+    setPage,
+    fetchImages,
+    searchInput,
+  });
+
+  /**
+   * Fetch images when the component mounts.
+   */
   useEffect(() => {
     fetchImages();
   }, [fetchImages]);
 
-  /**
-   * Event handler for the search input change event.
-   * Resets the page number to 1 and fetches images.
-   * @param event - The input change event.
-   */
-  const handleInputChange = (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    setPage(1);
-    fetchImages();
-  };
-
-  /**
-   * Event handler for the filter button selection.
-   * Sets the search input value to the selected filter, resets the page number to 1, and fetches images.
-   * @param selection - The selected filter.
-   */
-  const handleSelection = (selection: string) => {
-    // Ensure searchInput.current is not null before accessing .value
-    if (searchInput.current) {
-      searchInput.current.value = selection;
-      setPage(1);
-      fetchImages();
-    } else {
-      console.error("handleSelection: searchInput.current is null");
-    }
-  };
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
-      <form onSubmit={handleInputChange} className="mb-4">
-        <input
-          className="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm text-black"
-          id="searchInput"
-          placeholder="Type something to search..."
-          ref={searchInput}
-          type="search"
-        />
-      </form>
+      <SearchInput onSubmit={onChange} searchRef={searchInput} />
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 justify-center gap-2 mb-4 text-black">
         {imageButtons.map((filter) => (
           <button
-            className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-4 rounded text-xl"
+            className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl"
             key={filter}
             onClick={() => handleSelection(filter)}
           >
