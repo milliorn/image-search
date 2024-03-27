@@ -51,13 +51,6 @@ export default function Home() {
   );
 
   /**
-   * Fetch images when the component mounts.
-   */
-  useEffect(() => {
-    fetchImages();
-  }, [fetchImages]);
-
-  /**
    * Event handler for the search input change event.
    * Resets the page number to 1 and fetches images.
    */
@@ -76,6 +69,13 @@ export default function Home() {
     fetchImages,
     searchInput,
   });
+
+  /**
+   * Fetch images when the component mounts.
+   */
+  useEffect(() => {
+    fetchImages();
+  }, [fetchImages]);
 
   return (
     <div className="container mx-auto p-4">
