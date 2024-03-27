@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { BarLoader } from "react-spinners";
-import { useHandleInputChange } from "./hooks/handleInputChange";
-import { useSelectionHandler } from "./hooks/selectionHandler";
+import useFetchImages from "./hooks/fetchImages";
+import useHandleInputChange from "./hooks/handleInputChange";
+import useSelectionHandler from "./hooks/selectionHandler";
 import { ImageDetails } from "./models/ImageDetails";
 import { imageButtons } from "./utils/constants";
-import useFetchImages from "./hooks/fetchImages";
 
 /**
  * Renders the Home component.

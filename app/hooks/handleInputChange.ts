@@ -11,7 +11,7 @@ import { HandleInputChangeParams } from "../models/HandleInputChangeParams";
  * @param searchInput - The reference to the search input element.
  * @returns The event handler function.
  */
-export const useHandleInputChange = ({
+const useHandleInputChange = ({
   setPage,
   fetchImages,
   searchInput,
@@ -23,3 +23,5 @@ export const useHandleInputChange = ({
     fetchImages(query, 1);
   };
 };
+
+export default useHandleInputChange;

@@ -10,7 +10,7 @@ import { UseSelectionHandler } from "../models/SelectionHandler";
  * @param searchInput - The reference to the search input element.
  * @returns The event handler function.
  */
-export const useSelectionHandler = ({
+const useSelectionHandler = ({
   setPage,
   fetchImages,
   searchInput,
@@ -27,3 +27,5 @@ export const useSelectionHandler = ({
 
   return handleSelection;
 };
+
+export default useSelectionHandler;
