@@ -8,6 +8,7 @@ import useHandleInputChange from "./hooks/handleInputChange";
 import useSelectionHandler from "./hooks/selectionHandler";
 import { ImageDetails } from "./models/ImageDetails";
 import { imageButtons } from "./utils/constants";
+import SearchInput from "./ui/SearchInput";
 
 /**
  * Renders the Home component.
@@ -80,24 +81,7 @@ export default function Home() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
-      <form
-        onSubmit={onChange}
-        className="mb-4 flex justify-between items-center"
-      >
-        <input
-          className="form-input mt-0 block w-full rounded-lg border-gray-300 shadow-sm text-black mr-2 py-1 pl-4 text-xs sm:text-base"
-          id="searchInput"
-          placeholder="Type something to search..."
-          ref={searchInput}
-          type="search"
-        />
-        <button
-          className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg"
-          type="submit"
-        >
-          Search
-        </button>
-      </form>
+      <SearchInput onSubmit={onChange} searchRef={searchInput} />
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 justify-center gap-2 mb-4 text-black">
         {imageButtons.map((filter) => (
