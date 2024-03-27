@@ -85,7 +85,7 @@ export default function Home() {
         className="mb-4 flex justify-between items-center"
       >
         <input
-          className="form-input mt-0 block w-full rounded-lg border-gray-300 shadow-sm text-black mr-2 py-1"
+          className="form-input mt-0 block w-full rounded-lg border-gray-300 shadow-sm text-black mr-2 py-1 pl-4"
           id="searchInput"
           placeholder="Type something to search..."
           ref={searchInput}
