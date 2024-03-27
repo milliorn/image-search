@@ -4,6 +4,7 @@ import { useCallback, MutableRefObject, SetStateAction } from 'react';
 
 /**
  * Fetches images from the API based on the search query and current page.
+ * This would normally be a service, but it uses another hook, useCallback, to memoize the function.
  */
 const useFetchImages = (
   searchInput: MutableRefObject<HTMLInputElement | null>,
