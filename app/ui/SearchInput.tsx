@@ -6,7 +6,12 @@ type SearchInputProps = {
   searchRef: RefObject<HTMLInputElement>;
 };
 
-const SearchInput: React.FC<SearchInputProps> = ({ onSubmit, searchRef }) => {
+/**
+ * Renders a search input element.
+ * @param onSubmit - The event handler for the form submit event.
+ * @param searchRef - The reference to the search input element.
+ */
+const SearchInput = ({ onSubmit, searchRef }: SearchInputProps) => {
   return (
     <form
       onSubmit={onSubmit}

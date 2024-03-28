@@ -9,6 +9,7 @@ import useSelectionHandler from "./hooks/selectionHandler";
 import { ImageDetails } from "./models/ImageDetails";
 import { imageButtons } from "./utils/constants";
 import SearchInput from "./ui/SearchInput";
+import FilterButtonsGrid from "./ui/FilterButtonsGrid";
 
 /**
  * Renders the Home component.
@@ -83,17 +84,10 @@ export default function Home() {
       <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
       <SearchInput onSubmit={onChange} searchRef={searchInput} />
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 justify-center gap-2 mb-4 text-black">
-        {imageButtons.map((filter) => (
-          <button
-            className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl"
-            key={filter}
-            onClick={() => handleSelection(filter)}
-          >
-            {filter.charAt(0).toUpperCase() + filter.slice(1)}
-          </button>
-        ))}
-      </div>
+      <FilterButtonsGrid
+        imageButtons={imageButtons}
+        onFilterSelect={handleSelection}
+      />
 
       {loading ? (
         <div className="flex justify-center items-center">
