@@ -93,29 +93,36 @@ export default function Home() {
       {loading ? (
         <LoadingIndicator color="#3949AB" loading={loading} height={16} />
       ) : (
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {images.map((image: ImageDetails) => {
-            // console.log(image);
+            console.log(image);
             // console.log(typeof image.alternative_slugs);
 
             const img_height: number = image.height as number;
             const img_width: number = image.width as number;
 
             return (
-              <Image
-                alt={image.alt_description || "image"}
-                blurDataURL={image.blur_hash}
-                className="rounded shadow-lg"
-                height={img_height}
+              <div
                 key={image.id}
-                placeholder="blur"
-                src={image.urls.thumb}
-                width={img_width}
-                onLoad={() => console.log(`Image ID : ${image.id}`)}
-                onError={(e) =>
-                  console.error(`Failed to load image: ${e.target}`)
-                }
-              />
+                className="grid grid-cols-1 text-center capitalize my-4"
+              >
+                <Image
+                  alt={image.alt_description || "image"}
+                  blurDataURL={image.blur_hash}
+                  className="rounded shadow-lg my-1 mx-auto"
+                  height={img_height}
+                  key={image.id}
+                  placeholder="blur"
+                  src={image.urls.thumb}
+                  width={img_width}
+                  onLoad={() => console.log(`Image ID : ${image.id}`)}
+                  onError={(e) =>
+                    console.error(`Failed to load image: ${e.target}`)
+                  }
+                />
+                <span className="my-1">{image.alt_description}</span>
+                <span className="my-1">Created: {image.created_at}</span>
+              </div>
             );
           })}
         </div>
