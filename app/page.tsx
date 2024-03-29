@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import useFetchImages from "./hooks/fetchImages";
 import useHandleInputChange from "./hooks/handleInputChange";
@@ -11,8 +12,6 @@ import LoadingIndicator from "./ui/LoadingIndicator";
 import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
 import { imageButtons } from "./utils/constants";
-import { create } from "domain";
-import Link from "next/link";
 
 /**
  * Renders the Home component.
@@ -100,6 +99,7 @@ export default function Home() {
             console.log(image);
             // console.log(typeof image.alternative_slugs);
 
+            const twitter = `https://twitter.com/${image.user.twitter_username}`;
             const instagram = `https://www.instagram.com/${image.user.instagram_username}`;
             const img_height: number = image.height as number;
             const img_width: number = image.width as number;
@@ -110,12 +110,12 @@ export default function Home() {
             return (
               <div
                 key={image.id}
-                className="grid grid-rows-1 text-center capitalize my-4"
+                className="grid grid-rows-1 text-center capitalize my-4 text-indigo-100"
               >
                 <Image
                   alt={image.alt_description || "image"}
                   blurDataURL={image.blur_hash}
-                  className="rounded shadow-lg my-1 mx-auto border border-indigo-200"
+                  className="rounded shadow-lg my-4 mx-auto border border-indigo-200"
                   height={img_height}
                   key={image.id}
                   placeholder="blur"
@@ -144,6 +144,18 @@ export default function Home() {
                       className="hover:text-indigo-600 text-indigo-400"
                     >
                       Instagram
+                    </Link>
+                  )}
+                </span>
+                <span>
+                  {image.user.twitter_username && (
+                    <Link
+                      href={twitter}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="hover:text-indigo-600 text-indigo-400"
+                    >
+                      Twitter
                     </Link>
                   )}
                 </span>
