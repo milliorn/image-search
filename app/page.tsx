@@ -100,6 +100,7 @@ export default function Home() {
             console.log(image);
             // console.log(typeof image.alternative_slugs);
 
+            const instagram = `https://www.instagram.com/${image.user.instagram_username}`;
             const img_height: number = image.height as number;
             const img_width: number = image.width as number;
             const createdAt = new Date(image.created_at)
@@ -127,6 +128,25 @@ export default function Home() {
                 />
                 <span className="">{image.alt_description}</span>
                 <span className="">Created: {createdAt}</span>
+                <span className="">By: {image.user.name} </span>
+                <span className="">
+                  Tags:{" "}
+                  {image.tags?.map((tag) => {
+                    return `${tag.title} `;
+                  })}
+                </span>
+                <span>
+                  {image.user.instagram_username && (
+                    <Link
+                      href={instagram}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="hover:text-indigo-600 text-indigo-400"
+                    >
+                      Instagram
+                    </Link>
+                  )}
+                </span>
                 <Link
                   href={image.links.html}
                   rel="noopener noreferrer"

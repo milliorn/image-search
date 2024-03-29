@@ -20,7 +20,7 @@ const PaginationControls = ({
   page,
   setPage,
   totalPages,
-}: PaginationControlsProps) => {
+}: PaginationControlsProps): JSX.Element => {
   return (
     <div className="flex justify-between sm:justify-evenly mt-4">
       <button
