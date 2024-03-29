@@ -20,6 +20,8 @@ const SearchInput = ({ onSubmit, searchRef }: SearchInputProps) => {
     >
       <input
         className="form-input mt-0 block w-full rounded-lg border-gray-300 shadow-sm text-black mr-2 py-1 pl-4 text-xs sm:text-base"
+        id="search-input"
+        name="search-input"
         placeholder="Type something to search..."
         ref={searchRef}
         type="search"
