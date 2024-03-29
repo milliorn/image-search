@@ -95,7 +95,7 @@ export default function Home() {
       {loading ? (
         <LoadingIndicator color="#3949AB" loading={loading} height={16} />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {images.map((image: ImageDetails) => {
             console.log(image);
             // console.log(typeof image.alternative_slugs);
@@ -113,11 +113,11 @@ export default function Home() {
                 <Image
                   alt={image.alt_description || "image"}
                   blurDataURL={image.blur_hash}
-                  className="rounded shadow-lg my-1 mx-auto"
+                  className="rounded shadow-lg my-1 mx-auto border border-indigo-200"
                   height={img_height}
                   key={image.id}
                   placeholder="blur"
-                  src={image.urls.thumb}
+                  src={image.urls.small}
                   width={img_width}
                   onLoad={() => console.log(`Image ID : ${image.id}`)}
                   onError={(e) =>
@@ -130,6 +130,7 @@ export default function Home() {
                   href={image.links.html}
                   rel="noopener noreferrer"
                   target="_blank"
+                  className="hover:text-indigo-600 text-indigo-400"
                 >
                   Source
                 </Link>
