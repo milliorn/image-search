@@ -99,6 +99,7 @@ export default function Home() {
             console.log(image);
             // console.log(typeof image.alternative_slugs);
 
+            const description = image.alt_description || image.description;
             const img_height: number = image.height as number;
             const img_width: number = image.width as number;
             const instagram = `https://www.instagram.com/${image.user.instagram_username}`;
@@ -112,21 +113,31 @@ export default function Home() {
                 key={image.id}
                 className="grid grid-rows-1 text-center capitalize my-4 text-indigo-100 gap-1"
               >
-                <Image
-                  alt={image.alt_description || "image"}
-                  blurDataURL={image.blur_hash}
-                  className="rounded shadow-lg my-4 mx-auto border border-indigo-200"
-                  height={img_height}
-                  key={image.id}
-                  placeholder="blur"
-                  src={image.urls.regular}
-                  width={img_width}
-                  onLoad={() => console.log(`Image ID : ${image.id}`)}
-                  onError={(e) =>
-                    console.error(`Failed to load image: ${e.target}`)
-                  }
-                />
-                <span className="">{image.alt_description}</span>
+                <Link
+                  href={image.links.html}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <Image
+                    alt={image.alt_description || "image"}
+                    blurDataURL={image.blur_hash}
+                    className="rounded shadow-lg my-4 mx-auto border border-indigo-200"
+                    height={img_height}
+                    key={image.id}
+                    placeholder="blur"
+                    src={image.urls.regular}
+                    width={img_width}
+                    onLoad={() => console.log(`Image ID : ${image.id}`)}
+                    onError={(e) =>
+                      console.error(`Failed to load image: ${e.target}`)
+                    }
+                  />
+                </Link>
+                {description && (
+                  <span className="my-4 italic font-bold text-indigo-50">
+                    {description}
+                  </span>
+                )}{" "}
                 <span className="">Created: {createdAt}</span>
                 <span className="">By: {image.user.name} </span>
                 <span className="">
