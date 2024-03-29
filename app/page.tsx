@@ -94,15 +94,15 @@ export default function Home() {
       {loading ? (
         <LoadingIndicator color="#3949AB" loading={loading} height={16} />
       ) : (
-        <div className="grid grid-rows-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid grid-rows-1 gap-4">
           {images.map((image: ImageDetails) => {
             console.log(image);
             // console.log(typeof image.alternative_slugs);
 
-            const twitter = `https://twitter.com/${image.user.twitter_username}`;
-            const instagram = `https://www.instagram.com/${image.user.instagram_username}`;
             const img_height: number = image.height as number;
             const img_width: number = image.width as number;
+            const instagram = `https://www.instagram.com/${image.user.instagram_username}`;
+            const twitter = `https://twitter.com/${image.user.twitter_username}`;
             const createdAt = new Date(image.created_at)
               .toISOString()
               .substring(0, 10);
@@ -110,7 +110,7 @@ export default function Home() {
             return (
               <div
                 key={image.id}
-                className="grid grid-rows-1 text-center capitalize my-4 text-indigo-100"
+                className="grid grid-rows-1 text-center capitalize my-4 text-indigo-100 gap-1"
               >
                 <Image
                   alt={image.alt_description || "image"}
@@ -119,7 +119,7 @@ export default function Home() {
                   height={img_height}
                   key={image.id}
                   placeholder="blur"
-                  src={image.urls.small}
+                  src={image.urls.regular}
                   width={img_width}
                   onLoad={() => console.log(`Image ID : ${image.id}`)}
                   onError={(e) =>
@@ -134,6 +134,11 @@ export default function Home() {
                   {image.tags?.map((tag) => {
                     return `${tag.title} `;
                   })}
+                </span>
+                <span>
+                  {image.likes > 0 && (
+                    <span className="">Likes: {image.likes}</span>
+                  )}
                 </span>
                 <span>
                   {image.user.instagram_username && (
