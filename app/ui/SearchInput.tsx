@@ -1,4 +1,5 @@
-// ui/forms/SearchInput.tsx
+"use client";
+
 import React, { FormEvent, RefObject } from "react";
 
 type SearchInputProps = {
@@ -6,7 +7,12 @@ type SearchInputProps = {
   searchRef: RefObject<HTMLInputElement>;
 };
 
-const SearchInput: React.FC<SearchInputProps> = ({ onSubmit, searchRef }) => {
+/**
+ * Renders a search input element.
+ * @param onSubmit - The event handler for the form submit event.
+ * @param searchRef - The reference to the search input element.
+ */
+const SearchInput = ({ onSubmit, searchRef }: SearchInputProps) => {
   return (
     <form
       onSubmit={onSubmit}
@@ -14,6 +20,8 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSubmit, searchRef }) => {
     >
       <input
         className="form-input mt-0 block w-full rounded-lg border-gray-300 shadow-sm text-black mr-2 py-1 pl-4 text-xs sm:text-base"
+        id="search-input"
+        name="search-input"
         placeholder="Type something to search..."
         ref={searchRef}
         type="search"

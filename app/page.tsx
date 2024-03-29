@@ -1,14 +1,17 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { BarLoader } from "react-spinners";
 import useFetchImages from "./hooks/fetchImages";
 import useHandleInputChange from "./hooks/handleInputChange";
 import useSelectionHandler from "./hooks/selectionHandler";
 import { ImageDetails } from "./models/ImageDetails";
-import { imageButtons } from "./utils/constants";
+import FilterButtonsGrid from "./ui/FilterButtonsGrid";
+import LoadingIndicator from "./ui/LoadingIndicator";
+import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
+import { imageButtons } from "./utils/constants";
 
 /**
  * Renders the Home component.
@@ -83,69 +86,114 @@ export default function Home() {
       <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
       <SearchInput onSubmit={onChange} searchRef={searchInput} />
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 justify-center gap-2 mb-4 text-black">
-        {imageButtons.map((filter) => (
-          <button
-            className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl"
-            key={filter}
-            onClick={() => handleSelection(filter)}
-          >
-            {filter.charAt(0).toUpperCase() + filter.slice(1)}
-          </button>
-        ))}
-      </div>
+      <FilterButtonsGrid
+        imageButtons={imageButtons}
+        onFilterSelect={handleSelection}
+      />
 
       {loading ? (
-        <div className="flex justify-center items-center">
-          <BarLoader color="#3949AB" loading={loading} height={16} />
-        </div>
+        <LoadingIndicator color="#3949AB" loading={loading} height={16} />
       ) : (
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-rows-1 gap-4">
           {images.map((image: ImageDetails) => {
             console.log(image);
-            console.log(typeof image.alternative_slugs);
+            // console.log(typeof image.alternative_slugs);
 
+            const description = image.alt_description || image.description;
             const img_height: number = image.height as number;
             const img_width: number = image.width as number;
+            const instagram = `https://www.instagram.com/${image.user.instagram_username}`;
+            const twitter = `https://twitter.com/${image.user.twitter_username}`;
+            const createdAt = new Date(image.created_at)
+              .toISOString()
+              .substring(0, 10);
 
             return (
-              <Image
-                alt={image.alt_description || "image"}
-                blurDataURL={image.blur_hash}
-                className="rounded shadow-lg"
-                height={img_height}
+              <div
                 key={image.id}
-                placeholder="blur"
-                src={image.urls.thumb}
-                width={img_width}
-                onLoad={() => console.log(`Image ID : ${image.id}`)}
-                onError={(e) =>
-                  console.error(`Failed to load image: ${e.target}`)
-                }
-              />
+                className="grid grid-rows-1 text-center capitalize my-4 text-indigo-100 gap-1"
+              >
+                <Link
+                  href={image.links.html}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <Image
+                    alt={image.alt_description || "image"}
+                    blurDataURL={image.blur_hash}
+                    className="rounded shadow-lg my-4 mx-auto border border-indigo-200"
+                    height={img_height}
+                    key={image.id}
+                    placeholder="blur"
+                    src={image.urls.regular}
+                    width={img_width}
+                    onLoad={() => console.log(`Image ID : ${image.id}`)}
+                    onError={(e) =>
+                      console.error(`Failed to load image: ${e.target}`)
+                    }
+                  />
+                </Link>
+                {description && (
+                  <span className="my-4 italic font-bold text-indigo-50">
+                    {description}
+                  </span>
+                )}{" "}
+                <span className="">Created: {createdAt}</span>
+                <span className="">By: {image.user.name} </span>
+                <span className="">
+                  Tags:{" "}
+                  {image.tags?.map((tag) => {
+                    return `${tag.title} `;
+                  })}
+                </span>
+                <span>
+                  {image.likes > 0 && (
+                    <span className="">Likes: {image.likes}</span>
+                  )}
+                </span>
+                <span>
+                  {image.user.instagram_username && (
+                    <Link
+                      href={instagram}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="hover:text-indigo-600 text-indigo-400"
+                    >
+                      Instagram
+                    </Link>
+                  )}
+                </span>
+                <span>
+                  {image.user.twitter_username && (
+                    <Link
+                      href={twitter}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="hover:text-indigo-600 text-indigo-400"
+                    >
+                      Twitter
+                    </Link>
+                  )}
+                </span>
+                <Link
+                  href={image.links.html}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  className="hover:text-indigo-600 text-indigo-400"
+                >
+                  Source
+                </Link>
+              </div>
             );
           })}
         </div>
       )}
 
-      <div className="flex justify-between mt-4">
-        {page > 1 && (
-          <button
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => setPage(page - 1)}
-          >
-            Previous
-          </button>
-        )}
-        {page < totalPages && (
-          <button
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => setPage(page + 1)}
-          >
-            Next
-          </button>
-        )}
-      </div>
+      <PaginationControls
+        page={page}
+        setPage={setPage}
+        totalPages={totalPages}
+      />
     </div>
   );
 }
