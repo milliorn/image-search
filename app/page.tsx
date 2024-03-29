@@ -10,6 +10,7 @@ import { ImageDetails } from "./models/ImageDetails";
 import { imageButtons } from "./utils/constants";
 import SearchInput from "./ui/SearchInput";
 import FilterButtonsGrid from "./ui/FilterButtonsGrid";
+import LoadingIndicator from "./ui/LoadingIndicator";
 
 /**
  * Renders the Home component.
@@ -90,9 +91,7 @@ export default function Home() {
       />
 
       {loading ? (
-        <div className="flex justify-center items-center">
-          <BarLoader color="#3949AB" loading={loading} height={16} />
-        </div>
+        <LoadingIndicator color="#3949AB" loading={loading} height={16} />
       ) : (
         <div className="grid grid-cols-1 gap-4">
           {images.map((image: ImageDetails) => {
