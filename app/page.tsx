@@ -11,6 +11,8 @@ import LoadingIndicator from "./ui/LoadingIndicator";
 import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
 import { imageButtons } from "./utils/constants";
+import { create } from "domain";
+import Link from "next/link";
 
 /**
  * Renders the Home component.
@@ -100,7 +102,9 @@ export default function Home() {
 
             const img_height: number = image.height as number;
             const img_width: number = image.width as number;
-
+            const createdAt = new Date(image.created_at)
+              .toISOString()
+              .substring(0, 10);
             return (
               <div
                 key={image.id}
@@ -121,7 +125,14 @@ export default function Home() {
                   }
                 />
                 <span className="my-1">{image.alt_description}</span>
-                <span className="my-1">Created: {image.created_at}</span>
+                <span className="my-1">Created: {createdAt}</span>
+                <Link
+                  href={image.links.html}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Source
+                </Link>
               </div>
             );
           })}
