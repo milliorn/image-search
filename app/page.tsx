@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { BarLoader } from "react-spinners";
 import useFetchImages from "./hooks/fetchImages";
 import useHandleInputChange from "./hooks/handleInputChange";
 import useSelectionHandler from "./hooks/selectionHandler";
@@ -11,6 +10,7 @@ import { imageButtons } from "./utils/constants";
 import SearchInput from "./ui/SearchInput";
 import FilterButtonsGrid from "./ui/FilterButtonsGrid";
 import LoadingIndicator from "./ui/LoadingIndicator";
+import PaginationControls from "./ui/PaginationControls";
 
 /**
  * Renders the Home component.
@@ -95,8 +95,8 @@ export default function Home() {
       ) : (
         <div className="grid grid-cols-1 gap-4">
           {images.map((image: ImageDetails) => {
-            console.log(image);
-            console.log(typeof image.alternative_slugs);
+            // console.log(image);
+            // console.log(typeof image.alternative_slugs);
 
             const img_height: number = image.height as number;
             const img_width: number = image.width as number;
@@ -121,24 +121,11 @@ export default function Home() {
         </div>
       )}
 
-      <div className="flex justify-between mt-4">
-        {page > 1 && (
-          <button
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => setPage(page - 1)}
-          >
-            Previous
-          </button>
-        )}
-        {page < totalPages && (
-          <button
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => setPage(page + 1)}
-          >
-            Next
-          </button>
-        )}
-      </div>
+      <PaginationControls
+        page={page}
+        setPage={setPage}
+        totalPages={totalPages}
+      />
     </div>
   );
 }

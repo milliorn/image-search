@@ -1,4 +1,5 @@
-// ui/forms/SearchInput.tsx
+"use client";
+
 import React, { FormEvent, RefObject } from "react";
 
 type SearchInputProps = {
