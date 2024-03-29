@@ -95,7 +95,7 @@ export default function Home() {
       {loading ? (
         <LoadingIndicator color="#3949AB" loading={loading} height={16} />
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-rows-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {images.map((image: ImageDetails) => {
             console.log(image);
             // console.log(typeof image.alternative_slugs);
@@ -105,10 +105,11 @@ export default function Home() {
             const createdAt = new Date(image.created_at)
               .toISOString()
               .substring(0, 10);
+
             return (
               <div
                 key={image.id}
-                className="grid grid-cols-1 text-center capitalize my-4"
+                className="grid grid-rows-1 text-center capitalize my-4"
               >
                 <Image
                   alt={image.alt_description || "image"}
@@ -124,8 +125,8 @@ export default function Home() {
                     console.error(`Failed to load image: ${e.target}`)
                   }
                 />
-                <span className="my-1">{image.alt_description}</span>
-                <span className="my-1">Created: {createdAt}</span>
+                <span className="">{image.alt_description}</span>
+                <span className="">Created: {createdAt}</span>
                 <Link
                   href={image.links.html}
                   rel="noopener noreferrer"
