@@ -30,7 +30,9 @@ const PaginationControls = ({
       >
         Previous
       </button>
-      <span>{totalPages === 0 ? "" : `Page ${page} of ${totalPages}`}</span>
+      <span className="text-center mt-2">
+        {totalPages === 0 ? "" : `Page ${page} of ${totalPages}`}
+      </span>
       <button
         className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
         onClick={() => setPage(page + 1)}
