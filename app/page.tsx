@@ -1,14 +1,12 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import useFetchImages from "./hooks/fetchImages";
 import useHandleInputChange from "./hooks/handleInputChange";
 import useSelectionHandler from "./hooks/selectionHandler";
 import { ImageDetails } from "./models/ImageDetails";
 import FilterButtonsGrid from "./ui/FilterButtonsGrid";
-import ImageDetailsDisplay from "./ui/ImageDetailsDisplay";
+import ImageCard from "./ui/ImageCard";
 import LoadingIndicator from "./ui/LoadingIndicator";
 import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
@@ -96,35 +94,9 @@ export default function Home() {
         <LoadingIndicator color="#3949AB" loading={loading} height={16} />
       ) : (
         <div className="grid grid-rows-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
-          {images.map((image: ImageDetails) => {
-            return (
-              <div
-                className="text-center capitalize my-4 text-indigo-100"
-                key={image.id}
-              >
-                <Link
-                  href={image.links.html}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <Image
-                    alt={image.alt_description || "image"}
-                    blurDataURL={image.blur_hash}
-                    className="rounded shadow-lg my-4 mx-auto border border-indigo-200"
-                    height={image.height as number}
-                    key={image.id}
-                    placeholder="blur"
-                    src={image.urls.regular}
-                    width={image.width as number}
-                    onError={(e) =>
-                      console.error(`Failed to load image: ${e.target}`)
-                    }
-                  />
-                </Link>
-                <ImageDetailsDisplay image={image} />
-              </div>
-            );
-          })}
+          {images.map((image: ImageDetails) => (
+            <ImageCard key={image.id} image={image} />
+          ))}
         </div>
       )}
 
