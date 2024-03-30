@@ -1,5 +1,3 @@
-// ImageDetailsDisplay.tsx
-
 import Link from "next/link";
 import { ImageDetails } from "../models/ImageDetails";
 
@@ -7,6 +5,14 @@ type ImageDetailsDisplayProps = {
   image: ImageDetails;
 };
 
+/**
+ * Renders the details of an image, including its description, creation date, author, tags, and source links.
+ *
+ * @component
+ * @param {ImageDetailsDisplayProps} props - The component props.
+ * @param {Image} props.image - The image object containing the details to be displayed.
+ * @returns {JSX.Element} The rendered ImageDetailsDisplay component.
+ */
 const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps) => {
   const {
     alt_description,
