@@ -12,6 +12,7 @@ import LoadingIndicator from "./ui/LoadingIndicator";
 import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
 import { imageButtons } from "./utils/constants";
+import ImageDetailsDisplay from "./ui/ImageDetailsDisplay";
 
 /**
  * Renders the Home component.
@@ -133,56 +134,7 @@ export default function Home() {
                     }
                   />
                 </Link>
-                {description && (
-                  <span className="my-4 italic font-bold text-indigo-50">
-                    {description}
-                  </span>
-                )}{" "}
-                <span className="">Created: {createdAt}</span>
-                <span className="">By: {image.user.name} </span>
-                <span className="">
-                  Tags:{" "}
-                  {image.tags?.map((tag) => {
-                    return `${tag.title} `;
-                  })}
-                </span>
-                <span>
-                  {image.likes > 0 && (
-                    <span className="">Likes: {image.likes}</span>
-                  )}
-                </span>
-                <span>
-                  {image.user.instagram_username && (
-                    <Link
-                      href={instagram}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      className="hover:text-indigo-600 text-indigo-400"
-                    >
-                      Instagram
-                    </Link>
-                  )}
-                </span>
-                <span>
-                  {image.user.twitter_username && (
-                    <Link
-                      href={twitter}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      className="hover:text-indigo-600 text-indigo-400"
-                    >
-                      Twitter
-                    </Link>
-                  )}
-                </span>
-                <Link
-                  href={image.links.html}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  className="hover:text-indigo-600 text-indigo-400"
-                >
-                  Source
-                </Link>
+                <ImageDetailsDisplay image={image} />
               </div>
             );
           })}
