@@ -19,12 +19,12 @@ const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps) => {
   } = image;
 
   const createdAt = new Date(created_at).toISOString().substring(0, 10);
-  const displayDescription = alt_description || description;
+  const displayDescription = alt_description || description || "No Description";
   const instagramLink = `https://www.instagram.com/${instagram_username}`;
   const twitterLink = `https://twitter.com/${twitter_username}`;
 
   return (
-    <div>
+    <div className="grid grid-rows-1 text-center capitalize my-4 text-indigo-100 gap-1">
       {displayDescription && (
         <span className="my-4 italic font-bold text-indigo-50">
           {displayDescription}

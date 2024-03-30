@@ -8,11 +8,11 @@ import useHandleInputChange from "./hooks/handleInputChange";
 import useSelectionHandler from "./hooks/selectionHandler";
 import { ImageDetails } from "./models/ImageDetails";
 import FilterButtonsGrid from "./ui/FilterButtonsGrid";
+import ImageDetailsDisplay from "./ui/ImageDetailsDisplay";
 import LoadingIndicator from "./ui/LoadingIndicator";
 import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
 import { imageButtons } from "./utils/constants";
-import ImageDetailsDisplay from "./ui/ImageDetailsDisplay";
 
 /**
  * Renders the Home component.
@@ -95,24 +95,12 @@ export default function Home() {
       {loading ? (
         <LoadingIndicator color="#3949AB" loading={loading} height={16} />
       ) : (
-        <div className="grid grid-rows-1 gap-4">
+        <div className="grid grid-rows-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
           {images.map((image: ImageDetails) => {
-            console.log(image);
-            // console.log(typeof image.alternative_slugs);
-
-            const description = image.alt_description || image.description;
-            const img_height: number = image.height as number;
-            const img_width: number = image.width as number;
-            const instagram = `https://www.instagram.com/${image.user.instagram_username}`;
-            const twitter = `https://twitter.com/${image.user.twitter_username}`;
-            const createdAt = new Date(image.created_at)
-              .toISOString()
-              .substring(0, 10);
-
             return (
               <div
+                className="text-center capitalize my-4 text-indigo-100"
                 key={image.id}
-                className="grid grid-rows-1 text-center capitalize my-4 text-indigo-100 gap-1"
               >
                 <Link
                   href={image.links.html}
@@ -123,12 +111,11 @@ export default function Home() {
                     alt={image.alt_description || "image"}
                     blurDataURL={image.blur_hash}
                     className="rounded shadow-lg my-4 mx-auto border border-indigo-200"
-                    height={img_height}
+                    height={image.height as number}
                     key={image.id}
                     placeholder="blur"
                     src={image.urls.regular}
-                    width={img_width}
-                    onLoad={() => console.log(`Image ID : ${image.id}`)}
+                    width={image.width as number}
                     onError={(e) =>
                       console.error(`Failed to load image: ${e.target}`)
                     }
