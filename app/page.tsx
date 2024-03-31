@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import useFetchImages from "./hooks/fetchImages";
 import useHandleInputChange from "./hooks/handleInputChange";
 import useSelectionHandler from "./hooks/selectionHandler";
 import { ImageDetails } from "./models/ImageDetails";
 import FilterButtonsGrid from "./ui/FilterButtonsGrid";
+import ImageCard from "./ui/ImageCard";
 import LoadingIndicator from "./ui/LoadingIndicator";
 import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
@@ -94,98 +93,10 @@ export default function Home() {
       {loading ? (
         <LoadingIndicator color="#3949AB" loading={loading} height={16} />
       ) : (
-        <div className="grid grid-rows-1 gap-4">
-          {images.map((image: ImageDetails) => {
-            console.log(image);
-            // console.log(typeof image.alternative_slugs);
-
-            const description = image.alt_description || image.description;
-            const img_height: number = image.height as number;
-            const img_width: number = image.width as number;
-            const instagram = `https://www.instagram.com/${image.user.instagram_username}`;
-            const twitter = `https://twitter.com/${image.user.twitter_username}`;
-            const createdAt = new Date(image.created_at)
-              .toISOString()
-              .substring(0, 10);
-
-            return (
-              <div
-                key={image.id}
-                className="grid grid-rows-1 text-center capitalize my-4 text-indigo-100 gap-1"
-              >
-                <Link
-                  href={image.links.html}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <Image
-                    alt={image.alt_description || "image"}
-                    blurDataURL={image.blur_hash}
-                    className="rounded shadow-lg my-4 mx-auto border border-indigo-200"
-                    height={img_height}
-                    key={image.id}
-                    placeholder="blur"
-                    src={image.urls.regular}
-                    width={img_width}
-                    onLoad={() => console.log(`Image ID : ${image.id}`)}
-                    onError={(e) =>
-                      console.error(`Failed to load image: ${e.target}`)
-                    }
-                  />
-                </Link>
-                {description && (
-                  <span className="my-4 italic font-bold text-indigo-50">
-                    {description}
-                  </span>
-                )}{" "}
-                <span className="">Created: {createdAt}</span>
-                <span className="">By: {image.user.name} </span>
-                <span className="">
-                  Tags:{" "}
-                  {image.tags?.map((tag) => {
-                    return `${tag.title} `;
-                  })}
-                </span>
-                <span>
-                  {image.likes > 0 && (
-                    <span className="">Likes: {image.likes}</span>
-                  )}
-                </span>
-                <span>
-                  {image.user.instagram_username && (
-                    <Link
-                      href={instagram}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      className="hover:text-indigo-600 text-indigo-400"
-                    >
-                      Instagram
-                    </Link>
-                  )}
-                </span>
-                <span>
-                  {image.user.twitter_username && (
-                    <Link
-                      href={twitter}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      className="hover:text-indigo-600 text-indigo-400"
-                    >
-                      Twitter
-                    </Link>
-                  )}
-                </span>
-                <Link
-                  href={image.links.html}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  className="hover:text-indigo-600 text-indigo-400"
-                >
-                  Source
-                </Link>
-              </div>
-            );
-          })}
+        <div className="grid grid-rows-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
+          {images.map((image: ImageDetails) => (
+            <ImageCard key={image.id} image={image} />
+          ))}
         </div>
       )}
 
