@@ -34,6 +34,7 @@ const PaginationControls = ({
         {totalPages === 0 ? "" : `Page ${page} of ${totalPages}`}
       </span>
       <button
+        disabled={page === totalPages}
         className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
         onClick={() => setPage(page + 1)}
       >
