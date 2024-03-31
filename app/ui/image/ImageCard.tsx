@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ImageDetails } from "../models/ImageDetails";
+import { ImageDetails } from "../../models/ImageDetails";
 import ImageDetailsDisplay from "./ImageDetailsDisplay";
 
 type ImageCardProps = {

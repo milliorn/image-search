@@ -4,13 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import useFetchImages from "./hooks/fetchImages";
 import useHandleInputChange from "./hooks/handleInputChange";
 import useSelectionHandler from "./hooks/selectionHandler";
-import { ImageDetails } from "./models/ImageDetails";
 import FilterButtonsGrid from "./ui/FilterButtonsGrid";
-import ImageCard from "./ui/ImageCard";
 import LoadingIndicator from "./ui/LoadingIndicator";
 import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
 import { imageButtons } from "./utils/constants";
+import ImageGrid from "./ui/image/ImageGrid";
 
 /**
  * Renders the Home component.
@@ -84,22 +83,15 @@ export default function Home() {
     <div className="container mx-auto p-4">
       <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
       <SearchInput onSubmit={onChange} searchRef={searchInput} />
-
       <FilterButtonsGrid
         imageButtons={imageButtons}
         onFilterSelect={handleSelection}
       />
-
       {loading ? (
         <LoadingIndicator color="#3949AB" loading={loading} height={16} />
       ) : (
-        <div className="grid grid-rows-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
-          {images.map((image: ImageDetails) => (
-            <ImageCard key={image.id} image={image} />
-          ))}
-        </div>
+        <ImageGrid images={images} />
       )}
-
       <PaginationControls
         page={page}
         setPage={setPage}

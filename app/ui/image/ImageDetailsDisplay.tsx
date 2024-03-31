@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ImageDetails } from "../models/ImageDetails";
+import { ImageDetails } from "../../models/ImageDetails";
 
 type ImageDetailsDisplayProps = {
   image: ImageDetails;
