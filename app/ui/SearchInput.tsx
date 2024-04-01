@@ -1,11 +1,6 @@
 "use client";
 
-import React, { FormEvent, RefObject } from "react";
-
-type SearchInputProps = {
-  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  searchRef: RefObject<HTMLInputElement>;
-};
+import { SearchInputProps } from "../models/UIComponentProps";
 
 /**
  * Renders a search input element.

@@ -1,6 +1,6 @@
 "use client";
 
-import { UseSelectionHandler } from "../models/SelectionHandler";
+import { UseSelectionHandler } from "../models/HookParams";
 
 /**
  * Event handler for the selection of an item from the dropdown.

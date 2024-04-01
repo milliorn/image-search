@@ -1,11 +1,7 @@
 "use client";
 
+import { ImageDetailsDisplayProps } from "@/app/models/image/ImageProps";
 import Link from "next/link";
-import { ImageDetails } from "../models/ImageDetails";
-
-type ImageDetailsDisplayProps = {
-  image: ImageDetails;
-};
 
 /**
  * Renders the details of an image, including its description, creation date, author, tags, and source links.
