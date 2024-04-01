@@ -1,10 +1,6 @@
 "use client";
 
-type PaginationControlsProps = {
-  page: number;
-  setPage: (page: number) => void;
-  totalPages: number;
-};
+import { PaginationControlsProps } from "../models/UIComponentProps";
 
 /**
  * Renders pagination controls for navigating between pages.

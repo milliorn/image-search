@@ -1,10 +1,5 @@
 "use client";
 
-type FilterButtonsGridProps = {
-  imageButtons: string[];
-  onFilterSelect: (filter: string) => void;
-};
-
 /**
  * Renders a grid of filter buttons.
  * @param imageButtons - The list of filter buttons to render.
