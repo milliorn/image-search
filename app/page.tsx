@@ -5,11 +5,11 @@ import useFetchImages from "./hooks/fetchImages";
 import useHandleInputChange from "./hooks/handleInputChange";
 import useSelectionHandler from "./hooks/selectionHandler";
 import FilterButtonsGrid from "./ui/FilterButtonsGrid";
+import ImageGrid from "./ui/image/ImageGrid";
 import LoadingIndicator from "./ui/LoadingIndicator";
 import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
 import { imageButtons } from "./utils/constants";
-import ImageGrid from "./ui/image/ImageGrid";
 
 /**
  * Renders the Home component.
