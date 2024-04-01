@@ -1,13 +1,9 @@
 "use client";
 
+import { ImageCardProps } from "@/app/models/image/ImageProps";
 import Image from "next/image";
 import Link from "next/link";
-import { ImageDetails } from "../../models/ImageDetails";
 import ImageDetailsDisplay from "./ImageDetailsDisplay";
-
-type ImageCardProps = {
-  image: ImageDetails;
-};
 
 /**
  * Renders a card component for displaying an image.
