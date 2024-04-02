@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent } from "react";
-import { HandleInputChangeParams } from "../models/HandleInputChangeParams";
+import { HandleInputChangeParams } from "../models/HookParams";
 
 /**
  * Event handler for the search input change event.

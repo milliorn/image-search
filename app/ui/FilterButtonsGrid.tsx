@@ -1,9 +1,6 @@
 "use client";
 
-type FilterButtonsGridProps = {
-  imageButtons: string[];
-  onFilterSelect: (filter: string) => void;
-};
+import { FilterButtonsGridProps } from "../models/UIComponentProps";
 
 /**
  * Renders a grid of filter buttons.

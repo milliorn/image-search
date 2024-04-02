@@ -1,13 +1,9 @@
 "use client";
 
+import { ImageCardProps } from "@/app/models/image/ImageProps";
 import Image from "next/image";
 import Link from "next/link";
-import { ImageDetails } from "../models/ImageDetails";
 import ImageDetailsDisplay from "./ImageDetailsDisplay";
-
-type ImageCardProps = {
-  image: ImageDetails;
-};
 
 /**
  * Renders a card component for displaying an image.
@@ -18,12 +14,13 @@ type ImageCardProps = {
  * @returns {JSX.Element} The rendered ImageCard component.
  */
 const ImageCard = ({ image }: ImageCardProps): JSX.Element => {
+  // console.log(image);
   return (
     <div className="text-center capitalize my-4 text-indigo-100" key={image.id}>
       <Link href={image.links.html} rel="noopener noreferrer" target="_blank">
         <Image
           alt={image.alt_description || "image"}
-          blurDataURL={image.blur_hash}
+          blurDataURL={image.blur_hash || image.urls.thumb || ""}
           className="rounded shadow-lg my-4 mx-auto border border-indigo-200"
           height={image.height as number}
           key={image.id}
