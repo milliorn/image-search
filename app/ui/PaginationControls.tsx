@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { PaginationControlsProps } from "../models/UIComponentProps";
 
 /**
@@ -18,22 +18,27 @@ const PaginationControls = ({
   setPage,
   totalPages,
 }: PaginationControlsProps): JSX.Element => {
-  const [inputPage, setInputPage] = useState(page);
+  const totalPagesMax = totalPages - 1 || 0;
+  const [inputPage, setInputPage] = useState(page.toString());
 
   const handlePageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const pageNum = parseInt(e.target.value, 10);
-    if (pageNum >= 1 && pageNum <= totalPages) {
-      setInputPage(pageNum);
-    }
+    setInputPage(e.target.value);
   };
 
   const goToPage = () => {
-    setPage(inputPage);
+    const pageNum = parseInt(inputPage, 10);
+    if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPagesMax) {
+      setPage(pageNum);
+    }
   };
 
+  useEffect(() => {
+    setInputPage(page.toString());
+  }, [page]);
+
   return (
-    <>
-      <div className="flex justify-between sm:justify-evenly mt-4">
+    <div className="flex flex-col items-center space-y-4">
+      <div className="flex justify-between sm:justify-evenly w-full">
         <button
           disabled={page === 1}
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
@@ -43,7 +48,9 @@ const PaginationControls = ({
         </button>
 
         <span className="text-center mt-2 text-sm sm:text-base">
-          {totalPages === 0 ? "Page 0 of 0" : `Page ${page} of ${totalPages}`}
+          {totalPages === 0
+            ? "Page 0 of 0"
+            : `Page ${page} of ${totalPagesMax}`}
         </span>
 
         <button
@@ -54,19 +61,22 @@ const PaginationControls = ({
           Next
         </button>
       </div>
-      {/* <div className="mx-auto text-center my-4">
-        <button className="text-center mt-2 mr-2 border rounded px-2 py-2 bg-gray-500">
-          Go to Page
-        </button>
+
+      <div className="text-center">
         <input
-          type="text"
-          className="text-center w-16 text-black"
+          type="number" // Changing type to number to enforce numeric input
+          className="text-center w-16 text-black border rounded py-2 px-4"
           value={inputPage}
           onChange={handlePageChange}
-          onBlur={goToPage}
         />
-      </div> */}
-    </>
+        <button
+          className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+          onClick={goToPage}
+        >
+          Go to Page
+        </button>
+      </div>
+    </div>
   );
 };
 
