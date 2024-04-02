@@ -1,12 +1,7 @@
 "use client";
 
 import { BarLoader } from "react-spinners";
-
-type LoadingIndicatorProps = {
-  loading: boolean;
-  color?: string;
-  height?: number;
-};
+import { LoadingIndicatorProps } from "../models/UIComponentProps";
 
 /**
  * Renders a loading indicator using the BarLoader component from the react-spinners library.

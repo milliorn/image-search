@@ -50,7 +50,35 @@ export const metadata: Metadata = {
   /**
    * The keywords associated with the application.
    */
-  keywords: ["images", "search", "unsplash"],
+  keywords: [
+    "image search",
+    "Next.js application",
+    "React",
+    "react-dom",
+    "react-spinners",
+    "web development",
+    "modern web app",
+    "Next.js 14",
+    "React 18",
+    "UI/UX",
+    "tailwindcss",
+    "responsive design",
+    "frontend development",
+    "JavaScript",
+    "TypeScript",
+    "SEO friendly",
+    "performance optimized",
+    "ESLint",
+    "code quality",
+    "development tools",
+    "node.js",
+    "image gallery",
+    "photo explorer",
+    "visual content",
+    "web app",
+    "image API",
+    "Unsplash integration",
+  ],
 
   /**
    * The authors of the application.
