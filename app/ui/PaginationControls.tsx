@@ -18,7 +18,8 @@ const PaginationControls = ({
   setPage,
   totalPages,
 }: PaginationControlsProps): JSX.Element => {
-  const totalPagesMax = totalPages - 1 || 0;
+  const pagesMax = 200;
+  const totalPagesMax = totalPages <= pagesMax ? totalPages : pagesMax;
   const [inputPage, setInputPage] = useState(page.toString());
 
   const handlePageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +55,7 @@ const PaginationControls = ({
         </span>
 
         <button
-          disabled={page === totalPages}
+          disabled={page === totalPagesMax}
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => setPage(page + 1)}
         >
@@ -68,6 +69,7 @@ const PaginationControls = ({
           className="text-center w-16 text-black border rounded py-2 px-4"
           value={inputPage}
           onChange={handlePageChange}
+          id="pageInput"
         />
         <button
           className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
