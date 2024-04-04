@@ -34,38 +34,59 @@ const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps) => {
           {displayDescription}
         </span>
       )}
+
       <span>Created: {createdAt}</span>
       <span>By: {name}</span>
-      <span>Tags: {tags?.map((tag) => tag.title).join(", ")}</span>
       {likes > 0 && <span>Likes: {likes}</span>}
-      {instagram_username && (
+
+      <span className=" grid grid-rows-1 gap-1 mt-4">
+        Tags:
+        {tags?.map((tag, index) => (
+          <div key={tag.title}>
+            {index > 0 && " "}
+            <Link
+              className="hover:text-indigo-600 text-indigo-400"
+              href={`https://unsplash.com/s/photos/${tag.title}`}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {tag.title}
+            </Link>
+          </div>
+        ))}
+      </span>
+
+      <div className="grid grid-rows-1 gap-1 mt-4">
+        Links:
+        {instagram_username && (
+          <Link
+            className="hover:text-indigo-600 text-indigo-400"
+            href={instagramLink}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Instagram
+          </Link>
+        )}
+        {twitter_username && (
+          <Link
+            className="hover:text-indigo-600 text-indigo-400"
+            href={twitterLink}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Twitter
+          </Link>
+        )}
         <Link
-          href={instagramLink}
+          className="hover:text-indigo-600 text-indigo-400"
+          href={html}
           rel="noopener noreferrer"
           target="_blank"
-          className="hover:text-indigo-600 text-indigo-400"
         >
-          Instagram
+          Source
         </Link>
-      )}
-      {twitter_username && (
-        <Link
-          href={twitterLink}
-          rel="noopener noreferrer"
-          target="_blank"
-          className="hover:text-indigo-600 text-indigo-400"
-        >
-          Twitter
-        </Link>
-      )}
-      <Link
-        href={html}
-        rel="noopener noreferrer"
-        target="_blank"
-        className="hover:text-indigo-600 text-indigo-400"
-      >
-        Source
-      </Link>
+      </div>
     </div>
   );
 };
