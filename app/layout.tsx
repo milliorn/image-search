@@ -104,26 +104,6 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-
-  /**
-   * The robots settings for the application.
-   */
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      noimageindex: true,
-    },
-  },
-
-  /**
-   * The icons associated with the application.
-   * For more information, see: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#icons
-   */
-  icons: {},
 };
 
 /**
