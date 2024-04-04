@@ -1,12 +1,12 @@
 "use client";
 
 export const imageButtons = [
-  "random",
   "animals",
   "anime",
   "art",
   "food",
   "home",
+  "music",
   "nature",
   "seasons",
   "space",

@@ -13,7 +13,7 @@ import ImageCard from "./ImageCard";
  */
 const ImageGrid = ({ images }: ImageGridProps): JSX.Element => {
   return (
-    <div className="grid grid-rows-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
+    <div className="grid grid-rows-1 gap-4 2xl:grid-cols-3">
       {images.map((image) => (
         <ImageCard key={image.id} image={image} />
       ))}
