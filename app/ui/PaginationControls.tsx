@@ -70,6 +70,9 @@ const PaginationControls = ({
           value={inputPage}
           onChange={handlePageChange}
           id="pageInput"
+          min="1"
+          max={totalPagesMax}
+          aria-label="Page Number Input"
         />
         <button
           className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
