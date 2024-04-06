@@ -32,22 +32,18 @@ export const metadata: Metadata = {
    * The title of the application.
    */
   title: "Image Search",
-
   /**
    * The description of the application.
    */
   description: "Search for images using the Unsplash API",
-
   /**
    * The generator used to build the application.
    */
   generator: "Next.js",
-
   /**
    * The name of the application.
    */
   applicationName: "Image Search",
-
   /**
    * The keywords associated with the application.
    */
@@ -80,22 +76,18 @@ export const metadata: Metadata = {
     "image API",
     "Unsplash integration",
   ],
-
   /**
    * The authors of the application.
    */
   authors: [{ name: "Scott Milliorn", url: "https://milliorn.xyz/" }],
-
   /**
    * The creator of the application.
    */
   creator: "Scott Milliorn",
-
   /**
    * The publisher of the application.
    */
   publisher: "Scott Milliorn",
-
   /**
    * The format detection settings for the application.
    */
@@ -103,6 +95,19 @@ export const metadata: Metadata = {
     email: false,
     address: false,
     telephone: false,
+  },
+  /**
+   * The robots settings for the application.
+   */
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: true,
+    },
   },
 };
 
