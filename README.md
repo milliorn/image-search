@@ -32,35 +32,36 @@ To get started with Image Search, follow these steps:
 
 1. Clone the repository
 
-```bash
-git clone https://github.com/your-github-username/image-search.git
-cd image-search
-```
+   ```bash
+   git clone https://github.com/your-github-username/image-search.git
+   cd image-search
+   ```
 
-2. Install dependencies
+1. Install dependencies
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
-3. Set up environment variables
+1. Set up environment variables
 
-Create a .env.local file at the root of your project and add the necessary API keys and environment-specific variables.
+   Create a `.env.local` file at the root of your project and add the necessary API keys and environment-specific variables.
 
-```
-UNSPLASH_KEY=your_unsplash_access_key_here
-```
-4. Run the development server:
+   ```env
+   UNSPLASH_KEY=your_unsplash_access_key_here
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Run the development server:
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   # or
+   bun dev
+   ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser. Your Image Search app should now be running.
 
@@ -71,10 +72,10 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 Contributions to improve Image Search are welcome. Please follow these steps to contribute:
 
 - Fork the repository.
-- Create a new branch (git checkout -b feature-branch).
+- Create a new branch (`git checkout -b feature-branch`).
 - Make your changes.
-- Commit your changes (git commit -am 'Add some feature').
-- Push to the branch (git push origin feature-branch).
+- Commit your changes (`git commit -am 'Add some feature'`).
+- Push to the branch (`git push origin feature-branch`).
 - Create a new Pull Request.
 
 ## License
