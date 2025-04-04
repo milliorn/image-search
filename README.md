@@ -2,6 +2,10 @@
 
 Image Search is a powerful web application built using Next.js 14, React 18, and TailwindCSS. It utilizes the Unsplash API to fetch and display a wide array of images based on user queries. This project is designed to showcase modern web development techniques, including server-side rendering, client-side state management, and responsive design.
 
+## Preview
+
+![Lighthouse Score](./public/lighthouse_score.png)
+
 ## Features
 
 - Search Functionality: Users can search for images using keywords, with instant loading of results.
