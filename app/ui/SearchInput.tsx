@@ -14,7 +14,7 @@ const SearchInput = ({ onSubmit, searchRef }: SearchInputProps) => {
       className="mb-4 flex justify-between items-center"
     >
       <input
-        className="form-input mt-0 block w-full rounded-lg border-gray-300 shadow-sm text-black mr-2 py-1 pl-4 text-xs sm:text-base"
+        className="form-input mt-0 block w-full rounded-lg border-gray-300 shadow-sm text-black mr-2 py-1 pl-4 text-xs sm:text-base bg-white"
         id="search-input"
         name="search-input"
         placeholder="Type something to search..."
