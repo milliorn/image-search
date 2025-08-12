@@ -2,6 +2,7 @@
 
 import { ImageGridProps } from "@/app/models/image/ImageProps";
 import ImageCard from "./ImageCard";
+import { JSX } from "react";
 
 /**
  * Renders a grid of image cards.

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, JSX, useEffect, useState } from "react";
 import { PaginationControlsProps } from "../models/UIComponentProps";
 
 /**
