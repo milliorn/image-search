@@ -20,8 +20,8 @@ type PaginationControlsProps = {
 };
 
 type SearchInputProps = {
-  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  searchRef: RefObject<HTMLInputElement>;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  searchRef: React.MutableRefObject<HTMLInputElement | null>;
 };
 
 export type {
