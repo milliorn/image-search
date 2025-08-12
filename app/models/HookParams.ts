@@ -3,15 +3,15 @@
 import { Dispatch, RefObject, SetStateAction } from "react";
 
 type HandleInputChangeParams = {
-  setPage: Dispatch<SetStateAction<number>>;
-  fetchImages: (query: string, page: number) => void;
-  searchInput: RefObject<HTMLInputElement>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  fetchImages: (q?: string, page?: number) => void | Promise<void>;
+  searchInput: React.MutableRefObject<HTMLInputElement | null>;
 };
 
 type UseSelectionHandler = {
-  setPage: Dispatch<SetStateAction<number>>;
-  fetchImages: (query: string, page: number) => void;
-  searchInput: RefObject<HTMLInputElement>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  fetchImages: (q: string, page: number) => void | Promise<void>;
+  searchInput: React.MutableRefObject<HTMLInputElement | null>;
 };
 
 export type {
