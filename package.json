@@ -10,7 +10,7 @@
     "lint:fix": "next lint --fix"
   },
   "dependencies": {
-    "next": "^15.5.4",
+    "next": "^15.5.6",
     "react": "^19.1.1",
     "react-dom": "^19.2.0",
     "react-spinners": "^0.17.0"
