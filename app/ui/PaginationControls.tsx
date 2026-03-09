@@ -18,7 +18,7 @@ const PaginationControls = ({
   page,
   setPage,
   totalPages,
-}: PaginationControlsProps): JSX.Element => {
+}: PaginationControlsProps): JSX.Element | null => {
   const pagesMax = 200;
   const totalPagesMax = totalPages <= pagesMax ? totalPages : pagesMax;
   const [inputPage, setInputPage] = useState(page.toString());
@@ -37,6 +37,10 @@ const PaginationControls = ({
   useEffect(() => {
     setInputPage(page.toString());
   }, [page]);
+
+  if (totalPages === 0) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col items-center space-y-4">
