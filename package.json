@@ -8,8 +8,6 @@
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "next:lint": "next lint",
-    "next:lint:fix": "next lint --fix",
     "prettier:check": "npx prettier --check .",
     "prettier:fix": "npx prettier --write ."
   },
