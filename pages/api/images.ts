@@ -20,7 +20,7 @@ export default async function handler(
   }
 
   const unsplashKey = process.env["UNSPLASH_KEY"];
-  
+
   if (!unsplashKey) {
     console.error("Unsplash API key (UNSPLASH_KEY) is not configured.");
     return res
