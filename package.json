@@ -10,8 +10,8 @@
     "lint:fix": "eslint . --fix",
     "next:lint": "next lint",
     "next:lint:fix": "next lint --fix",
-    "pretter:check": "npx prettier --check .",
-    "pretter:fix": "npx prettier --write ."
+    "prettier:check": "npx prettier --check .",
+    "prettier:fix": "npx prettier --write ."
   },
   "dependencies": {
     "next": "^15.5.6",
