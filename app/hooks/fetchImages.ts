@@ -13,14 +13,16 @@ const useFetchImages = (
   page: number,
   setImages: (value: SetStateAction<never[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void,
-): (() => Promise<void>) => {
-  return useCallback(async () => {
-    // Ensure searchInput.current is not null before accessing .value
-    if (searchInput.current && searchInput.current.value) {
+): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
+  return useCallback(async (queryOverride?: string, pageOverride?: number) => {
+    const query = queryOverride ?? searchInput.current?.value ?? "";
+    const resolvedPage = pageOverride ?? page;
+
+    if (query) {
       setLoading(true);
 
       try {
-        const apiURL = `/api/images?query=${encodeURIComponent(searchInput.current.value)}&page=${page}`;
+        const apiURL = `/api/images?query=${encodeURIComponent(query)}&page=${resolvedPage}`;
         const response = await fetch(apiURL);
         const data = await response.json();
 
