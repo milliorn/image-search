@@ -1,6 +1,6 @@
 "use client";
 
-import type { FormEvent } from "react";
+import React from "react";
 import type { HandleInputChangeParams } from "../models/HookParams";
 
 /**
@@ -16,7 +16,7 @@ const useHandleInputChange = ({
   fetchImages,
   searchInput,
 }: HandleInputChangeParams) => {
-  return (event: FormEvent<HTMLFormElement>) => {
+  return (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const query = searchInput.current?.value || "";
     setPage(1);
