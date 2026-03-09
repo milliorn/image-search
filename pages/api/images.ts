@@ -31,8 +31,14 @@ export default async function handler(
   const apiUrl: string = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(String(query))}&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${unsplashKey}`;
   try {
     const response = await fetch(apiUrl);
-    const data = await response.json();
 
+    if (!response.ok) {
+      return res
+        .status(response.status)
+        .json({ message: `Unsplash API error: ${response.statusText}` });
+    }
+
+    const data = await response.json();
     res.status(200).json(data);
   } catch (error) {
     console.error(error);

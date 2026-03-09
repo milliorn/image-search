@@ -26,10 +26,13 @@ const useFetchImages = (
         const response = await fetch(apiURL);
         const data = await response.json();
 
-        // console.log(data);
+        if (!response.ok) {
+          console.error("Image fetch failed:", data.message);
+          return;
+        }
 
-        setImages(data.results);
-        setTotalPages(data.total_pages);
+        setImages(data.results ?? []);
+        setTotalPages(data.total_pages ?? 0);
       } catch (error) {
         console.error(error);
       } finally {
