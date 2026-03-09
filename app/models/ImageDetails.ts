@@ -1,7 +1,7 @@
 "use client";
 
 type AlternativeSlugs = {
-  [ key: string ]: string;
+  [key: string]: string;
 };
 
 type Breadcrumb = {
@@ -127,7 +127,7 @@ type Photo = {
   liked_by_user: boolean;
   current_user_collections?: unknown[];
   sponsorship?: unknown;
-  topic_submissions: { [ key: string ]: TopicSubmission };
+  topic_submissions: { [key: string]: TopicSubmission };
   asset_type: string;
   user: User;
   tags?: Tag[];

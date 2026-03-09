@@ -26,5 +26,5 @@ export type {
   FilterButtonsGridProps,
   LoadingIndicatorProps,
   PaginationControlsProps,
-  SearchInputProps
+  SearchInputProps,
 };

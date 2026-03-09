@@ -1,11 +1,11 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from "next";
 
 /**
  * Represents the response data returned by the API.
  */
 type ResponseData = {
-  message: string
-}
+  message: string;
+};
 
 /**
  * Handles the API request and sends a JSON response.
@@ -15,7 +15,7 @@ type ResponseData = {
  */
 export default function handler(
   _req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<ResponseData>,
 ): void {
-  res.status(200).json({ message: 'Hello from Next.js!' })
+  res.status(200).json({ message: "Hello from Next.js!" });
 }

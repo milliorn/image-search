@@ -20,7 +20,11 @@ const LoadingIndicator = ({
 }: LoadingIndicatorProps) => {
   return (
     <div className="flex justify-center items-center">
-      <BarLoader loading={loading} {...(color !== undefined && { color })} {...(height !== undefined && { height })} />
+      <BarLoader
+        loading={loading}
+        {...(color !== undefined && { color })}
+        {...(height !== undefined && { height })}
+      />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import type * as React from 'react';
+import type * as React from "react";
 
 type HandleInputChangeParams = {
   setPage: React.Dispatch<React.SetStateAction<number>>;
@@ -14,7 +14,4 @@ type UseSelectionHandler = {
   searchInput: React.MutableRefObject<HTMLInputElement | null>;
 };
 
-export type {
-  HandleInputChangeParams,
-  UseSelectionHandler,
-}
+export type { HandleInputChangeParams, UseSelectionHandler };

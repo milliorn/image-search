@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 
 /**
  * Handles the API request for searching images.
@@ -7,16 +7,19 @@ import type { NextApiRequest, NextApiResponse } from 'next';
  * @param {Object} res - The response object.
  * @returns {Promise<void>} - A promise that resolves when the request is handled.
  */
-export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+): Promise<void> {
   const { query, page } = req.query;
 
   const IMAGES_PER_PAGE: number = 12;
 
   if (!query) {
-    return res.status(400).json({ message: 'Query parameter is required' });
+    return res.status(400).json({ message: "Query parameter is required" });
   }
 
-  const apiUrl: string = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(String(query))}&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${process.env['UNSPLASH_KEY']}`;
+  const apiUrl: string = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(String(query))}&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${process.env["UNSPLASH_KEY"]}`;
 
   try {
     const response = await fetch(apiUrl);
@@ -25,6 +28,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error fetching images from Unsplash' });
+    res.status(500).json({ message: "Error fetching images from Unsplash" });
   }
 }
