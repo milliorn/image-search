@@ -1,6 +1,5 @@
 "use client";
 
-import { Dispatch, RefObject, SetStateAction } from "react";
 
 type HandleInputChangeParams = {
   setPage: React.Dispatch<React.SetStateAction<number>>;

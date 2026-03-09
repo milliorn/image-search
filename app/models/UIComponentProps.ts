@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, RefObject } from "react";
+import React from "react";
 
 type FilterButtonsGridProps = {
   imageButtons: string[];
