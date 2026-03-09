@@ -1,5 +1,3 @@
-"use client";
-
 type AlternativeSlugs = {
   [key: string]: string;
 };
