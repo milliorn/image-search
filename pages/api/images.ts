@@ -19,8 +19,16 @@ export default async function handler(
     return res.status(400).json({ message: "Query parameter is required" });
   }
 
-  const apiUrl: string = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(String(query))}&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${process.env["UNSPLASH_KEY"]}`;
+  const unsplashKey = process.env["UNSPLASH_KEY"];
+  
+  if (!unsplashKey) {
+    console.error("Unsplash API key (UNSPLASH_KEY) is not configured.");
+    return res
+      .status(500)
+      .json({ message: "Unsplash API key is not configured on the server" });
+  }
 
+  const apiUrl: string = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(String(query))}&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${unsplashKey}`;
   try {
     const response = await fetch(apiUrl);
     const data = await response.json();
