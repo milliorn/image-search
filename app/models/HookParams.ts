@@ -10,7 +10,7 @@ type HandleInputChangeParams = {
 
 type UseSelectionHandler = {
   setPage: React.Dispatch<React.SetStateAction<number>>;
-  fetchImages: (q: string, page: number) => void | Promise<void>;
+  fetchImages: (q?: string, page?: number) => void | Promise<void>;
   searchInput: React.RefObject<HTMLInputElement | null>;
 };
 
