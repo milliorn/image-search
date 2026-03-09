@@ -7,5 +7,10 @@
     "node_modules/",
     ".next/"
   ],
-  "rules": {}
+  "rules": {
+    "eqeqeq": ["error", "always"],
+    "no-console": ["warn", { "allow": ["error", "warn"] }],
+    "no-var": "error",
+    "curly": "error"
+  }
 }

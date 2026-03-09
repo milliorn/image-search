@@ -24,7 +24,7 @@ const useFetchImages = (
         const response = await fetch(apiURL);
         const data = await response.json();
 
-        console.log(data);
+        // console.log(data);
 
         setImages(data.results);
         setTotalPages(data.total_pages);
