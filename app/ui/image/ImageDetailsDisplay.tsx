@@ -27,11 +27,9 @@ const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps) => {
 
   return (
     <div className="grid grid-rows-1 text-center capitalize my-4 text-indigo-100 gap-1">
-      {displayDescription && (
-        <span className="my-4 italic font-bold text-indigo-50">
-          {displayDescription}
-        </span>
-      )}
+      <span className="my-4 italic font-bold text-indigo-50">
+        {displayDescription}
+      </span>
 
       <span>Created: {createdAt}</span>
       <span>By: {name}</span>
