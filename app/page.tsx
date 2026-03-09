@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import useFetchImages from "./hooks/fetchImages";
+import type { ImageDetails } from "./models/ImageDetails";
 import useHandleInputChange from "./hooks/handleInputChange";
 import useSelectionHandler from "./hooks/selectionHandler";
 import FilterButtonsGrid from "./ui/FilterButtonsGrid";
@@ -24,7 +25,7 @@ export default function Home() {
   /**
    * State variable to store the fetched images.
    */
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<ImageDetails[]>([]);
 
   /**
    * State variable to indicate if images are being fetched.
