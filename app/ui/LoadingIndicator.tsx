@@ -1,7 +1,7 @@
 "use client";
 
 import { BarLoader } from "react-spinners";
-import { LoadingIndicatorProps } from "../models/UIComponentProps";
+import type { LoadingIndicatorProps } from "../models/UIComponentProps";
 
 /**
  * Renders a loading indicator using the BarLoader component from the react-spinners library.
@@ -20,7 +20,11 @@ const LoadingIndicator = ({
 }: LoadingIndicatorProps) => {
   return (
     <div className="flex justify-center items-center">
-      <BarLoader color={color} loading={loading} height={height} />
+      <BarLoader
+        loading={loading}
+        {...(color !== undefined && { color })}
+        {...(height !== undefined && { height })}
+      />
     </div>
   );
 };

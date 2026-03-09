@@ -6,8 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "next:lint": "next lint",
+    "next:lint:fix": "next lint --fix",
+    "prettier:check": "npx prettier --check .",
+    "prettier:fix": "npx prettier --write ."
   },
   "dependencies": {
     "next": "^15.5.6",
@@ -20,13 +24,12 @@
     "@types/node": "^24",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.2",
-    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
     "@typescript-eslint/parser": "^8.56.1",
-    "autoprefixer": "^10.4.21",
     "eslint": "^9",
-    "eslint-config-next": "^15.5.4",
+    "eslint-config-next": "^15.5.6",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.16",
-    "typescript": "5.9.3"
+    "typescript": "^5.9.3"
   }
 }

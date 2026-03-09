@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, MutableRefObject, SetStateAction } from 'react';
+import { useCallback } from "react";
+import type { MutableRefObject, SetStateAction } from "react";
 
 /**
  * Fetches images from the API based on the search query and current page.
@@ -11,7 +12,7 @@ const useFetchImages = (
   setLoading: (value: SetStateAction<boolean>) => void,
   page: number,
   setImages: (value: SetStateAction<never[]>) => void,
-  setTotalPages: (value: SetStateAction<number>) => void
+  setTotalPages: (value: SetStateAction<number>) => void,
 ): (() => Promise<void>) => {
   return useCallback(async () => {
     // Ensure searchInput.current is not null before accessing .value
@@ -23,7 +24,7 @@ const useFetchImages = (
         const response = await fetch(apiURL);
         const data = await response.json();
 
-        console.log(data);
+        // console.log(data);
 
         setImages(data.results);
         setTotalPages(data.total_pages);
@@ -33,7 +34,7 @@ const useFetchImages = (
         setLoading(false);
       }
     }
-  }, [ page, searchInput, setImages, setLoading, setTotalPages ]);
+  }, [page, searchInput, setImages, setLoading, setTotalPages]);
 };
 
 export default useFetchImages;

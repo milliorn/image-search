@@ -1,6 +1,6 @@
 "use client";
 
-import { ImageDetailsDisplayProps } from "@/app/models/image/ImageProps";
+import type { ImageDetailsDisplayProps } from "@/app/models/image/ImageProps";
 import Link from "next/link";
 
 /**

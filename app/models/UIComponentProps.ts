@@ -1,7 +1,5 @@
 "use client";
 
-import React, { FormEvent, RefObject } from "react";
-
 type FilterButtonsGridProps = {
   imageButtons: string[];
   onFilterSelect: (filter: string) => void;
@@ -28,5 +26,5 @@ export type {
   FilterButtonsGridProps,
   LoadingIndicatorProps,
   PaginationControlsProps,
-  SearchInputProps
+  SearchInputProps,
 };

@@ -1,8 +1,8 @@
 "use client";
 
-import { ImageGridProps } from "@/app/models/image/ImageProps";
+import type { ImageGridProps } from "@/app/models/image/ImageProps";
 import ImageCard from "./ImageCard";
-import { JSX } from "react";
+import type { JSX } from "react";
 
 /**
  * Renders a grid of image cards.

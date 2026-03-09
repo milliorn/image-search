@@ -1,6 +1,6 @@
 "use client";
 
-import { FilterButtonsGridProps } from "../models/UIComponentProps";
+import type { FilterButtonsGridProps } from "../models/UIComponentProps";
 
 /**
  * Renders a grid of filter buttons.

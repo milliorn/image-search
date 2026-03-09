@@ -1,16 +1,16 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from "next";
 
 /*
-  * Represents the sitemap for the Image Search application.
-  * https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
-*/
+ * Represents the sitemap for the Image Search application.
+ * https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: 'https://image-search-milliorn.vercel.app/',
+      url: "https://image-search-milliorn.vercel.app/",
       lastModified: new Date(),
-      changeFrequency: 'yearly',
+      changeFrequency: "yearly",
       priority: 1,
     },
-  ]
+  ];
 }

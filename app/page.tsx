@@ -49,7 +49,7 @@ export default function Home() {
     setLoading,
     page,
     setImages,
-    setTotalPages
+    setTotalPages,
   );
 
   /**
