@@ -104,7 +104,7 @@ type TagSource = {
 type Tag = {
   type: string;
   title: string;
-  source: TagSource;
+  source?: TagSource;
 };
 
 type Photo = {
