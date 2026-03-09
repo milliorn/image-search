@@ -125,8 +125,8 @@ type Photo = {
   links: Links;
   likes: number;
   liked_by_user: boolean;
-  current_user_collections?: any[];
-  sponsorship?: any;
+  current_user_collections?: unknown[];
+  sponsorship?: unknown;
   topic_submissions: { [ key: string ]: TopicSubmission };
   asset_type: string;
   user: User;
