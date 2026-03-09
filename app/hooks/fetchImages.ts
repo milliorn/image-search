@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, MutableRefObject, SetStateAction } from 'react';
+import { useCallback } from 'react';
+import type { MutableRefObject, SetStateAction } from 'react';
 
 /**
  * Fetches images from the API based on the search query and current page.

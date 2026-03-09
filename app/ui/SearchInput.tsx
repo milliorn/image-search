@@ -1,6 +1,6 @@
 "use client";
 
-import { SearchInputProps } from "../models/UIComponentProps";
+import type { SearchInputProps } from "../models/UIComponentProps";
 
 /**
  * Renders a search input element.

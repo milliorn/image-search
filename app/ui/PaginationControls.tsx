@@ -1,7 +1,8 @@
 "use client";
 
-import { ChangeEvent, JSX, useEffect, useState } from "react";
-import { PaginationControlsProps } from "../models/UIComponentProps";
+import type { ChangeEvent, JSX } from "react";
+import { useEffect, useState } from "react";
+import type { PaginationControlsProps } from "../models/UIComponentProps";
 
 /**
  * Renders pagination controls for navigating between pages.

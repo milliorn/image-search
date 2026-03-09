@@ -1,4 +1,4 @@
-import { ImageDetails } from "../ImageDetails";
+import type { ImageDetails } from "../ImageDetails";
 
 type ImageCardProps = {
   image: ImageDetails;
