@@ -1,14 +1,14 @@
 "use client";
 
 import { useCallback } from "react";
-import type { MutableRefObject, SetStateAction } from "react";
+import type { RefObject, SetStateAction } from "react"; // Changed MutableRefObject to RefObject
 
 /**
  * Fetches images from the API based on the search query and current page.
  * This would normally be a service, but it uses another hook, useCallback, to memoize the function.
  */
 const useFetchImages = (
-  searchInput: MutableRefObject<HTMLInputElement | null>,
+  searchInput: RefObject<HTMLInputElement | null>, // Changed MutableRefObject to RefObject
   setLoading: (value: SetStateAction<boolean>) => void,
   page: number,
   setImages: (value: SetStateAction<never[]>) => void,
