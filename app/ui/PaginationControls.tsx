@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChangeEvent, JSX } from "react";
+import type { ChangeEvent, JSX, KeyboardEvent } from "react";
 import { useEffect, useState } from "react";
 import type { PaginationControlsProps } from "../models/UIComponentProps";
 
@@ -78,6 +78,7 @@ const PaginationControls = ({
           className="text-center w-16 bg-white text-black border rounded py-2 px-2"
           value={inputPage}
           onChange={handlePageChange}
+          onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && goToPage()}
           id="pageInput"
           min="1"
           max={totalPagesMax}
