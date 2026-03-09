@@ -15,6 +15,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true,
+    "noPropertyAccessFromIndexSignature": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",

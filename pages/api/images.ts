@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ message: 'Query parameter is required' });
   }
 
-  const apiUrl: string = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(String(query))}&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${process.env.UNSPLASH_KEY}`;
+  const apiUrl: string = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(String(query))}&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${process.env['UNSPLASH_KEY']}`;
 
   try {
     const response = await fetch(apiUrl);
