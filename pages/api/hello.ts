@@ -14,7 +14,7 @@ type ResponseData = {
  * @param res - The NextApiResponse object representing the outgoing response.
  */
 export default function handler(
-  req: NextApiRequest,
+  _req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ): void {
   res.status(200).json({ message: 'Hello from Next.js!' })
