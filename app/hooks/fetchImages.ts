@@ -25,10 +25,17 @@ const useFetchImages = (
       try {
         const apiURL = `/api/images?query=${encodeURIComponent(query)}&page=${resolvedPage}`;
         const response = await fetch(apiURL);
-        const data = await response.json();
+        type ApiResponse = { message?: string; results?: ImageDetails[]; total_pages?: number };
+        let data: ApiResponse = {};
+        
+        try {
+          data = await response.json();
+        } catch {
+          // ignore non-JSON responses
+        }
 
         if (!response.ok) {
-          console.error("Image fetch failed:", data.message);
+          console.error("Image fetch failed:", data.message ?? response.statusText);
           return;
         }
 
