@@ -81,7 +81,7 @@ export default function Home() {
   }, [fetchImages]);
 
   return (
-    <div className="container mx-auto p-4">
+    <main className="container mx-auto p-4">
       <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
       <SearchInput onSubmit={onChange} searchRef={searchInput} />
       <FilterButtonsGrid
@@ -98,6 +98,6 @@ export default function Home() {
         setPage={setPage}
         totalPages={totalPages}
       />
-    </div>
+    </main>
   );
 }
