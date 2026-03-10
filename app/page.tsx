@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import useFetchImages from "./hooks/fetchImages";
+import type { ImageDetails } from "./models/ImageDetails";
 import useHandleInputChange from "./hooks/handleInputChange";
 import useSelectionHandler from "./hooks/selectionHandler";
 import FilterButtonsGrid from "./ui/FilterButtonsGrid";
@@ -24,7 +25,7 @@ export default function Home() {
   /**
    * State variable to store the fetched images.
    */
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<ImageDetails[]>([]);
 
   /**
    * State variable to indicate if images are being fetched.
@@ -80,7 +81,7 @@ export default function Home() {
   }, [fetchImages]);
 
   return (
-    <div className="container mx-auto p-4">
+    <main className="container mx-auto p-4">
       <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
       <SearchInput onSubmit={onChange} searchRef={searchInput} />
       <FilterButtonsGrid
@@ -97,6 +98,6 @@ export default function Home() {
         setPage={setPage}
         totalPages={totalPages}
       />
-    </div>
+    </main>
   );
 }

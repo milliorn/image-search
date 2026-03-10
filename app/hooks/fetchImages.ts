@@ -1,33 +1,47 @@
 "use client";
 
 import { useCallback } from "react";
-import type { MutableRefObject, SetStateAction } from "react";
+import type { RefObject, SetStateAction } from "react"; // Changed MutableRefObject to RefObject
+import type { ImageDetails } from "../models/ImageDetails";
 
 /**
  * Fetches images from the API based on the search query and current page.
  * This would normally be a service, but it uses another hook, useCallback, to memoize the function.
  */
 const useFetchImages = (
-  searchInput: MutableRefObject<HTMLInputElement | null>,
+  searchInput: RefObject<HTMLInputElement | null>, // Changed MutableRefObject to RefObject
   setLoading: (value: SetStateAction<boolean>) => void,
   page: number,
-  setImages: (value: SetStateAction<never[]>) => void,
+  setImages: (value: SetStateAction<ImageDetails[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void,
-): (() => Promise<void>) => {
-  return useCallback(async () => {
-    // Ensure searchInput.current is not null before accessing .value
-    if (searchInput.current && searchInput.current.value) {
+): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
+  return useCallback(async (queryOverride?: string, pageOverride?: number) => {
+    const query = queryOverride ?? searchInput.current?.value ?? "";
+    const resolvedPage = pageOverride ?? page;
+
+    if (query) {
       setLoading(true);
 
       try {
-        const apiURL = `/api/images?query=${encodeURIComponent(searchInput.current.value)}&page=${page}`;
+        const apiURL = `/api/images?query=${encodeURIComponent(query)}&page=${resolvedPage}`;
         const response = await fetch(apiURL);
-        const data = await response.json();
 
-        // console.log(data);
+        if (!response.ok) {
+          console.error("Image fetch failed:", response.statusText);
+          return;
+        }
 
-        setImages(data.results);
-        setTotalPages(data.total_pages);
+        type ApiResponse = { message?: string; results?: ImageDetails[]; total_pages?: number };
+        let data: ApiResponse = {};
+
+        try {
+          data = await response.json();
+        } catch {
+          // ignore non-JSON responses
+        }
+
+        setImages(data.results ?? []);
+        setTotalPages(data.total_pages ?? 0);
       } catch (error) {
         console.error(error);
       } finally {

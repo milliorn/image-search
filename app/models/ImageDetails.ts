@@ -1,5 +1,3 @@
-"use client";
-
 type AlternativeSlugs = {
   [key: string]: string;
 };
@@ -104,7 +102,7 @@ type TagSource = {
 type Tag = {
   type: string;
   title: string;
-  source: TagSource;
+  source?: TagSource;
 };
 
 type Photo = {

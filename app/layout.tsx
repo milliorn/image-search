@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+// Import global CSS styles; TypeScript declaration is required for CSS files.
 import "./globals.css";
 import Footer from "./ui/Footer";
 

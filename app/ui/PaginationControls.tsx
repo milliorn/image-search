@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChangeEvent, JSX } from "react";
+import type { ChangeEvent, JSX, KeyboardEvent } from "react";
 import { useEffect, useState } from "react";
 import type { PaginationControlsProps } from "../models/UIComponentProps";
 
@@ -18,7 +18,7 @@ const PaginationControls = ({
   page,
   setPage,
   totalPages,
-}: PaginationControlsProps): JSX.Element => {
+}: PaginationControlsProps): JSX.Element | null => {
   const pagesMax = 200;
   const totalPagesMax = totalPages <= pagesMax ? totalPages : pagesMax;
   const [inputPage, setInputPage] = useState(page.toString());
@@ -37,6 +37,10 @@ const PaginationControls = ({
   useEffect(() => {
     setInputPage(page.toString());
   }, [page]);
+
+  if (totalPages === 0) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col items-center space-y-4">
@@ -64,22 +68,39 @@ const PaginationControls = ({
         </button>
       </div>
 
-      <div className="text-center">
+      <div className="flex items-center gap-2 justify-center">
+        <button
+          aria-label="Decrease page"
+          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded"
+          disabled={parseInt(inputPage, 10) <= 1}
+          onClick={() => setInputPage((prev) => String(Math.max(1, parseInt(prev, 10) - 1)))}
+        >
+          −
+        </button>
         <input
-          type="number" // Changing type to number to enforce numeric input
-          className="text-center w-16 text-black border rounded py-2 px-4"
+          type="number"
+          className="text-center w-16 bg-white text-black border rounded py-2 px-2"
           value={inputPage}
           onChange={handlePageChange}
+          onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && goToPage()}
           id="pageInput"
           min="1"
           max={totalPagesMax}
           aria-label="Page Number Input"
         />
         <button
-          className="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+          aria-label="Increase page"
+          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded"
+          disabled={parseInt(inputPage, 10) >= totalPagesMax}
+          onClick={() => setInputPage((prev) => String(Math.min(totalPagesMax, parseInt(prev, 10) + 1)))}
+        >
+          +
+        </button>
+        <button
+          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
           onClick={goToPage}
         >
-          Go to Page
+          Go
         </button>
       </div>
     </div>

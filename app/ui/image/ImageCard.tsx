@@ -21,13 +21,11 @@ const ImageCard = ({ image }: ImageCardProps): JSX.Element => {
       <Link href={image.links.html} rel="noopener noreferrer" target="_blank">
         <Image
           alt={image.alt_description || "image"}
-          blurDataURL={image.blur_hash || image.urls.thumb || ""}
           className="rounded shadow-lg my-4 mx-auto border border-indigo-200"
-          height={image.height as number}
-          key={image.id}
-          placeholder="blur"
+          height={image.height}
           src={image.urls.regular}
-          width={image.width as number}
+          style={{ backgroundColor: image.color ?? undefined }}
+          width={image.width}
           onError={(e) => console.error(`Failed to load image: ${e.target}`)}
         />
       </Link>
