@@ -15,7 +15,6 @@ import type { JSX } from "react";
  * @returns {JSX.Element} The rendered ImageCard component.
  */
 const ImageCard = ({ image }: ImageCardProps): JSX.Element => {
-  // console.log(image);
   return (
     <div className="text-center capitalize my-4 text-indigo-100" key={image.id}>
       <Link href={image.links.html} rel="noopener noreferrer" target="_blank">
@@ -26,7 +25,7 @@ const ImageCard = ({ image }: ImageCardProps): JSX.Element => {
           src={image.urls.regular}
           style={{ backgroundColor: image.color ?? undefined }}
           width={image.width}
-          onError={(e) => console.error(`Failed to load image: ${e.target}`)}
+          onError={() => console.error(`Failed to load image: ${image.urls.regular}`)}
         />
       </Link>
       <ImageDetailsDisplay image={image} />
