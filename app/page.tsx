@@ -16,37 +16,17 @@ import { imageButtons } from "./utils/constants";
  * This component displays an image search page with a search input, filter buttons, and a grid of images.
  */
 export default function Home() {
-  /**
-   * Ref to the search input element.
-   */
   const searchInput = useRef<HTMLInputElement | null>(null);
-
-  /**
-   * State variable to store the fetched images.
-   */
   const [images, setImages] = useState<ImageDetails[]>([]);
-
-  /**
-   * State variable to indicate if images are being fetched.
-   */
   const [loading, setLoading] = useState(false);
-
-  /**
-   * State variable to store the current page number.
-   */
+  const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
-
-  /**
-   * State variable to store the total number of pages.
-   */
   const [totalPages, setTotalPages] = useState(0);
 
-  /**
-   * Fetches images from the API based on the search query and current page.
-   */
   const fetchImages = useFetchImages(
     searchInput,
     setLoading,
+    setError,
     page,
     setImages,
     setTotalPages,
@@ -69,9 +49,6 @@ export default function Home() {
     }
   };
 
-  /**
-   * Fetch images when the component mounts.
-   */
   useEffect(() => {
     fetchImages();
   }, [fetchImages]);
@@ -86,6 +63,8 @@ export default function Home() {
       />
       {loading ? (
         <LoadingIndicator color="#3949AB" loading={loading} height={16} />
+      ) : error ? (
+        <p className="text-center text-red-400 mt-8">{error}</p>
       ) : (
         <ImageGrid images={images} />
       )}

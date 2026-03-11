@@ -17,6 +17,7 @@ type ApiResponse = {
 const useFetchImages = (
   searchInput: RefObject<HTMLInputElement | null>,
   setLoading: (value: SetStateAction<boolean>) => void,
+  setError: (message: string | null) => void,
   page: number,
   setImages: (value: SetStateAction<ImageDetails[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void,
@@ -36,6 +37,7 @@ const useFetchImages = (
     const { signal } = abortControllerRef.current;
 
     setLoading(true);
+    setError(null);
 
     const params = new URLSearchParams({
       query,
@@ -46,7 +48,7 @@ const useFetchImages = (
       const response = await fetch(`/api/images?${params.toString()}`, { signal });
 
       if (!response.ok) {
-        console.error("Image fetch failed:", response.statusText);
+        setError(`Failed to fetch images: ${response.statusText}`);
         setLoading(false);
         return;
       }
@@ -66,9 +68,10 @@ const useFetchImages = (
         return;
       }
       console.error(error);
+      setError("Something went wrong. Please try again.");
       setLoading(false);
     }
-  }, [page, searchInput, setImages, setLoading, setTotalPages]);
+  }, [page, searchInput, setError, setImages, setLoading, setTotalPages]);
 };
 
 export default useFetchImages;
