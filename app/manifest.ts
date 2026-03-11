@@ -1,7 +1,6 @@
-// app/manifest.ts
 import { type MetadataRoute } from "next";
 
-export default function manifest(): MetadataRoute.Manifest {
+function manifest(): MetadataRoute.Manifest {
   return {
     name: "Image Search",
     short_name: "Image Search",
@@ -36,3 +35,5 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
   };
 }
+
+export default manifest;

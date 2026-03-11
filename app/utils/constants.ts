@@ -1,4 +1,4 @@
-export const imageButtons = [
+const imageButtons = [
   "animals",
   "anime",
   "art",
@@ -12,3 +12,5 @@ export const imageButtons = [
   "travel",
   "wallpaper",
 ];
+
+export { imageButtons };

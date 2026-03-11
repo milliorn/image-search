@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 const IMAGES_PER_PAGE = 12;
 
-export async function GET(req: NextRequest): Promise<NextResponse> {
+async function GET(req: NextRequest): Promise<NextResponse> {
   const { searchParams } = req.nextUrl;
   const query = searchParams.get("query");
   const pageParam = searchParams.get("page") ?? "1";
@@ -62,3 +62,5 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     );
   }
 }
+
+export { GET };
