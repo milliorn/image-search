@@ -15,8 +15,13 @@ export default async function handler(
 
   const IMAGES_PER_PAGE: number = 12;
 
-  if (!query) {
+  if (!query || Array.isArray(query)) {
     return res.status(400).json({ message: "Query parameter is required" });
+  }
+
+  const pageNum = Array.isArray(page) ? NaN : parseInt(String(page ?? "1"), 10);
+  if (isNaN(pageNum) || pageNum < 1) {
+    return res.status(400).json({ message: "Invalid page parameter" });
   }
 
   const unsplashKey = process.env["UNSPLASH_KEY"];
@@ -28,7 +33,15 @@ export default async function handler(
       .json({ message: "Unsplash API key is not configured on the server" });
   }
 
-  const apiUrl: string = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(String(query))}&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${unsplashKey}`;
+  const params = new URLSearchParams({
+    query,
+    page: String(pageNum),
+    per_page: String(IMAGES_PER_PAGE),
+    client_id: unsplashKey,
+  });
+
+  const apiUrl = `https://api.unsplash.com/search/photos?${params.toString()}`;
+  
   try {
     const response = await fetch(apiUrl);
 
