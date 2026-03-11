@@ -54,9 +54,7 @@ const PaginationControls = ({
         </button>
 
         <span className="text-center mt-2 text-sm sm:text-base">
-          {totalPages === 0
-            ? "Page 0 of 0"
-            : `Page ${page} of ${totalPagesMax}`}
+          {`Page ${page} of ${totalPagesMax}`}
         </span>
 
         <button
