@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { SyntheticEvent } from "react";
 import useFetchImages from "./hooks/fetchImages";
 import type { ImageDetails } from "./models/ImageDetails";
-import useHandleInputChange from "./hooks/handleInputChange";
-import useSelectionHandler from "./hooks/selectionHandler";
 import FilterButtonsGrid from "./ui/FilterButtonsGrid";
 import ImageGrid from "./ui/image/ImageGrid";
 import LoadingIndicator from "./ui/LoadingIndicator";
@@ -53,25 +52,22 @@ export default function Home() {
     setTotalPages,
   );
 
-  /**
-   * Event handler for the search input change event.
-   * Resets the page number to 1 and fetches images.
-   */
-  const onChange = useHandleInputChange({
-    setPage,
-    fetchImages,
-    searchInput,
-  });
+  const onChange = (event: SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const query = searchInput.current?.value || "";
+    setPage(1);
+    fetchImages(query, 1);
+  };
 
-  /**
-   * Event handler for the filter buttons.
-   * Fetches images based on the selected filter.
-   */
-  const handleSelection = useSelectionHandler({
-    setPage,
-    fetchImages,
-    searchInput,
-  });
+  const handleSelection = (selection: string) => {
+    if (searchInput.current) {
+      searchInput.current.value = selection;
+      setPage(1);
+      fetchImages(selection, 1);
+    } else {
+      console.error("handleSelection: searchInput.current is null");
+    }
+  };
 
   /**
    * Fetch images when the component mounts.
