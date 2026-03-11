@@ -45,7 +45,7 @@ function Home() {
       setPage(1);
       fetchImages(selection, 1);
     } else {
-      console.error("handleSelection: searchInput.current is null");
+      console.error("searchInput ref is not attached to the DOM");
     }
   };
 
