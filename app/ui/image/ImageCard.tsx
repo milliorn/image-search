@@ -16,7 +16,7 @@ import type { JSX } from "react";
  */
 const ImageCard = ({ image }: ImageCardProps): JSX.Element => {
   return (
-    <div className="text-center capitalize my-4 text-indigo-100" key={image.id}>
+    <div className="text-center capitalize my-4 text-indigo-100">
       <Link href={image.links.html} rel="noopener noreferrer" target="_blank">
         <Image
           alt={image.alt_description || "image"}
