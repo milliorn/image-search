@@ -55,12 +55,14 @@ const useFetchImages = (
           return;
         }
 
-        let data: ApiResponse = {};
-        
+        let data: ApiResponse;
+
         try {
           data = (await response.json()) as ApiResponse;
         } catch {
-          // Ignore unexpected non-JSON responses.
+          setError("Received an unexpected response from the server.");
+          setLoading(false);
+          return;
         }
 
         setImages(data.results ?? []);

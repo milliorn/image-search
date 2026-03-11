@@ -2,10 +2,13 @@
 
 import type { MetadataRoute } from "next";
 
+const SITE_URL =
+  process.env["NEXT_PUBLIC_SITE_URL"] ?? "https://image-search-black-iota.vercel.app";
+
 function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://image-search-milliorn.vercel.app/",
+      url: `${SITE_URL}/`,
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 1,

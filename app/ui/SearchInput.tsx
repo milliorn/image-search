@@ -11,6 +11,9 @@ const SearchInput = ({ onSubmit, searchRef }: SearchInputProps) => {
       onSubmit={onSubmit}
       className="mb-4 flex justify-between items-center"
     >
+      <label htmlFor="search-input" className="sr-only">
+        Search for images
+      </label>
       <input
         className="form-input mt-0 block w-full rounded-lg border-gray-300 shadow-sm text-black mr-2 py-1 pl-4 text-xs sm:text-base bg-white"
         id="search-input"

@@ -54,7 +54,7 @@ async function GET(req: NextRequest): Promise<NextResponse> {
   const apiUrl = `https://api.unsplash.com/search/photos?${params.toString()}`;
 
   try {
-    const response = await fetch(apiUrl);
+    const response = await fetch(apiUrl, { next: { revalidate: 86400 } });
 
     if (!response.ok) {
       return NextResponse.json(
