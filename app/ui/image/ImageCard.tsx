@@ -20,7 +20,9 @@ const ImageCard = ({ image }: ImageCardProps): JSX.Element => {
           src={image.urls.regular}
           style={{ backgroundColor: image.color ?? undefined }}
           width={image.width}
-          onError={() => console.error(`Failed to load image: ${image.urls.regular}`)}
+          onError={() =>
+            console.error(`Failed to load image: ${image.urls.regular}`)
+          }
         />
       </Link>
       <ImageDetailsDisplay image={image} />

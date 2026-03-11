@@ -67,7 +67,9 @@ const PaginationControls = ({
           aria-label="Decrease page"
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded"
           disabled={parseInt(inputPage, 10) <= 1}
-          onClick={() => setInputPage((prev) => String(Math.max(1, parseInt(prev, 10) - 1)))}
+          onClick={() =>
+            setInputPage((prev) => String(Math.max(1, parseInt(prev, 10) - 1)))
+          }
         >
           −
         </button>
@@ -76,7 +78,9 @@ const PaginationControls = ({
           className="text-center w-16 bg-white text-black border rounded py-2 px-2"
           value={inputPage}
           onChange={handlePageChange}
-          onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && goToPage()}
+          onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
+            e.key === "Enter" && goToPage()
+          }
           id="pageInput"
           min="1"
           max={totalPagesMax}
@@ -86,7 +90,11 @@ const PaginationControls = ({
           aria-label="Increase page"
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded"
           disabled={parseInt(inputPage, 10) >= totalPagesMax}
-          onClick={() => setInputPage((prev) => String(Math.min(totalPagesMax, parseInt(prev, 10) + 1)))}
+          onClick={() =>
+            setInputPage((prev) =>
+              String(Math.min(totalPagesMax, parseInt(prev, 10) + 1)),
+            )
+          }
         >
           +
         </button>

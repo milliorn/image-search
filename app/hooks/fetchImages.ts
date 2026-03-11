@@ -21,56 +21,63 @@ const useFetchImages = (
 ): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  return useCallback(async (queryOverride?: string, pageOverride?: number) => {
-    const query = queryOverride ?? searchInput.current?.value ?? "";
-    const resolvedPage = pageOverride ?? page;
+  return useCallback(
+    async (queryOverride?: string, pageOverride?: number) => {
+      const query = queryOverride ?? searchInput.current?.value ?? "";
+      const resolvedPage = pageOverride ?? page;
 
-    if (!query) {
-      return;
-    }
-
-    // Abort any pending request before starting a new one.
-    abortControllerRef.current?.abort();
-    abortControllerRef.current = new AbortController();
-    const { signal } = abortControllerRef.current;
-
-    setLoading(true);
-    setError(null);
-
-    const params = new URLSearchParams({
-      query,
-      page: String(resolvedPage),
-    });
-
-    try {
-      const response = await fetch(`/api/images?${params.toString()}`, { signal });
-
-      if (!response.ok) {
-        setError(`Failed to fetch images: ${response.statusText}`);
-        setLoading(false);
+      if (!query) {
         return;
       }
 
-      let data: ApiResponse = {};
+      // Abort any pending request before starting a new one.
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = new AbortController();
+
+      const { signal } = abortControllerRef.current;
+
+      setLoading(true);
+      setError(null);
+
+      const params = new URLSearchParams({
+        query,
+        page: String(resolvedPage),
+      });
+
       try {
-        data = (await response.json()) as ApiResponse;
-      } catch {
-        // Ignore unexpected non-JSON responses.
-      }
+        const response = await fetch(`/api/images?${params.toString()}`, {
+          signal,
+        });
 
-      setImages(data.results ?? []);
-      setTotalPages(data.total_pages ?? 0);
-      setLoading(false);
-    } catch (error) {
-      // AbortError is expected when a newer request cancels this one.
-      if (error instanceof DOMException && error.name === "AbortError") {
-        return;
+        if (!response.ok) {
+          setError(`Failed to fetch images: ${response.statusText}`);
+          setLoading(false);
+          return;
+        }
+
+        let data: ApiResponse = {};
+        
+        try {
+          data = (await response.json()) as ApiResponse;
+        } catch {
+          // Ignore unexpected non-JSON responses.
+        }
+
+        setImages(data.results ?? []);
+        setTotalPages(data.total_pages ?? 0);
+        setLoading(false);
+      } catch (error) {
+        // AbortError is expected when a newer request cancels this one.
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        console.error(error);
+        setError("Something went wrong. Please try again.");
+        setLoading(false);
       }
-      console.error(error);
-      setError("Something went wrong. Please try again.");
-      setLoading(false);
-    }
-  }, [page, searchInput, setError, setImages, setLoading, setTotalPages]);
+    },
+    [page, searchInput, setError, setImages, setLoading, setTotalPages],
+  );
 };
 
 export default useFetchImages;
