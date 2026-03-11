@@ -34,16 +34,24 @@ function Home() {
   const onChange = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const query = searchInput.current?.value || "";
-    setPage(1);
-    fetchImages(query, 1);
+    // If already on page 1, setPage is a no-op and won't trigger the useEffect,
+    // so call fetchImages directly. Otherwise let the page change drive the fetch.
+    if (page === 1) {
+      fetchImages(query, 1);
+    } else {
+      setPage(1);
+    }
   };
 
   // Sets the input value to the selected filter and fetches from page 1.
   const handleSelection = (selection: string) => {
     if (searchInput.current) {
       searchInput.current.value = selection;
-      setPage(1);
-      fetchImages(selection, 1);
+      if (page === 1) {
+        fetchImages(selection, 1);
+      } else {
+        setPage(1);
+      }
     } else {
       console.error("searchInput ref is not attached to the DOM");
     }
