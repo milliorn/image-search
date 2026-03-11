@@ -1,16 +1,11 @@
+/** Renders metadata for a single image: description, date, author, tags, and social links. */
+
 "use client";
 
-import type { ImageDetailsDisplayProps } from "@/app/models/image/ImageProps";
+import type { ImageDetailsDisplayProps } from "@/app/models/ImageProps";
 import Link from "next/link";
 
-/**
- * Renders the details of an image, including its description, creation date, author, tags, and source links.
- *
- * @component
- * @param {ImageDetailsDisplayProps} props - The component props.
- * @param {Image} props.image - The image object containing the details to be displayed.
- * @returns {JSX.Element} The rendered ImageDetailsDisplay component.
- */
+/** Extracts and displays photo metadata from the Unsplash API response. */
 const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps) => {
   const {
     alt_description,

@@ -1,12 +1,10 @@
+/** Renders a search form with a text input and submit button. */
+
 "use client";
 
 import type { SearchInputProps } from "../models/UIComponentProps";
 
-/**
- * Renders a search input element.
- * @param onSubmit - The event handler for the form submit event.
- * @param searchRef - The reference to the search input element.
- */
+/** Attaches the provided ref to the input so the parent can read its value on submit. */
 const SearchInput = ({ onSubmit, searchRef }: SearchInputProps) => {
   return (
     <form

@@ -1,4 +1,6 @@
-import type { ImageDetails } from "../ImageDetails";
+/** Props types for image display components: ImageCard, ImageDetailsDisplay, and ImageGrid. */
+
+import type { ImageDetails } from "./ImageDetails";
 
 type ImageCardProps = {
   image: ImageDetails;

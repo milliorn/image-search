@@ -1,10 +1,11 @@
 "use client";
 
+/** Main image search page. Manages search state and renders the full search UI. */
+
 import { useEffect, useRef, useState } from "react";
+import type { SyntheticEvent } from "react";
 import useFetchImages from "./hooks/fetchImages";
 import type { ImageDetails } from "./models/ImageDetails";
-import useHandleInputChange from "./hooks/handleInputChange";
-import useSelectionHandler from "./hooks/selectionHandler";
 import FilterButtonsGrid from "./ui/FilterButtonsGrid";
 import ImageGrid from "./ui/image/ImageGrid";
 import LoadingIndicator from "./ui/LoadingIndicator";
@@ -12,70 +13,43 @@ import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
 import { imageButtons } from "./utils/constants";
 
-/**
- * Renders the Home component.
- * This component displays an image search page with a search input, filter buttons, and a grid of images.
- */
-export default function Home() {
-  /**
-   * Ref to the search input element.
-   */
+function Home() {
   const searchInput = useRef<HTMLInputElement | null>(null);
-
-  /**
-   * State variable to store the fetched images.
-   */
   const [images, setImages] = useState<ImageDetails[]>([]);
-
-  /**
-   * State variable to indicate if images are being fetched.
-   */
   const [loading, setLoading] = useState(false);
-
-  /**
-   * State variable to store the current page number.
-   */
+  const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
-
-  /**
-   * State variable to store the total number of pages.
-   */
   const [totalPages, setTotalPages] = useState(0);
 
-  /**
-   * Fetches images from the API based on the search query and current page.
-   */
   const fetchImages = useFetchImages(
     searchInput,
     setLoading,
+    setError,
     page,
     setImages,
     setTotalPages,
   );
 
-  /**
-   * Event handler for the search input change event.
-   * Resets the page number to 1 and fetches images.
-   */
-  const onChange = useHandleInputChange({
-    setPage,
-    fetchImages,
-    searchInput,
-  });
+  // Resets to page 1 and fetches on form submit.
+  const onChange = (event: SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const query = searchInput.current?.value || "";
+    setPage(1);
+    fetchImages(query, 1);
+  };
 
-  /**
-   * Event handler for the filter buttons.
-   * Fetches images based on the selected filter.
-   */
-  const handleSelection = useSelectionHandler({
-    setPage,
-    fetchImages,
-    searchInput,
-  });
+  // Sets the input value to the selected filter and fetches from page 1.
+  const handleSelection = (selection: string) => {
+    if (searchInput.current) {
+      searchInput.current.value = selection;
+      setPage(1);
+      fetchImages(selection, 1);
+    } else {
+      console.error("searchInput ref is not attached to the DOM");
+    }
+  };
 
-  /**
-   * Fetch images when the component mounts.
-   */
+  // Fetch on mount and whenever fetchImages is recreated (e.g. page change).
   useEffect(() => {
     fetchImages();
   }, [fetchImages]);
@@ -90,6 +64,8 @@ export default function Home() {
       />
       {loading ? (
         <LoadingIndicator color="#3949AB" loading={loading} height={16} />
+      ) : error ? (
+        <p className="text-center text-red-400 mt-8">{error}</p>
       ) : (
         <ImageGrid images={images} />
       )}
@@ -101,3 +77,5 @@ export default function Home() {
     </main>
   );
 }
+
+export default Home;

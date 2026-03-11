@@ -1,6 +1,6 @@
-"use client";
+/** Preset search categories shown as filter buttons on the home page. */
 
-export const imageButtons = [
+const imageButtons = [
   "animals",
   "anime",
   "art",
@@ -14,3 +14,5 @@ export const imageButtons = [
   "travel",
   "wallpaper",
 ];
+
+export { imageButtons };

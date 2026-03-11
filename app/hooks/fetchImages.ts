@@ -1,54 +1,83 @@
 "use client";
 
-import { useCallback } from "react";
-import type { RefObject, SetStateAction } from "react"; // Changed MutableRefObject to RefObject
-import type { ImageDetails } from "../models/ImageDetails";
-
 /**
- * Fetches images from the API based on the search query and current page.
- * This would normally be a service, but it uses another hook, useCallback, to memoize the function.
+ * Hook that returns a memoized fetch function for querying the Unsplash image API.
+ * Each call aborts any pending request before starting a new one, preventing
+ * stale responses from overwriting fresh results.
  */
+
+import { useCallback, useRef } from "react";
+import type { RefObject, SetStateAction } from "react";
+import type { ImageDetails } from "../models/ImageDetails";
+import type { ApiResponse } from "../models/ApiResponse";
+
 const useFetchImages = (
-  searchInput: RefObject<HTMLInputElement | null>, // Changed MutableRefObject to RefObject
+  searchInput: RefObject<HTMLInputElement | null>,
   setLoading: (value: SetStateAction<boolean>) => void,
+  setError: (message: string | null) => void,
   page: number,
   setImages: (value: SetStateAction<ImageDetails[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void,
 ): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
-  return useCallback(async (queryOverride?: string, pageOverride?: number) => {
-    const query = queryOverride ?? searchInput.current?.value ?? "";
-    const resolvedPage = pageOverride ?? page;
+  const abortControllerRef = useRef<AbortController | null>(null);
 
-    if (query) {
+  return useCallback(
+    async (queryOverride?: string, pageOverride?: number) => {
+      const query = queryOverride ?? searchInput.current?.value ?? "";
+      const resolvedPage = pageOverride ?? page;
+
+      if (!query) {
+        return;
+      }
+
+      // Abort any pending request before starting a new one.
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = new AbortController();
+
+      const { signal } = abortControllerRef.current;
+
       setLoading(true);
+      setError(null);
+
+      const params = new URLSearchParams({
+        query,
+        page: String(resolvedPage),
+      });
 
       try {
-        const apiURL = `/api/images?query=${encodeURIComponent(query)}&page=${resolvedPage}`;
-        const response = await fetch(apiURL);
+        const response = await fetch(`/api/images?${params.toString()}`, {
+          signal,
+        });
 
         if (!response.ok) {
-          console.error("Image fetch failed:", response.statusText);
+          setError(`Failed to fetch images: ${response.statusText}`);
+          setLoading(false);
           return;
         }
 
-        type ApiResponse = { message?: string; results?: ImageDetails[]; total_pages?: number };
         let data: ApiResponse = {};
-
+        
         try {
-          data = await response.json();
+          data = (await response.json()) as ApiResponse;
         } catch {
-          // ignore non-JSON responses
+          // Ignore unexpected non-JSON responses.
         }
 
         setImages(data.results ?? []);
         setTotalPages(data.total_pages ?? 0);
+        setLoading(false);
       } catch (error) {
+        // AbortError is expected when a newer request cancels this one.
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
         console.error(error);
-      } finally {
+        setError("Something went wrong. Please try again.");
         setLoading(false);
       }
-    }
-  }, [page, searchInput, setImages, setLoading, setTotalPages]);
+    },
+    [page, searchInput, setError, setImages, setLoading, setTotalPages],
+  );
 };
 
 export default useFetchImages;

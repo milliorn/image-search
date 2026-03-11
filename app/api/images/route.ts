@@ -1,0 +1,77 @@
+/**
+ * GET /api/images
+ *
+ * Proxies search requests to the Unsplash API and returns paginated photo results.
+ * Keeping the Unsplash client ID server-side prevents it from being exposed to the browser.
+ *
+ * Query params:
+ *   query — search term (required)
+ *   page  — page number, defaults to 1
+ */
+
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+const IMAGES_PER_PAGE = 12;
+
+async function GET(req: NextRequest): Promise<NextResponse> {
+  const { searchParams } = req.nextUrl;
+  const query = searchParams.get("query");
+  const pageParam = searchParams.get("page") ?? "1";
+
+  if (!query) {
+    return NextResponse.json(
+      { message: "Query parameter is required" },
+      { status: 400 },
+    );
+  }
+
+  const pageNum = parseInt(pageParam, 10);
+  if (isNaN(pageNum) || pageNum < 1) {
+    return NextResponse.json(
+      { message: "Invalid page parameter" },
+      { status: 400 },
+    );
+  }
+
+  const unsplashKey = process.env["UNSPLASH_KEY"];
+
+  if (!unsplashKey) {
+    console.error("Unsplash API key (UNSPLASH_KEY) is not configured.");
+    return NextResponse.json(
+      { message: "Unsplash API key is not configured on the server" },
+      { status: 500 },
+    );
+  }
+
+  const params = new URLSearchParams({
+    query,
+    page: String(pageNum),
+    per_page: String(IMAGES_PER_PAGE),
+    client_id: unsplashKey,
+  });
+
+  const apiUrl = `https://api.unsplash.com/search/photos?${params.toString()}`;
+
+  try {
+    const response = await fetch(apiUrl);
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { message: `Unsplash API error: ${response.statusText}` },
+        { status: response.status },
+      );
+    }
+
+    const data: unknown = await response.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { message: "Error fetching images from Unsplash" },
+      { status: 500 },
+    );
+  }
+}
+
+export { GET };

@@ -1,12 +1,10 @@
 "use client";
 
+/** Renders the site footer with a dynamic copyright year and a link to the author's GitHub. */
+
 import Link from "next/link";
 import type { JSX } from "react";
 
-/**
- * Represents the footer of the application.
- * @returns {JSX.Element} The footer of the application.
- */
 const Footer = (): JSX.Element => {
   const currentYear = new Date().getFullYear();
 

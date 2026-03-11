@@ -1,23 +1,17 @@
+/** Renders a single image card with a thumbnail, link to Unsplash, and metadata display. */
+
 "use client";
 
-import type { ImageCardProps } from "@/app/models/image/ImageProps";
+import type { ImageCardProps } from "@/app/models/ImageProps";
 import Image from "next/image";
 import Link from "next/link";
 import ImageDetailsDisplay from "./ImageDetailsDisplay";
 import type { JSX } from "react";
 
-/**
- * Renders a card component for displaying an image.
- *
- * @component
- * @param {Object} props - The component props.
- * @param {Image} props.image - The image object to be displayed.
- * @returns {JSX.Element} The rendered ImageCard component.
- */
+/** Wraps the image in a link to the Unsplash page and shows author details below. */
 const ImageCard = ({ image }: ImageCardProps): JSX.Element => {
-  // console.log(image);
   return (
-    <div className="text-center capitalize my-4 text-indigo-100" key={image.id}>
+    <div className="text-center capitalize my-4 text-indigo-100">
       <Link href={image.links.html} rel="noopener noreferrer" target="_blank">
         <Image
           alt={image.alt_description || "image"}
@@ -26,7 +20,9 @@ const ImageCard = ({ image }: ImageCardProps): JSX.Element => {
           src={image.urls.regular}
           style={{ backgroundColor: image.color ?? undefined }}
           width={image.width}
-          onError={(e) => console.error(`Failed to load image: ${e.target}`)}
+          onError={() =>
+            console.error(`Failed to load image: ${image.urls.regular}`)
+          }
         />
       </Link>
       <ImageDetailsDisplay image={image} />
