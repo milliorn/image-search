@@ -1,5 +1,3 @@
-"use client";
-
 type FilterButtonsGridProps = {
   imageButtons: string[];
   onFilterSelect: (filter: string) => void;
