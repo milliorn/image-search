@@ -20,7 +20,7 @@ const viewport: Viewport = {
 /** SEO and Open Graph metadata for the application. */
 const metadata: Metadata = {
   title: "Image Search",
-  description: "Search for images using the Unsplash API",
+  description: "Search and browse millions of free high-resolution photos. Explore images by category — nature, travel, animals, art, food, and more. Powered by Unsplash.",
   generator: "Next.js",
   applicationName: "Image Search",
   keywords: [
@@ -51,6 +51,20 @@ const metadata: Metadata = {
     "art photos",
     "music photos",
   ],
+  openGraph: {
+    title: "Image Search",
+    description: "Search and browse millions of free high-resolution photos. Explore images by category — nature, travel, animals, art, food, and more.",
+    url: "https://image-search-black-iota.vercel.app",
+    siteName: "Image Search",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Image Search",
+    description: "Search and browse millions of free high-resolution photos. Explore images by category — nature, travel, animals, art, food, and more.",
+    creator: "@milliorn",
+  },
   authors: [{ name: "Scott Milliorn", url: "https://milliorn.xyz/" }],
   creator: "Scott Milliorn",
   publisher: "Scott Milliorn",
