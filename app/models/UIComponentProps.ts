@@ -1,3 +1,5 @@
+import type { MutableRefObject, FormEvent } from "react";
+
 type FilterButtonsGridProps = {
   imageButtons: string[];
   onFilterSelect: (filter: string) => void;
@@ -16,8 +18,8 @@ type PaginationControlsProps = {
 };
 
 type SearchInputProps = {
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  searchRef: React.MutableRefObject<HTMLInputElement | null>;
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  searchRef: MutableRefObject<HTMLInputElement | null>;
 };
 
 export type {

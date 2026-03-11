@@ -1,6 +1,6 @@
 "use client";
 
-import type { ImageCardProps } from "@/app/models/image/ImageProps";
+import type { ImageCardProps } from "@/app/models/ImageProps";
 import Image from "next/image";
 import Link from "next/link";
 import ImageDetailsDisplay from "./ImageDetailsDisplay";

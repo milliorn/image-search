@@ -3,12 +3,7 @@
 import { useCallback, useRef } from "react";
 import type { RefObject, SetStateAction } from "react";
 import type { ImageDetails } from "../models/ImageDetails";
-
-type ApiResponse = {
-  message?: string;
-  results?: ImageDetails[];
-  total_pages?: number;
-};
+import type { ApiResponse } from "../models/ApiResponse";
 
 /**
  * Fetches images from the API based on the search query and current page.

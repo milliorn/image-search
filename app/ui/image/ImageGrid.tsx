@@ -1,6 +1,6 @@
 "use client";
 
-import type { ImageGridProps } from "@/app/models/image/ImageProps";
+import type { ImageGridProps } from "@/app/models/ImageProps";
 import ImageCard from "./ImageCard";
 import type { JSX } from "react";
 
