@@ -18,6 +18,7 @@ const PaginationControls = ({
   const pagesMax = 200;
   const totalPagesMax = totalPages <= pagesMax ? totalPages : pagesMax;
   const [inputPage, setInputPage] = useState(page.toString());
+  const parsedInputPage = parseInt(inputPage, 10);
 
   const handlePageChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputPage(e.target.value);
@@ -66,7 +67,7 @@ const PaginationControls = ({
         <button
           aria-label="Decrease page"
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded"
-          disabled={parseInt(inputPage, 10) <= 1}
+          disabled={parsedInputPage <= 1}
           onClick={() =>
             setInputPage((prev) => String(Math.max(1, parseInt(prev, 10) - 1)))
           }
@@ -89,7 +90,7 @@ const PaginationControls = ({
         <button
           aria-label="Increase page"
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded"
-          disabled={parseInt(inputPage, 10) >= totalPagesMax}
+          disabled={parsedInputPage >= totalPagesMax}
           onClick={() =>
             setInputPage((prev) =>
               String(Math.min(totalPagesMax, parseInt(prev, 10) + 1)),
