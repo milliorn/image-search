@@ -67,7 +67,7 @@ const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      noimageindex: true,
+      noimageindex: false,
     },
   },
 };
