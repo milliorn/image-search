@@ -1,52 +1,72 @@
 "use client";
 
-import { useCallback } from "react";
-import type { RefObject, SetStateAction } from "react"; // Changed MutableRefObject to RefObject
+import { useCallback, useRef } from "react";
+import type { RefObject, SetStateAction } from "react";
 import type { ImageDetails } from "../models/ImageDetails";
+
+type ApiResponse = {
+  message?: string;
+  results?: ImageDetails[];
+  total_pages?: number;
+};
 
 /**
  * Fetches images from the API based on the search query and current page.
- * This would normally be a service, but it uses another hook, useCallback, to memoize the function.
+ * Cancels any in-flight request before starting a new one.
  */
 const useFetchImages = (
-  searchInput: RefObject<HTMLInputElement | null>, // Changed MutableRefObject to RefObject
+  searchInput: RefObject<HTMLInputElement | null>,
   setLoading: (value: SetStateAction<boolean>) => void,
   page: number,
   setImages: (value: SetStateAction<ImageDetails[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void,
 ): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
+  const abortControllerRef = useRef<AbortController | null>(null);
+
   return useCallback(async (queryOverride?: string, pageOverride?: number) => {
     const query = queryOverride ?? searchInput.current?.value ?? "";
     const resolvedPage = pageOverride ?? page;
 
-    if (query) {
-      setLoading(true);
+    if (!query) {
+      return;
+    }
 
-      try {
-        const apiURL = `/api/images?query=${encodeURIComponent(query)}&page=${resolvedPage}`;
-        const response = await fetch(apiURL);
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = new AbortController();
+    const { signal } = abortControllerRef.current;
 
-        if (!response.ok) {
-          console.error("Image fetch failed:", response.statusText);
-          return;
-        }
+    setLoading(true);
 
-        type ApiResponse = { message?: string; results?: ImageDetails[]; total_pages?: number };
-        let data: ApiResponse = {};
+    const params = new URLSearchParams({
+      query,
+      page: String(resolvedPage),
+    });
 
-        try {
-          data = await response.json();
-        } catch {
-          // ignore non-JSON responses
-        }
+    try {
+      const response = await fetch(`/api/images?${params.toString()}`, { signal });
 
-        setImages(data.results ?? []);
-        setTotalPages(data.total_pages ?? 0);
-      } catch (error) {
-        console.error(error);
-      } finally {
+      if (!response.ok) {
+        console.error("Image fetch failed:", response.statusText);
         setLoading(false);
+        return;
       }
+
+      let data: ApiResponse = {};
+      try {
+        data = (await response.json()) as ApiResponse;
+      } catch {
+        // ignore non-JSON responses
+      }
+
+      setImages(data.results ?? []);
+      setTotalPages(data.total_pages ?? 0);
+      setLoading(false);
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return;
+      }
+      console.error(error);
+      setLoading(false);
     }
   }, [page, searchInput, setImages, setLoading, setTotalPages]);
 };
