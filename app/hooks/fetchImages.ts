@@ -1,14 +1,16 @@
 "use client";
 
+/**
+ * Hook that returns a memoized fetch function for querying the Unsplash image API.
+ * Each call aborts any pending request before starting a new one, preventing
+ * stale responses from overwriting fresh results.
+ */
+
 import { useCallback, useRef } from "react";
 import type { RefObject, SetStateAction } from "react";
 import type { ImageDetails } from "../models/ImageDetails";
 import type { ApiResponse } from "../models/ApiResponse";
 
-/**
- * Fetches images from the API based on the search query and current page.
- * Cancels any in-flight request before starting a new one.
- */
 const useFetchImages = (
   searchInput: RefObject<HTMLInputElement | null>,
   setLoading: (value: SetStateAction<boolean>) => void,
@@ -27,6 +29,7 @@ const useFetchImages = (
       return;
     }
 
+    // Abort any pending request before starting a new one.
     abortControllerRef.current?.abort();
     abortControllerRef.current = new AbortController();
     const { signal } = abortControllerRef.current;
@@ -52,13 +55,14 @@ const useFetchImages = (
       try {
         data = (await response.json()) as ApiResponse;
       } catch {
-        // ignore non-JSON responses
+        // Ignore unexpected non-JSON responses.
       }
 
       setImages(data.results ?? []);
       setTotalPages(data.total_pages ?? 0);
       setLoading(false);
     } catch (error) {
+      // AbortError is expected when a newer request cancels this one.
       if (error instanceof DOMException && error.name === "AbortError") {
         return;
       }

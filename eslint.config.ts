@@ -1,3 +1,5 @@
+/** ESLint flat config extending Next.js core web vitals and strict TypeScript rules. */
+
 import { FlatCompat } from "@eslint/eslintrc";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -10,6 +12,7 @@ const compat = new FlatCompat({ baseDirectory: dirname });
 
 const config: Linter.Config[] = [
   {
+    // Exclude generated and compiled output from linting.
     ignores: ["node_modules/**", ".next/**", "next-env.d.ts"],
   },
   ...compat.extends("next/core-web-vitals", "plugin:@typescript-eslint/strict"),

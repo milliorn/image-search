@@ -1,3 +1,5 @@
+/** Renders previous/next buttons, a page counter, and a direct page jump input. */
+
 "use client";
 
 import type { ChangeEvent, JSX, KeyboardEvent } from "react";
@@ -5,14 +7,8 @@ import { useEffect, useState } from "react";
 import type { PaginationControlsProps } from "../models/UIComponentProps";
 
 /**
- * Renders pagination controls for navigating between pages.
- *
- * @component
- * @param {Object} props - The component props.
- * @param {number} props.page - The current page number.
- * @param {Function} props.setPage - The function to update the current page.
- * @param {number} props.totalPages - The total number of pages.
- * @returns {JSX.Element} The pagination controls component.
+ * Clamps totalPages to 200 to match the Unsplash API maximum.
+ * The input field commits navigation on Enter or when the Go button is clicked.
  */
 const PaginationControls = ({
   page,

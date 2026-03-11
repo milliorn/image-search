@@ -1,15 +1,11 @@
+/** Renders a centered bar spinner while data is being fetched. */
+
 "use client";
 
 import { BarLoader } from "react-spinners";
 import type { LoadingIndicatorProps } from "../models/UIComponentProps";
 
-/**
- * Renders a loading indicator using the BarLoader component from the react-spinners library.
- *
- * @param props.loading - Indicates whether the loading indicator should be displayed.
- * @param props.color - The color of the loading indicator.
- * @param props.height - The height of the loading indicator.
- */
+/** Passes optional color and height to BarLoader only when they are defined. */
 const LoadingIndicator = ({
   color,
   loading,

@@ -1,3 +1,5 @@
+/** Web app manifest defining icons, display mode, and theme for PWA installation. */
+
 import { type MetadataRoute } from "next";
 
 function manifest(): MetadataRoute.Manifest {

@@ -1,9 +1,6 @@
-import type { MetadataRoute } from "next";
+/** Sitemap listing all public URLs for search engine indexing. */
 
-/*
- * Represents the sitemap for the Image Search application.
- * https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
- */
+import type { MetadataRoute } from "next";
 
 function sitemap(): MetadataRoute.Sitemap {
   return [

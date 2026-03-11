@@ -1,3 +1,5 @@
+/** Renders a single image card with a thumbnail, link to Unsplash, and metadata display. */
+
 "use client";
 
 import type { ImageCardProps } from "@/app/models/ImageProps";
@@ -6,14 +8,7 @@ import Link from "next/link";
 import ImageDetailsDisplay from "./ImageDetailsDisplay";
 import type { JSX } from "react";
 
-/**
- * Renders a card component for displaying an image.
- *
- * @component
- * @param {Object} props - The component props.
- * @param {Image} props.image - The image object to be displayed.
- * @returns {JSX.Element} The rendered ImageCard component.
- */
+/** Wraps the image in a link to the Unsplash page and shows author details below. */
 const ImageCard = ({ image }: ImageCardProps): JSX.Element => {
   return (
     <div className="text-center capitalize my-4 text-indigo-100">

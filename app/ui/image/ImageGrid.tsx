@@ -1,17 +1,12 @@
+/** Renders a responsive grid of ImageCard components from a list of Unsplash photos. */
+
 "use client";
 
 import type { ImageGridProps } from "@/app/models/ImageProps";
 import ImageCard from "./ImageCard";
 import type { JSX } from "react";
 
-/**
- * Renders a grid of image cards.
- *
- * @component
- * @param {Object} props - The component props.
- * @param {Image[]} props.images - The array of image objects to be displayed.
- * @returns {JSX.Element} The rendered ImageGrid component.
- */
+/** Maps each photo in the results array to an ImageCard keyed by the Unsplash photo ID. */
 const ImageGrid = ({ images }: ImageGridProps): JSX.Element => {
   return (
     <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">

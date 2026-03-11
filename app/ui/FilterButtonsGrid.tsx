@@ -1,12 +1,10 @@
+/** Renders a row of preset category filter buttons. */
+
 "use client";
 
 import type { FilterButtonsGridProps } from "../models/UIComponentProps";
 
-/**
- * Renders a grid of filter buttons.
- * @param imageButtons - The list of filter buttons to render.
- * @param onFilterSelect - The event handler for the filter button click event.
- */
+/** Renders each filter label as a clickable button that triggers onFilterSelect. */
 const FilterButtonsGrid = ({
   imageButtons,
   onFilterSelect,

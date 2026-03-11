@@ -1,3 +1,14 @@
+/**
+ * GET /api/images
+ *
+ * Proxies search requests to the Unsplash API and returns paginated photo results.
+ * Keeping the Unsplash client ID server-side prevents it from being exposed to the browser.
+ *
+ * Query params:
+ *   query — search term (required)
+ *   page  — page number, defaults to 1
+ */
+
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 

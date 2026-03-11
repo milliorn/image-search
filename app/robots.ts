@@ -1,9 +1,6 @@
-import type { MetadataRoute } from "next";
+/** Robots.txt configuration allowing all crawlers on public routes. */
 
-/*
- * Represents the robots.txt configuration.
- * https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots
- */
+import type { MetadataRoute } from "next";
 
 function robots(): MetadataRoute.Robots {
   return {

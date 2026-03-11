@@ -1,5 +1,7 @@
 "use client";
 
+/** Main image search page. Manages search state and renders the full search UI. */
+
 import { useEffect, useRef, useState } from "react";
 import type { SyntheticEvent } from "react";
 import useFetchImages from "./hooks/fetchImages";
@@ -11,11 +13,7 @@ import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
 import { imageButtons } from "./utils/constants";
 
-/**
- * Renders the Home component.
- * This component displays an image search page with a search input, filter buttons, and a grid of images.
- */
-export default function Home() {
+function Home() {
   const searchInput = useRef<HTMLInputElement | null>(null);
   const [images, setImages] = useState<ImageDetails[]>([]);
   const [loading, setLoading] = useState(false);
@@ -32,6 +30,7 @@ export default function Home() {
     setTotalPages,
   );
 
+  // Resets to page 1 and fetches on form submit.
   const onChange = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const query = searchInput.current?.value || "";
@@ -39,6 +38,7 @@ export default function Home() {
     fetchImages(query, 1);
   };
 
+  // Sets the input value to the selected filter and fetches from page 1.
   const handleSelection = (selection: string) => {
     if (searchInput.current) {
       searchInput.current.value = selection;
@@ -49,6 +49,7 @@ export default function Home() {
     }
   };
 
+  // Fetch on mount and whenever fetchImages is recreated (e.g. page change).
   useEffect(() => {
     fetchImages();
   }, [fetchImages]);
@@ -76,3 +77,5 @@ export default function Home() {
     </main>
   );
 }
+
+export default Home;

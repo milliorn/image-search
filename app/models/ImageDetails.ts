@@ -1,3 +1,8 @@
+/**
+ * Type definitions for the Unsplash photo API response.
+ * All types are internal to this module; only ImageDetails is exported.
+ */
+
 type AlternativeSlugs = {
   [key: string]: string;
 };
@@ -9,6 +14,7 @@ type Breadcrumb = {
   type: string;
 };
 
+/** Available image size variants returned by Unsplash. */
 type Urls = {
   raw: string;
   full: string;
@@ -18,6 +24,7 @@ type Urls = {
   small_s3: string;
 };
 
+/** Links associated with a photo on Unsplash. */
 type Links = {
   self: string;
   html: string;
@@ -46,6 +53,7 @@ type UserLinks = {
   followers: string;
 };
 
+/** Unsplash user who uploaded the photo. */
 type User = {
   id: string;
   updated_at: string;
@@ -105,6 +113,7 @@ type Tag = {
   source?: TagSource;
 };
 
+/** A single Unsplash photo as returned by the search endpoint. */
 type Photo = {
   id: string;
   slug: string;

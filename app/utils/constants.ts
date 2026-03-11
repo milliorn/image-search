@@ -1,3 +1,5 @@
+/** Preset search categories shown as filter buttons on the home page. */
+
 const imageButtons = [
   "animals",
   "anime",

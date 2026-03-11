@@ -1,3 +1,5 @@
+/** Props types for general UI components: FilterButtonsGrid, LoadingIndicator, PaginationControls, and SearchInput. */
+
 import type { MutableRefObject, FormEvent } from "react";
 
 type FilterButtonsGridProps = {
