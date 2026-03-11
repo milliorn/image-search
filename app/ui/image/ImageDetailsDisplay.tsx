@@ -17,7 +17,8 @@ const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps) => {
     links: { html },
   } = image;
 
-  const createdAt = new Date(created_at).toISOString().substring(0, 10);
+  const dateObj = new Date(created_at);
+  const createdAt = isNaN(dateObj.getTime()) ? "Unknown" : dateObj.toISOString().substring(0, 10);
   const displayDescription = alt_description || description || "No Description";
 
   return (
