@@ -67,9 +67,12 @@ const PaginationControls = ({
         <button
           aria-label="Decrease page"
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded"
-          disabled={parsedInputPage <= 1}
+          disabled={isNaN(parsedInputPage) || parsedInputPage <= 1}
           onClick={() =>
-            setInputPage((prev) => String(Math.max(1, parseInt(prev, 10) - 1)))
+            setInputPage((prev) => {
+              const n = parseInt(prev, 10);
+              return String(Math.max(1, isNaN(n) ? 1 : n - 1));
+            })
           }
         >
           −
@@ -90,11 +93,12 @@ const PaginationControls = ({
         <button
           aria-label="Increase page"
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded"
-          disabled={parsedInputPage >= totalPagesMax}
+          disabled={isNaN(parsedInputPage) || parsedInputPage >= totalPagesMax}
           onClick={() =>
-            setInputPage((prev) =>
-              String(Math.min(totalPagesMax, parseInt(prev, 10) + 1)),
-            )
+            setInputPage((prev) => {
+              const n = parseInt(prev, 10);
+              return String(Math.min(totalPagesMax, isNaN(n) ? 1 : n + 1));
+            })
           }
         >
           +
