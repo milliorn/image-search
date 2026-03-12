@@ -123,7 +123,7 @@ type Photo = {
   promoted_at?: string;
   width: number;
   height: number;
-  color: string;
+  color: string | null;
   blur_hash: string;
   description?: string;
   alt_description?: string;
