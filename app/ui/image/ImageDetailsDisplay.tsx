@@ -35,7 +35,6 @@ const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps) => {
         Tags:
         {tags?.map((tag, index) => (
           <div key={index}>
-            {index > 0 && " "}
             <Link
               className="hover:text-indigo-600 text-indigo-400"
               href={`https://unsplash.com/s/photos/${tag.title}`}
