@@ -14,6 +14,7 @@ type LoadingIndicatorProps = {
 };
 
 type PaginationControlsProps = {
+  loading: boolean;
   page: number;
   setPage: (page: number) => void;
   totalPages: number;

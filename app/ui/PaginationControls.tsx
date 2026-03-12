@@ -11,6 +11,7 @@ import type { PaginationControlsProps } from "../models/UIComponentProps";
  * The input field commits navigation on Enter or when the Go button is clicked.
  */
 const PaginationControls = ({
+  loading,
   page,
   setPage,
   totalPages,
@@ -43,7 +44,7 @@ const PaginationControls = ({
     <div className="flex flex-col items-center space-y-4">
       <div className="flex justify-between sm:justify-evenly w-full">
         <button
-          disabled={page === 1}
+          disabled={loading || page === 1}
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => setPage(page - 1)}
         >
@@ -55,7 +56,7 @@ const PaginationControls = ({
         </span>
 
         <button
-          disabled={page === totalPagesMax}
+          disabled={loading || page === totalPagesMax}
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => setPage(page + 1)}
         >
@@ -67,7 +68,7 @@ const PaginationControls = ({
         <button
           aria-label="Decrease page"
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded"
-          disabled={isNaN(parsedInputPage) || parsedInputPage <= 1}
+          disabled={loading || isNaN(parsedInputPage) || parsedInputPage <= 1}
           onClick={() =>
             setInputPage((prev) => {
               const n = parseInt(prev, 10);
@@ -85,6 +86,7 @@ const PaginationControls = ({
           onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
             e.key === "Enter" && goToPage()
           }
+          disabled={loading}
           id="pageInput"
           min="1"
           max={totalPagesMax}
@@ -93,7 +95,7 @@ const PaginationControls = ({
         <button
           aria-label="Increase page"
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded"
-          disabled={isNaN(parsedInputPage) || parsedInputPage >= totalPagesMax}
+          disabled={loading || isNaN(parsedInputPage) || parsedInputPage >= totalPagesMax}
           onClick={() =>
             setInputPage((prev) => {
               const n = parseInt(prev, 10);
@@ -105,6 +107,7 @@ const PaginationControls = ({
         </button>
         <button
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+          disabled={loading}
           onClick={goToPage}
         >
           Go

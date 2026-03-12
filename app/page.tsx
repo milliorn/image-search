@@ -87,6 +87,7 @@ function Home() {
         <ImageGrid images={images} />
       )}
       <PaginationControls
+        loading={loading}
         page={page}
         setPage={setPage}
         totalPages={totalPages}
