@@ -65,8 +65,14 @@ const useFetchImages = (
           return;
         }
 
-        setImages(data.results ?? []);
-        setTotalPages(data.total_pages ?? 0);
+        if (!("results" in data)) {
+          setError(data.message ?? "Unexpected response from the server.");
+          setLoading(false);
+          return;
+        }
+
+        setImages(data.results);
+        setTotalPages(data.total_pages);
         setLoading(false);
       } catch (error) {
         // AbortError is expected when a newer request cancels this one.
