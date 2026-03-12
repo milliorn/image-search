@@ -34,7 +34,7 @@ const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps) => {
       <span className=" grid grid-rows-1 gap-1 mt-4">
         Tags:
         {tags?.map((tag, index) => (
-          <div key={tag.title}>
+          <div key={index}>
             {index > 0 && " "}
             <Link
               className="hover:text-indigo-600 text-indigo-400"
