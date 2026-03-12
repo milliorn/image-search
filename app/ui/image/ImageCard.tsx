@@ -17,6 +17,7 @@ const ImageCard = ({ image }: ImageCardProps): JSX.Element => {
           alt={image.alt_description || "image"}
           className="rounded shadow-lg my-4 mx-auto border border-indigo-200"
           height={image.height}
+          sizes="(min-width: 1280px) 33vw, (min-width: 1024px) 50vw, 100vw"
           src={image.urls.regular}
           style={{ backgroundColor: image.color ?? undefined }}
           width={image.width}

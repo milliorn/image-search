@@ -71,7 +71,10 @@ const useFetchImages = (
           return;
         }
 
-        setImages(data.results);
+        const unique = [
+          ...new Map(data.results.map((img) => [img.id, img])).values(),
+        ];
+        setImages(unique);
         setTotalPages(data.total_pages);
         setLoading(false);
       } catch (error) {
