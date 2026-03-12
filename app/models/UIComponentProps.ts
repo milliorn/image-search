@@ -8,7 +8,6 @@ type FilterButtonsGridProps = {
 };
 
 type LoadingIndicatorProps = {
-  loading: boolean;
   color?: string;
   height?: number;
 };

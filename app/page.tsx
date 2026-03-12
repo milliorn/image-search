@@ -74,7 +74,7 @@ function Home() {
         onFilterSelect={handleSelection}
       />
       {loading ? (
-        <LoadingIndicator color="#3949AB" loading={loading} height={16} />
+        <LoadingIndicator color="#3949AB" height={16} />
       ) : error ? (
         <p className="text-center text-red-400 mt-8">{error}</p>
       ) : !hasSearched ? (
