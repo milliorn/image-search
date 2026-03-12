@@ -3,10 +3,11 @@
 "use client";
 
 import type { ImageDetailsDisplayProps } from "@/app/models/ImageProps";
+import type { JSX } from "react";
 import Link from "next/link";
 
 /** Extracts and displays photo metadata from the Unsplash API response. */
-const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps) => {
+const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps): JSX.Element => {
   const {
     alt_description,
     description,
