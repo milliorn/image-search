@@ -5,6 +5,7 @@
 import type { ChangeEvent, JSX, KeyboardEvent } from "react";
 import { useEffect, useState } from "react";
 import type { PaginationControlsProps } from "../models/UIComponentProps";
+import { UNSPLASH_MAX_PAGES } from "../utils/constants";
 
 /**
  * Clamps totalPages to 200 to match the Unsplash API maximum.
@@ -16,8 +17,7 @@ const PaginationControls = ({
   setPage,
   totalPages,
 }: PaginationControlsProps): JSX.Element | null => {
-  const pagesMax = 200;
-  const totalPagesMax = totalPages <= pagesMax ? totalPages : pagesMax;
+  const totalPagesMax = totalPages <= UNSPLASH_MAX_PAGES ? totalPages : UNSPLASH_MAX_PAGES;
   const [inputPage, setInputPage] = useState(page.toString());
   const parsedInputPage = parseInt(inputPage, 10);
 
