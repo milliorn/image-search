@@ -17,7 +17,8 @@ const PaginationControls = ({
   setPage,
   totalPages,
 }: PaginationControlsProps): JSX.Element | null => {
-  const totalPagesMax = totalPages <= UNSPLASH_MAX_PAGES ? totalPages : UNSPLASH_MAX_PAGES;
+  const totalPagesMax =
+    totalPages <= UNSPLASH_MAX_PAGES ? totalPages : UNSPLASH_MAX_PAGES;
   const [inputPage, setInputPage] = useState(page.toString());
   const parsedInputPage = parseInt(inputPage, 10);
 
@@ -95,7 +96,11 @@ const PaginationControls = ({
         <button
           aria-label="Increase page"
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded"
-          disabled={loading || isNaN(parsedInputPage) || parsedInputPage >= totalPagesMax}
+          disabled={
+            loading ||
+            isNaN(parsedInputPage) ||
+            parsedInputPage >= totalPagesMax
+          }
           onClick={() =>
             setInputPage((prev) => {
               const n = parseInt(prev, 10);
