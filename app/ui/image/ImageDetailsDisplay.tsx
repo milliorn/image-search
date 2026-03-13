@@ -15,7 +15,7 @@ const ImageDetailsDisplay = ({
     description,
     created_at,
     likes,
-    user: { name, instagram_username, twitter_username },
+    user: { name, instagram_username, twitter_username, links: { html: authorUrl } },
     links: { html },
   } = image;
 
@@ -32,7 +32,17 @@ const ImageDetailsDisplay = ({
       </span>
 
       <span>Created: {createdAt}</span>
-      <span>By: {name}</span>
+      <span>
+        By:{" "}
+        <Link
+          className="hover:text-indigo-600 text-indigo-400"
+          href={authorUrl}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          {name}
+        </Link>
+      </span>
       {likes > 0 && <span>Likes: {likes}</span>}
 
       <div className="grid grid-rows-1 gap-1 mt-4">
