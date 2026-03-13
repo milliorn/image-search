@@ -11,11 +11,11 @@ import ImageDetailsDisplay from "./ImageDetailsDisplay";
 /** Wraps the image in a link to the Unsplash page and shows author details below. */
 const ImageCard = ({ image, priority }: ImageCardProps): JSX.Element => {
   return (
-    <div className="text-center capitalize my-4 text-indigo-100">
+    <div className="text-center capitalize my-4 text-indigo-900 dark:text-indigo-100">
       <Link href={image.links.html} rel="noopener noreferrer" target="_blank">
         <Image
           alt={image.alt_description || "image"}
-          className="rounded shadow-lg my-4 mx-auto border border-indigo-200"
+          className="rounded shadow-lg my-4 mx-auto border border-indigo-300 dark:border-indigo-200"
           height={image.height}
           priority={priority}
           sizes="(min-width: 1280px) 33vw, (min-width: 1024px) 50vw, 100vw"

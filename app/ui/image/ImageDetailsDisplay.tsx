@@ -1,4 +1,4 @@
-/** Renders metadata for a single image: description, date, author, tags, and social links. */
+/** Renders metadata for a single image: description, date, author, and social links. */
 
 "use client";
 
@@ -14,9 +14,8 @@ const ImageDetailsDisplay = ({
     alt_description,
     description,
     created_at,
-    tags,
     likes,
-    user: { name, instagram_username, twitter_username },
+    user: { name, location, portfolio_url, instagram_username, twitter_username, links: { html: authorUrl } },
     links: { html },
   } = image;
 
@@ -27,36 +26,31 @@ const ImageDetailsDisplay = ({
   const displayDescription = alt_description || description || "No Description";
 
   return (
-    <div className="grid grid-rows-1 text-center capitalize my-4 text-indigo-100 gap-1">
-      <span className="my-4 italic font-bold text-indigo-50">
+    <div className="grid grid-rows-1 text-center capitalize my-4 text-indigo-900 dark:text-indigo-100 gap-1">
+      <span className="my-4 italic font-bold text-indigo-950 dark:text-indigo-50">
         {displayDescription}
       </span>
 
       <span>Created: {createdAt}</span>
-      <span>By: {name}</span>
-      {likes > 0 && <span>Likes: {likes}</span>}
-
-      <span className="grid grid-rows-1 gap-1 mt-4">
-        Tags:
-        {tags?.map((tag, index) => (
-          <div key={index}>
-            <Link
-              className="hover:text-indigo-600 text-indigo-400"
-              href={`https://unsplash.com/s/photos/${tag.title}`}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              {tag.title}
-            </Link>
-          </div>
-        ))}
+      <span>
+        By:{" "}
+        <Link
+          className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600"
+          href={authorUrl}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          {name}
+        </Link>
       </span>
+      {location && <span>Location: {location}</span>}
+      {likes > 0 && <span>Likes: {likes}</span>}
 
       <div className="grid grid-rows-1 gap-1 mt-4">
         Links:
         {instagram_username && (
           <Link
-            className="hover:text-indigo-600 text-indigo-400"
+            className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600"
             href={`https://www.instagram.com/${instagram_username}`}
             rel="noopener noreferrer"
             target="_blank"
@@ -66,7 +60,7 @@ const ImageDetailsDisplay = ({
         )}
         {twitter_username && (
           <Link
-            className="hover:text-indigo-600 text-indigo-400"
+            className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600"
             href={`https://twitter.com/${twitter_username}`}
             rel="noopener noreferrer"
             target="_blank"
@@ -74,8 +68,18 @@ const ImageDetailsDisplay = ({
             Twitter
           </Link>
         )}
+        {portfolio_url && (
+          <Link
+            className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600"
+            href={portfolio_url}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Portfolio
+          </Link>
+        )}
         <Link
-          className="hover:text-indigo-600 text-indigo-400"
+          className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600"
           href={html}
           rel="noopener noreferrer"
           target="_blank"
