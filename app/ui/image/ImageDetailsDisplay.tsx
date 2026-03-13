@@ -26,8 +26,8 @@ const ImageDetailsDisplay = ({
   const displayDescription = alt_description || description || "No Description";
 
   return (
-    <div className="grid grid-rows-1 text-center capitalize my-4 text-indigo-100 gap-1">
-      <span className="my-4 italic font-bold text-indigo-50">
+    <div className="grid grid-rows-1 text-center capitalize my-4 text-indigo-900 dark:text-indigo-100 gap-1">
+      <span className="my-4 italic font-bold text-indigo-950 dark:text-indigo-50">
         {displayDescription}
       </span>
 
@@ -35,7 +35,7 @@ const ImageDetailsDisplay = ({
       <span>
         By:{" "}
         <Link
-          className="hover:text-indigo-600 text-indigo-400"
+          className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600"
           href={authorUrl}
           rel="noopener noreferrer"
           target="_blank"
@@ -50,7 +50,7 @@ const ImageDetailsDisplay = ({
         Links:
         {instagram_username && (
           <Link
-            className="hover:text-indigo-600 text-indigo-400"
+            className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600"
             href={`https://www.instagram.com/${instagram_username}`}
             rel="noopener noreferrer"
             target="_blank"
@@ -60,7 +60,7 @@ const ImageDetailsDisplay = ({
         )}
         {twitter_username && (
           <Link
-            className="hover:text-indigo-600 text-indigo-400"
+            className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600"
             href={`https://twitter.com/${twitter_username}`}
             rel="noopener noreferrer"
             target="_blank"
@@ -70,7 +70,7 @@ const ImageDetailsDisplay = ({
         )}
         {portfolio_url && (
           <Link
-            className="hover:text-indigo-600 text-indigo-400"
+            className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600"
             href={portfolio_url}
             rel="noopener noreferrer"
             target="_blank"
@@ -79,7 +79,7 @@ const ImageDetailsDisplay = ({
           </Link>
         )}
         <Link
-          className="hover:text-indigo-600 text-indigo-400"
+          className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600"
           href={html}
           rel="noopener noreferrer"
           target="_blank"

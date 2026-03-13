@@ -79,13 +79,13 @@ function Home() {
       {loading ? (
         <LoadingIndicator color="#3949AB" height={16} />
       ) : error ? (
-        <p className="text-center text-red-400 mt-8">{error}</p>
+        <p className="text-center text-red-600 dark:text-red-400 mt-8">{error}</p>
       ) : !hasSearched ? (
-        <p className="text-center text-gray-400 mt-8">
+        <p className="text-center text-gray-600 dark:text-gray-400 mt-8">
           Search for images above to get started.
         </p>
       ) : images.length === 0 ? (
-        <p className="text-center text-gray-400 mt-8">No results found.</p>
+        <p className="text-center text-gray-600 dark:text-gray-400 mt-8">No results found.</p>
       ) : (
         <ImageGrid images={images} />
       )}
