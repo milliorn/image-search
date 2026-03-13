@@ -1,6 +1,8 @@
 # Image Search
 
-Image Search is a powerful web application built using Next.js 14, React 18, and TailwindCSS. It utilizes the Unsplash API to fetch and display a wide array of images based on user queries. This project is designed to showcase modern web development techniques, including server-side rendering, client-side state management, and responsive design.
+Image Search is a web application built with Next.js 15, React 19, and Tailwind CSS 4. It uses the Unsplash API to fetch and display images based on user queries, showcasing server-side API proxying, client-side state management, and responsive design.
+
+**Live demo:** [image-search-black-iota.vercel.app](https://image-search-black-iota.vercel.app)
 
 ## Preview
 
@@ -8,91 +10,80 @@ Image Search is a powerful web application built using Next.js 14, React 18, and
 
 ## Features
 
-- Search Functionality: Users can search for images using keywords, with instant loading of results.
-- Filter Options: Users can filter search results based on predefined categories.
-- Pagination Controls: Navigate through search results across multiple pages.
-- Image Grid Display: Images are presented in a responsive grid layout.
-- Image Details: Clicking on an image reveals detailed information including description, tags, and a link to the source.
-- Progressive Web App (PWA): The application is installable as a PWA with offline capabilities.
-- SEO Optimized: Metadata, sitemap, and robots configuration are optimized for search engines.
+- **Search:** Find images by keyword with paginated results.
+- **Filter Buttons:** One-click preset categories (nature, space, travel, and more).
+- **Pagination:** Navigate results across pages with previous/next buttons and a direct page jump input.
+- **Image Grid:** Responsive grid layout (1 → 2 → 3 columns).
+- **Image Details:** Each card shows description, upload date, author, tags, and social links.
+- **PWA:** Installable as a Progressive Web App via the included web manifest.
+- **SEO:** Metadata, Open Graph tags, sitemap, and robots configuration included.
 
 ## Technology Stack
 
-- Next.js 14: Framework for server-rendered React applications.
-- React 18: Library for building user interfaces.
-- TailwindCSS: Utility-first CSS framework for rapid UI development.
-- TypeScript: Used for static type checking.
-- ESLint: Linter tool for identifying and reporting on patterns in JavaScript.
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+- **Next.js 15** — App Router, server-side API proxy route, ISR caching
+- **React 19** — Client components with hooks
+- **Tailwind CSS 4** — Utility-first styling
+- **TypeScript 5** — Strict mode enabled throughout
+- **ESLint** — `next/core-web-vitals` + `@typescript-eslint/strict`
+- **react-spinners** — Loading indicator
 
 ## Getting Started
-
-To get started with Image Search, follow these steps:
 
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/your-github-username/image-search.git
+   git clone https://github.com/milliorn/image-search.git
    cd image-search
    ```
 
-1. Install dependencies
+2. Install dependencies
 
    ```bash
    npm install
    ```
 
-1. Set up environment variables
+3. Set up environment variables
 
-   Create a `.env.local` file at the root of your project and add the necessary API keys and environment-specific variables.
+   Create a `.env.local` file at the root of the project:
 
    ```env
    UNSPLASH_KEY=your_unsplash_access_key_here
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
    ```
 
-1. Run the development server:
+   - `UNSPLASH_KEY` — server-side only; never exposed to the browser
+   - `NEXT_PUBLIC_SITE_URL` — used to generate the sitemap
+
+4. Run the development server
 
    ```bash
    npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   # or
-   bun dev
    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser. Your Image Search app should now be running.
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Available Scripts
+
+| Script | Description |
+| --- | --- |
+| `npm run dev` | Start the development server with Turbopack |
+| `npm run build` | Build for production |
+| `npm start` | Start the production server |
+| `npm run lint` | Run ESLint |
+| `npm run lint:fix` | Run ESLint with auto-fix |
+| `npm run prettier:check` | Check formatting with Prettier |
+| `npm run prettier:fix` | Auto-format with Prettier |
 
 ## Contributing
 
-Contributions to improve Image Search are welcome. Please follow these steps to contribute:
+Contributions are welcome. Please follow these steps:
 
-- Fork the repository.
-- Create a new branch (`git checkout -b feature-branch`).
-- Make your changes.
-- Commit your changes (`git commit -am 'Add some feature'`).
-- Push to the branch (`git push origin feature-branch`).
-- Create a new Pull Request.
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes and commit (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Open a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE.md file for details.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is licensed under the MIT License — see the LICENSE.md file for details.
