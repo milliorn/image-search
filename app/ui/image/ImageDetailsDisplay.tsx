@@ -14,7 +14,6 @@ const ImageDetailsDisplay = ({
     alt_description,
     description,
     created_at,
-    tags,
     likes,
     user: { name, instagram_username, twitter_username },
     links: { html },
