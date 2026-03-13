@@ -36,22 +36,6 @@ const ImageDetailsDisplay = ({
       <span>By: {name}</span>
       {likes > 0 && <span>Likes: {likes}</span>}
 
-      <span className="grid grid-rows-1 gap-1 mt-4">
-        Tags:
-        {tags?.map((tag, index) => (
-          <div key={index}>
-            <Link
-              className="hover:text-indigo-600 text-indigo-400"
-              href={`https://unsplash.com/s/photos/${tag.title}`}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              {tag.title}
-            </Link>
-          </div>
-        ))}
-      </span>
-
       <div className="grid grid-rows-1 gap-1 mt-4">
         Links:
         {instagram_username && (
