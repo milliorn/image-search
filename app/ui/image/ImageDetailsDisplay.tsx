@@ -1,4 +1,4 @@
-/** Renders metadata for a single image: description, date, author, tags, and social links. */
+/** Renders metadata for a single image: description, date, author, and social links. */
 
 "use client";
 
