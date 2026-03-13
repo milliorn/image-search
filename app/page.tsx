@@ -34,7 +34,10 @@ function Home() {
   // Resets to page 1 and fetches on form submit.
   const onChange = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const query = searchInput.current?.value || "";
+    const query = searchInput.current?.value?.trim() ?? "";
+    
+    if (!query) { return; }
+
     setHasSearched(true);
     // If already on page 1, setPage is a no-op and won't trigger the useEffect,
     // so call fetchImages directly. Otherwise let the page change drive the fetch.
