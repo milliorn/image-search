@@ -3,10 +3,13 @@
 "use client";
 
 import type { ImageDetailsDisplayProps } from "@/app/models/ImageProps";
+import type { JSX } from "react";
 import Link from "next/link";
 
 /** Extracts and displays photo metadata from the Unsplash API response. */
-const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps) => {
+const ImageDetailsDisplay = ({
+  image,
+}: ImageDetailsDisplayProps): JSX.Element => {
   const {
     alt_description,
     description,
@@ -18,7 +21,9 @@ const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps) => {
   } = image;
 
   const dateObj = new Date(created_at);
-  const createdAt = isNaN(dateObj.getTime()) ? "Unknown" : dateObj.toISOString().substring(0, 10);
+  const createdAt = isNaN(dateObj.getTime())
+    ? "Unknown"
+    : dateObj.toISOString().substring(0, 10);
   const displayDescription = alt_description || description || "No Description";
 
   return (
@@ -31,11 +36,10 @@ const ImageDetailsDisplay = ({ image }: ImageDetailsDisplayProps) => {
       <span>By: {name}</span>
       {likes > 0 && <span>Likes: {likes}</span>}
 
-      <span className=" grid grid-rows-1 gap-1 mt-4">
+      <span className="grid grid-rows-1 gap-1 mt-4">
         Tags:
         {tags?.map((tag, index) => (
-          <div key={tag.title}>
-            {index > 0 && " "}
+          <div key={index}>
             <Link
               className="hover:text-indigo-600 text-indigo-400"
               href={`https://unsplash.com/s/photos/${tag.title}`}

@@ -20,6 +20,7 @@ function Home() {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const fetchImages = useFetchImages(
     searchInput,
@@ -34,6 +35,7 @@ function Home() {
   const onChange = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const query = searchInput.current?.value || "";
+    setHasSearched(true);
     // If already on page 1, setPage is a no-op and won't trigger the useEffect,
     // so call fetchImages directly. Otherwise let the page change drive the fetch.
     if (page === 1) {
@@ -47,6 +49,7 @@ function Home() {
   const handleSelection = (selection: string) => {
     if (searchInput.current) {
       searchInput.current.value = selection;
+      setHasSearched(true);
       if (page === 1) {
         fetchImages(selection, 1);
       } else {
@@ -71,13 +74,20 @@ function Home() {
         onFilterSelect={handleSelection}
       />
       {loading ? (
-        <LoadingIndicator color="#3949AB" loading={loading} height={16} />
+        <LoadingIndicator color="#3949AB" height={16} />
       ) : error ? (
         <p className="text-center text-red-400 mt-8">{error}</p>
+      ) : !hasSearched ? (
+        <p className="text-center text-gray-400 mt-8">
+          Search for images above to get started.
+        </p>
+      ) : images.length === 0 ? (
+        <p className="text-center text-gray-400 mt-8">No results found.</p>
       ) : (
         <ImageGrid images={images} />
       )}
       <PaginationControls
+        loading={loading}
         page={page}
         setPage={setPage}
         totalPages={totalPages}

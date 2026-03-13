@@ -9,7 +9,7 @@ import ImageDetailsDisplay from "./ImageDetailsDisplay";
 import type { JSX } from "react";
 
 /** Wraps the image in a link to the Unsplash page and shows author details below. */
-const ImageCard = ({ image }: ImageCardProps): JSX.Element => {
+const ImageCard = ({ image, priority }: ImageCardProps): JSX.Element => {
   return (
     <div className="text-center capitalize my-4 text-indigo-100">
       <Link href={image.links.html} rel="noopener noreferrer" target="_blank">
@@ -17,6 +17,8 @@ const ImageCard = ({ image }: ImageCardProps): JSX.Element => {
           alt={image.alt_description || "image"}
           className="rounded shadow-lg my-4 mx-auto border border-indigo-200"
           height={image.height}
+          priority={priority}
+          sizes="(min-width: 1280px) 33vw, (min-width: 1024px) 50vw, 100vw"
           src={image.urls.regular}
           style={{ backgroundColor: image.color ?? undefined }}
           width={image.width}

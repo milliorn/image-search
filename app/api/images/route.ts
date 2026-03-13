@@ -11,8 +11,7 @@
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
-const IMAGES_PER_PAGE = 12;
+import { IMAGES_PER_PAGE } from "@/app/utils/constants";
 
 async function GET(req: NextRequest): Promise<NextResponse> {
   const { searchParams } = req.nextUrl;

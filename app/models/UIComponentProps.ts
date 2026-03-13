@@ -8,12 +8,12 @@ type FilterButtonsGridProps = {
 };
 
 type LoadingIndicatorProps = {
-  loading: boolean;
   color?: string;
   height?: number;
 };
 
 type PaginationControlsProps = {
+  loading: boolean;
   page: number;
   setPage: (page: number) => void;
   totalPages: number;

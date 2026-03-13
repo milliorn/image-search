@@ -4,6 +4,7 @@ import type { ImageDetails } from "./ImageDetails";
 
 type ImageCardProps = {
   image: ImageDetails;
+  priority: boolean;
 };
 
 type ImageDetailsDisplayProps = {

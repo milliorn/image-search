@@ -3,7 +3,8 @@
 import type { MetadataRoute } from "next";
 
 const SITE_URL =
-  process.env["NEXT_PUBLIC_SITE_URL"] ?? "https://image-search-black-iota.vercel.app";
+  process.env["NEXT_PUBLIC_SITE_URL"] ??
+  "https://image-search-black-iota.vercel.app";
 
 function sitemap(): MetadataRoute.Sitemap {
   return [
