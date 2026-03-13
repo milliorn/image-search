@@ -15,7 +15,7 @@ const ImageDetailsDisplay = ({
     description,
     created_at,
     likes,
-    user: { name, instagram_username, twitter_username, links: { html: authorUrl } },
+    user: { name, location, instagram_username, twitter_username, links: { html: authorUrl } },
     links: { html },
   } = image;
 
@@ -43,6 +43,7 @@ const ImageDetailsDisplay = ({
           {name}
         </Link>
       </span>
+      {location && <span>Location: {location}</span>}
       {likes > 0 && <span>Likes: {likes}</span>}
 
       <div className="grid grid-rows-1 gap-1 mt-4">
