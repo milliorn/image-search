@@ -2,8 +2,8 @@
 
 "use client";
 
-import type { ChangeEvent, JSX, KeyboardEvent } from "react";
 import { useEffect, useState } from "react";
+import type { ChangeEvent, JSX, KeyboardEvent } from "react";
 import type { PaginationControlsProps } from "../models/UIComponentProps";
 import { UNSPLASH_MAX_PAGES } from "../utils/constants";
 

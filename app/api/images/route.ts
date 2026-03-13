@@ -9,8 +9,8 @@
  *   page  — page number, defaults to 1
  */
 
-import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { IMAGES_PER_PAGE } from "@/app/utils/constants";
 
 async function GET(req: NextRequest): Promise<NextResponse> {
