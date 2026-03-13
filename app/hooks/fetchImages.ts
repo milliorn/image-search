@@ -8,8 +8,8 @@
 
 import { useCallback, useRef } from "react";
 import type { RefObject, SetStateAction } from "react";
-import type { ImageDetails } from "../models/ImageDetails";
 import type { ApiResponse } from "../models/ApiResponse";
+import type { ImageDetails } from "../models/ImageDetails";
 
 const useFetchImages = (
   searchInput: RefObject<HTMLInputElement | null>,

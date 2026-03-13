@@ -1,8 +1,3 @@
-/**
- * Type definitions for the Unsplash photo API response.
- * All types are internal to this module; only ImageDetails is exported.
- */
-
 type AlternativeSlugs = {
   [key: string]: string;
 };

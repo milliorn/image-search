@@ -2,8 +2,8 @@
 
 "use client";
 
-import type { ChangeEvent, JSX, KeyboardEvent } from "react";
 import { useEffect, useState } from "react";
+import type { ChangeEvent, JSX, KeyboardEvent } from "react";
 import type { PaginationControlsProps } from "../models/UIComponentProps";
 import { UNSPLASH_MAX_PAGES } from "../utils/constants";
 
@@ -112,7 +112,12 @@ const PaginationControls = ({
         </button>
         <button
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-          disabled={loading}
+          disabled={
+            loading ||
+            isNaN(parsedInputPage) ||
+            parsedInputPage < 1 ||
+            parsedInputPage > totalPagesMax
+          }
           onClick={goToPage}
         >
           Go

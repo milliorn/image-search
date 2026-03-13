@@ -2,9 +2,9 @@
 
 "use client";
 
+import type { JSX } from "react";
 import type { ImageGridProps } from "@/app/models/ImageProps";
 import ImageCard from "./ImageCard";
-import type { JSX } from "react";
 
 /** Maps each photo in the results array to an ImageCard keyed by the Unsplash photo ID. */
 const ImageGrid = ({ images }: ImageGridProps): JSX.Element => {

@@ -1,7 +1,6 @@
+import type { RefObject, SyntheticEvent } from "react";
+
 /** Props types for general UI components: FilterButtonsGrid, LoadingIndicator, PaginationControls, and SearchInput. */
-
-import type { MutableRefObject, FormEvent } from "react";
-
 type FilterButtonsGridProps = {
   imageButtons: string[];
   onFilterSelect: (filter: string) => void;
@@ -20,8 +19,8 @@ type PaginationControlsProps = {
 };
 
 type SearchInputProps = {
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
-  searchRef: MutableRefObject<HTMLInputElement | null>;
+  onSubmit: (e: SyntheticEvent<HTMLFormElement>) => void;
+  searchRef: RefObject<HTMLInputElement | null>;
 };
 
 export type {

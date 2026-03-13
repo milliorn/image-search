@@ -5,8 +5,8 @@
 import type { ImageCardProps } from "@/app/models/ImageProps";
 import Image from "next/image";
 import Link from "next/link";
-import ImageDetailsDisplay from "./ImageDetailsDisplay";
 import type { JSX } from "react";
+import ImageDetailsDisplay from "./ImageDetailsDisplay";
 
 /** Wraps the image in a link to the Unsplash page and shows author details below. */
 const ImageCard = ({ image, priority }: ImageCardProps): JSX.Element => {
