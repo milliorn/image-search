@@ -15,7 +15,7 @@ const ImageDetailsDisplay = ({
     description,
     created_at,
     likes,
-    user: { name, location, instagram_username, twitter_username, links: { html: authorUrl } },
+    user: { name, location, portfolio_url, instagram_username, twitter_username, links: { html: authorUrl } },
     links: { html },
   } = image;
 
@@ -66,6 +66,16 @@ const ImageDetailsDisplay = ({
             target="_blank"
           >
             Twitter
+          </Link>
+        )}
+        {portfolio_url && (
+          <Link
+            className="hover:text-indigo-600 text-indigo-400"
+            href={portfolio_url}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Portfolio
           </Link>
         )}
         <Link
