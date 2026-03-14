@@ -127,6 +127,8 @@ function Home() {
           {isDark ? "Light Mode" : "Dark Mode"}
         </button>
         <select
+          id="per-page"
+          name="per-page"
           value={perPage}
           onChange={(e) => handlePerPageChange(Number(e.target.value))}
           className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer text-center"
@@ -136,6 +138,8 @@ function Home() {
           ))}
         </select>
         <select
+          id="lang"
+          name="lang"
           value={lang}
           onChange={(e) => setLang(e.target.value)}
           className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer text-center"
