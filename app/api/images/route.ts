@@ -18,6 +18,7 @@ async function GET(req: NextRequest): Promise<NextResponse> {
   const query = searchParams.get("query");
   const pageParam = searchParams.get("page") ?? "1";
   const perPageParam = searchParams.get("per_page") ?? String(IMAGES_PER_PAGE);
+  const lang = searchParams.get("lang") ?? "en";
 
   if (!query) {
     return NextResponse.json(
@@ -56,6 +57,7 @@ async function GET(req: NextRequest): Promise<NextResponse> {
     query,
     page: String(pageNum),
     per_page: String(perPageNum),
+    lang,
     client_id: unsplashKey,
   });
 

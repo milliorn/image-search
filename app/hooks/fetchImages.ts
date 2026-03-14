@@ -17,6 +17,7 @@ const useFetchImages = (
   setError: (message: string | null) => void,
   page: number,
   perPage: number,
+  lang: string,
   setImages: (value: SetStateAction<ImageDetails[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void,
 ): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
@@ -44,6 +45,7 @@ const useFetchImages = (
         query,
         page: String(resolvedPage),
         per_page: String(perPage),
+        lang,
       });
 
       try {
@@ -90,7 +92,7 @@ const useFetchImages = (
         setLoading(false);
       }
     },
-    [page, perPage, searchInput, setError, setImages, setLoading, setTotalPages],
+    [lang, page, perPage, searchInput, setError, setImages, setLoading, setTotalPages],
   );
 };
 

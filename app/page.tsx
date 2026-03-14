@@ -11,7 +11,7 @@ import ImageGrid from "./ui/image/ImageGrid";
 import LoadingIndicator from "./ui/LoadingIndicator";
 import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
-import { imageButtons, IMAGES_PER_PAGE, PER_PAGE_OPTIONS } from "./utils/constants";
+import { imageButtons, IMAGES_PER_PAGE, LANGUAGES, PER_PAGE_OPTIONS } from "./utils/constants";
 
 function Home() {
   const searchInput = useRef<HTMLInputElement | null>(null);
@@ -23,6 +23,7 @@ function Home() {
   const [hasSearched, setHasSearched] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [perPage, setPerPage] = useState(IMAGES_PER_PAGE);
+  const [lang, setLang] = useState("en");
 
   const fetchImages = useFetchImages(
     searchInput,
@@ -30,6 +31,7 @@ function Home() {
     setError,
     page,
     perPage,
+    lang,
     setImages,
     setTotalPages,
   );
@@ -93,20 +95,29 @@ function Home() {
     <main className="container mx-auto p-4">
       <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
       <SearchInput onSubmit={onChange} searchRef={searchInput} />
-      <div className="flex justify-center items-center gap-4 my-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4 mb-8">
         <button
           onClick={() => setIsDark((prev) => !prev)}
-          className="px-4 py-2 rounded-md text-sm font-medium bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer"
+          className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer"
         >
           {isDark ? "Light Mode" : "Dark Mode"}
         </button>
         <select
           value={perPage}
           onChange={(e) => handlePerPageChange(Number(e.target.value))}
-          className="px-4 py-2 rounded-md text-sm font-medium bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer"
+          className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer text-center"
         >
           {PER_PAGE_OPTIONS.map((n) => (
             <option key={n} value={n}>{n} results</option>
+          ))}
+        </select>
+        <select
+          value={lang}
+          onChange={(e) => setLang(e.target.value)}
+          className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer text-center"
+        >
+          {LANGUAGES.map(({ code, label }) => (
+            <option key={code} value={code}>{label}</option>
           ))}
         </select>
       </div>
