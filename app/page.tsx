@@ -54,6 +54,17 @@ function Home() {
     }
   };
 
+  // Resets the app to its default state.
+  const handleReset = () => {
+    setImages([]);
+    setError(null);
+    setPage(1);
+    setTotalPages(0);
+    setHasSearched(false);
+    setUsername("");
+    if (searchInput.current) {searchInput.current.value = "";}
+  };
+
   // Switches to user photos mode and fetches from page 1.
   const handleAuthorClick = (authorUsername: string) => {
     setUsername(authorUsername);
@@ -102,7 +113,11 @@ function Home() {
 
   return (
     <main className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
+      <h1 className="text-4xl font-bold text-center mb-4">
+        <button onClick={handleReset} className="cursor-pointer hover:opacity-75">
+          Image Search
+        </button>
+      </h1>
       <SearchInput onSubmit={onChange} searchRef={searchInput} />
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4 mb-8">
         <button
