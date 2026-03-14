@@ -21,6 +21,7 @@ function Home() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [hasSearched, setHasSearched] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
   const fetchImages = useFetchImages(
     searchInput,
@@ -63,6 +64,16 @@ function Home() {
     }
   };
 
+  // Initialize dark mode from OS preference.
+  useEffect(() => {
+    setIsDark(window.matchMedia("(prefers-color-scheme: dark)").matches);
+  }, []);
+
+  // Sync dark class to <html> whenever isDark changes.
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDark);
+  }, [isDark]);
+
   // Fetch on mount and whenever fetchImages is recreated (e.g. page change).
   useEffect(() => {
     fetchImages();
@@ -72,6 +83,14 @@ function Home() {
     <main className="container mx-auto p-4">
       <h1 className="text-4xl font-bold text-center mb-4">Image Search</h1>
       <SearchInput onSubmit={onChange} searchRef={searchInput} />
+      <div className="flex justify-center my-4">
+        <button
+          onClick={() => setIsDark((prev) => !prev)}
+          className="px-4 py-2 rounded-md text-sm font-medium bg-indigo-600 hover:bg-indigo-700 text-white cursor-pointer"
+        >
+          {isDark ? "Light Mode" : "Dark Mode"}
+        </button>
+      </div>
       <FilterButtonsGrid
         imageButtons={imageButtons}
         onFilterSelect={handleSelection}
