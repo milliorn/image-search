@@ -19,6 +19,7 @@ const useFetchImages = (
   perPage: number,
   lang: string,
   username: string,
+  userFetchMode: "photos" | "likes",
   setImages: (value: SetStateAction<ImageDetails[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void,
 ): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
@@ -35,7 +36,7 @@ const useFetchImages = (
           page: String(resolvedPage),
           per_page: String(perPage),
         });
-        url = `/api/users/${username}/photos?${params.toString()}`;
+        url = `/api/users/${username}/${userFetchMode}?${params.toString()}`;
       } else {
         const query = queryOverride ?? searchInput.current?.value ?? "";
         if (!query) {return;}
@@ -99,7 +100,7 @@ const useFetchImages = (
         setLoading(false);
       }
     },
-    [lang, page, perPage, username, searchInput, setError, setImages, setLoading, setTotalPages],
+    [lang, page, perPage, userFetchMode, username, searchInput, setError, setImages, setLoading, setTotalPages],
   );
 };
 

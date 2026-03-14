@@ -9,7 +9,7 @@ import type { JSX } from "react";
 import ImageDetailsDisplay from "./ImageDetailsDisplay";
 
 /** Wraps the image in a link to the Unsplash page and shows author details below. */
-const ImageCard = ({ activeUsername, image, onAuthorClick, priority }: ImageCardProps): JSX.Element => {
+const ImageCard = ({ activeMode, activeUsername, image, onAuthorClick, onLikesClick, priority }: ImageCardProps): JSX.Element => {
   return (
     <div className="text-center capitalize my-4 text-indigo-900 dark:text-indigo-100">
       <Link href={image.links.html} rel="noopener noreferrer" target="_blank">
@@ -27,7 +27,7 @@ const ImageCard = ({ activeUsername, image, onAuthorClick, priority }: ImageCard
           }
         />
       </Link>
-      <ImageDetailsDisplay activeUsername={activeUsername} image={image} onAuthorClick={onAuthorClick} />
+      <ImageDetailsDisplay activeMode={activeMode} activeUsername={activeUsername} image={image} onAuthorClick={onAuthorClick} onLikesClick={onLikesClick} />
     </div>
   );
 };
