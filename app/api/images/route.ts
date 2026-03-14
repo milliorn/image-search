@@ -56,18 +56,22 @@ async function GET(req: NextRequest): Promise<NextResponse> {
     const response = await fetch(apiUrl, { next: { revalidate: 86400 } });
 
     if (!response.ok) {
+      const messages: Record<number, string> = {
+        400: "The search request was invalid. Please try a different query.",
+        401: "Unsplash API key is invalid or revoked. Check server configuration.",
+        403: "Unsplash API key is invalid or revoked. Check server configuration.",
+        404: "The requested resource was not found on Unsplash.",
+        500: "Unsplash is experiencing issues. Please try again later.",
+        503: "Unsplash is temporarily unavailable. Please try again later.",
+      };
+
+      const message = messages[response.status] ?? `Unsplash API error (${response.status}).`;
+
       if (response.status === 401 || response.status === 403) {
         console.error(`Unsplash API key is invalid or revoked (${response.status}).`);
-        return NextResponse.json(
-          { message: "Unsplash API key is invalid or revoked. Check server configuration." },
-          { status: response.status },
-        );
       }
 
-      return NextResponse.json(
-        { message: `Unsplash API error: ${response.statusText}` },
-        { status: response.status },
-      );
+      return NextResponse.json({ message }, { status: response.status });
     }
 
     const data: unknown = await response.json();
