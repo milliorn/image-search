@@ -9,13 +9,14 @@ import type { ImageDetailsDisplayProps } from "@/app/models/ImageProps";
 /** Extracts and displays photo metadata from the Unsplash API response. */
 const ImageDetailsDisplay = ({
   image,
+  onAuthorClick,
 }: ImageDetailsDisplayProps): JSX.Element => {
   const {
     alt_description,
     description,
     created_at,
     likes,
-    user: { name, location, portfolio_url, instagram_username, twitter_username, links: { html: authorUrl } },
+    user: { name, username, location, portfolio_url, instagram_username, twitter_username, links: { html: authorUrl } },
     links: { html },
   } = image;
 
@@ -86,6 +87,12 @@ const ImageDetailsDisplay = ({
         >
           Source
         </Link>
+        <button
+          className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600 cursor-pointer"
+          onClick={() => onAuthorClick(username)}
+        >
+          See More Photos by {name}
+        </button>
       </div>
     </div>
   );

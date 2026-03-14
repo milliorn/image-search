@@ -18,6 +18,7 @@ const useFetchImages = (
   page: number,
   perPage: number,
   lang: string,
+  username: string,
   setImages: (value: SetStateAction<ImageDetails[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void,
 ): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
@@ -25,11 +26,26 @@ const useFetchImages = (
 
   return useCallback(
     async (queryOverride?: string, pageOverride?: number) => {
-      const query = queryOverride ?? searchInput.current?.value ?? "";
       const resolvedPage = pageOverride ?? page;
 
-      if (!query) {
-        return;
+      let url: string;
+
+      if (username) {
+        const params = new URLSearchParams({
+          page: String(resolvedPage),
+          per_page: String(perPage),
+        });
+        url = `/api/users/${username}/photos?${params.toString()}`;
+      } else {
+        const query = queryOverride ?? searchInput.current?.value ?? "";
+        if (!query) {return;}
+        const params = new URLSearchParams({
+          query,
+          page: String(resolvedPage),
+          per_page: String(perPage),
+          lang,
+        });
+        url = `/api/images?${params.toString()}`;
       }
 
       // Abort any pending request before starting a new one.
@@ -41,17 +57,8 @@ const useFetchImages = (
       setLoading(true);
       setError(null);
 
-      const params = new URLSearchParams({
-        query,
-        page: String(resolvedPage),
-        per_page: String(perPage),
-        lang,
-      });
-
       try {
-        const response = await fetch(`/api/images?${params.toString()}`, {
-          signal,
-        });
+        const response = await fetch(url, { signal });
 
         if (!response.ok) {
           const body = await response.json().catch(() => null) as { message?: string } | null;
@@ -92,7 +99,7 @@ const useFetchImages = (
         setLoading(false);
       }
     },
-    [lang, page, perPage, searchInput, setError, setImages, setLoading, setTotalPages],
+    [lang, page, perPage, username, searchInput, setError, setImages, setLoading, setTotalPages],
   );
 };
 

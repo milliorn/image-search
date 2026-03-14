@@ -24,6 +24,7 @@ function Home() {
   const [isDark, setIsDark] = useState(false);
   const [perPage, setPerPage] = useState(IMAGES_PER_PAGE);
   const [lang, setLang] = useState("en");
+  const [username, setUsername] = useState("");
 
   const fetchImages = useFetchImages(
     searchInput,
@@ -32,6 +33,7 @@ function Home() {
     page,
     perPage,
     lang,
+    username,
     setImages,
     setTotalPages,
   );
@@ -40,17 +42,23 @@ function Home() {
   const onChange = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const query = searchInput.current?.value?.trim() ?? "";
-    
+
     if (!query) { return; }
 
+    setUsername("");
     setHasSearched(true);
-    // If already on page 1, setPage is a no-op and won't trigger the useEffect,
-    // so call fetchImages directly. Otherwise let the page change drive the fetch.
     if (page === 1) {
       fetchImages(query, 1);
     } else {
       setPage(1);
     }
+  };
+
+  // Switches to user photos mode and fetches from page 1.
+  const handleAuthorClick = (authorUsername: string) => {
+    setUsername(authorUsername);
+    setHasSearched(true);
+    setPage(1);
   };
 
   // Resets to page 1 and refetches when per-page count changes.
@@ -65,6 +73,7 @@ function Home() {
   const handleSelection = (selection: string) => {
     if (searchInput.current) {
       searchInput.current.value = selection;
+      setUsername("");
       setHasSearched(true);
       if (page === 1) {
         fetchImages(selection, 1);
@@ -136,7 +145,7 @@ function Home() {
       ) : images.length === 0 ? (
         <p className="text-center text-gray-600 dark:text-gray-400 mt-8">No results found.</p>
       ) : (
-        <ImageGrid images={images} />
+        <ImageGrid images={images} onAuthorClick={handleAuthorClick} />
       )}
       <PaginationControls
         loading={loading}
