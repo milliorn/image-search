@@ -17,6 +17,7 @@ async function GET(req: NextRequest): Promise<NextResponse> {
   const { searchParams } = req.nextUrl;
   const query = searchParams.get("query");
   const pageParam = searchParams.get("page") ?? "1";
+  const perPageParam = searchParams.get("per_page") ?? String(IMAGES_PER_PAGE);
 
   if (!query) {
     return NextResponse.json(
@@ -29,6 +30,14 @@ async function GET(req: NextRequest): Promise<NextResponse> {
   if (isNaN(pageNum) || pageNum < 1) {
     return NextResponse.json(
       { message: "Invalid page parameter" },
+      { status: 400 },
+    );
+  }
+
+  const perPageNum = parseInt(perPageParam, 10);
+  if (isNaN(perPageNum) || perPageNum < 1 || perPageNum > 30) {
+    return NextResponse.json(
+      { message: "Invalid per_page parameter" },
       { status: 400 },
     );
   }
@@ -46,7 +55,7 @@ async function GET(req: NextRequest): Promise<NextResponse> {
   const params = new URLSearchParams({
     query,
     page: String(pageNum),
-    per_page: String(IMAGES_PER_PAGE),
+    per_page: String(perPageNum),
     client_id: unsplashKey,
   });
 
