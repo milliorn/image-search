@@ -126,6 +126,7 @@ function Home() {
         >
           {isDark ? "Light Mode" : "Dark Mode"}
         </button>
+        <label htmlFor="per-page" className="sr-only">Results per page</label>
         <select
           id="per-page"
           name="per-page"
@@ -137,6 +138,7 @@ function Home() {
             <option key={n} value={n}>{n} results</option>
           ))}
         </select>
+        <label htmlFor="lang" className="sr-only">Language</label>
         <select
           id="lang"
           name="lang"
