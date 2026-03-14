@@ -50,7 +50,8 @@ const useFetchImages = (
         });
 
         if (!response.ok) {
-          setError(`Failed to fetch images: ${response.statusText}`);
+          const body = await response.json().catch(() => null) as { message?: string } | null;
+          setError(body?.message ?? `Failed to fetch images: ${response.statusText}`);
           setLoading(false);
           return;
         }

@@ -56,6 +56,14 @@ async function GET(req: NextRequest): Promise<NextResponse> {
     const response = await fetch(apiUrl, { next: { revalidate: 86400 } });
 
     if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        console.error(`Unsplash API key is invalid or revoked (${response.status}).`);
+        return NextResponse.json(
+          { message: "Unsplash API key is invalid or revoked. Check server configuration." },
+          { status: response.status },
+        );
+      }
+
       return NextResponse.json(
         { message: `Unsplash API error: ${response.statusText}` },
         { status: response.status },
