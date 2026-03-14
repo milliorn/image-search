@@ -166,7 +166,7 @@ function Home() {
       ) : images.length === 0 ? (
         <p className="text-center text-gray-600 dark:text-gray-400 mt-8">No results found.</p>
       ) : (
-        <ImageGrid images={images} onAuthorClick={handleAuthorClick} />
+        <ImageGrid activeUsername={username} images={images} onAuthorClick={handleAuthorClick} />
       )}
       <PaginationControls
         loading={loading}
