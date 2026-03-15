@@ -1,7 +1,9 @@
 "use client";
 
 /**
- * Hook that returns a memoized fetch function for querying the Unsplash image API.
+ * Hook that returns a memoized fetch function for querying the Unsplash API.
+ * Fetches photo search results or a user's photos, likes, or collections
+ * depending on whether a username and userFetchMode are provided.
  * Each call aborts any pending request before starting a new one, preventing
  * stale responses from overwriting fresh results.
  */
@@ -16,6 +18,10 @@ const useFetchImages = (
   setLoading: (value: SetStateAction<boolean>) => void,
   setError: (message: string | null) => void,
   page: number,
+  perPage: number,
+  lang: string,
+  username: string,
+  userFetchMode: "photos" | "likes" | "collections",
   setImages: (value: SetStateAction<ImageDetails[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void,
 ): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
@@ -23,11 +29,32 @@ const useFetchImages = (
 
   return useCallback(
     async (queryOverride?: string, pageOverride?: number) => {
-      const query = queryOverride ?? searchInput.current?.value ?? "";
       const resolvedPage = pageOverride ?? page;
 
-      if (!query) {
-        return;
+      let url: string;
+
+      if (username) {
+        const params = new URLSearchParams({
+          page: String(resolvedPage),
+          per_page: String(perPage),
+        });
+
+        url = `/api/users/${username}/${userFetchMode}?${params.toString()}`;
+      } else {
+        const query = queryOverride ?? searchInput.current?.value ?? "";
+
+        if (!query) {
+          return;
+        }
+
+        const params = new URLSearchParams({
+          query,
+          page: String(resolvedPage),
+          per_page: String(perPage),
+          lang,
+        });
+
+        url = `/api/images?${params.toString()}`;
       }
 
       // Abort any pending request before starting a new one.
@@ -39,18 +66,18 @@ const useFetchImages = (
       setLoading(true);
       setError(null);
 
-      const params = new URLSearchParams({
-        query,
-        page: String(resolvedPage),
-      });
-
       try {
-        const response = await fetch(`/api/images?${params.toString()}`, {
-          signal,
-        });
+        const response = await fetch(url, { signal });
 
         if (!response.ok) {
-          setError(`Failed to fetch images: ${response.statusText}`);
+          const body = (await response.json().catch(() => null)) as {
+            message?: string;
+          } | null;
+
+          setError(
+            body?.message ?? `Failed to fetch images: ${response.statusText}`,
+          );
+
           setLoading(false);
           return;
         }
@@ -62,18 +89,21 @@ const useFetchImages = (
         } catch {
           setError("Received an unexpected response from the server.");
           setLoading(false);
+
           return;
         }
 
         if (!("results" in data)) {
           setError(data.message ?? "Unexpected response from the server.");
           setLoading(false);
+
           return;
         }
 
         const unique = [
           ...new Map(data.results.map((img) => [img.id, img])).values(),
         ];
+
         setImages(unique);
         setTotalPages(data.total_pages);
         setLoading(false);
@@ -82,12 +112,24 @@ const useFetchImages = (
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
+
         console.error(error);
         setError("Something went wrong. Please try again.");
         setLoading(false);
       }
     },
-    [page, searchInput, setError, setImages, setLoading, setTotalPages],
+    [
+      lang,
+      page,
+      perPage,
+      userFetchMode,
+      username,
+      searchInput,
+      setError,
+      setImages,
+      setLoading,
+      setTotalPages,
+    ],
   );
 };
 

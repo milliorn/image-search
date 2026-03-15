@@ -1,7 +1,6 @@
-/** Renders a single image card with a thumbnail, link to Unsplash, and metadata display. */
-
 "use client";
 
+/** Renders a single image card with a thumbnail, link to Unsplash, and metadata display. */
 import type { ImageCardProps } from "@/app/models/ImageProps";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +8,15 @@ import type { JSX } from "react";
 import ImageDetailsDisplay from "./ImageDetailsDisplay";
 
 /** Wraps the image in a link to the Unsplash page and shows author details below. */
-const ImageCard = ({ image, priority }: ImageCardProps): JSX.Element => {
+const ImageCard = ({
+  activeMode,
+  activeUsername,
+  image,
+  onAuthorClick,
+  onCollectionsClick,
+  onLikesClick,
+  priority,
+}: ImageCardProps): JSX.Element => {
   return (
     <div className="text-center capitalize my-4 text-indigo-900 dark:text-indigo-100">
       <Link href={image.links.html} rel="noopener noreferrer" target="_blank">
@@ -27,7 +34,14 @@ const ImageCard = ({ image, priority }: ImageCardProps): JSX.Element => {
           }
         />
       </Link>
-      <ImageDetailsDisplay image={image} />
+      <ImageDetailsDisplay
+        activeMode={activeMode}
+        activeUsername={activeUsername}
+        image={image}
+        onAuthorClick={onAuthorClick}
+        onCollectionsClick={onCollectionsClick}
+        onLikesClick={onLikesClick}
+      />
     </div>
   );
 };

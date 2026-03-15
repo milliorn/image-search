@@ -1,35 +1,36 @@
 /**
- * GET /api/images
+ * GET /api/users/:username/collections
  *
- * Proxies search requests to the Unsplash API and returns paginated photo results.
- * Keeping the Unsplash client ID server-side prevents it from being exposed to the browser.
+ * Proxies requests to the Unsplash user collections endpoint.
+ * Extracts the cover_photo from each collection and returns them in the same
+ * { results, total_pages } shape as /api/images so the existing hook and
+ * components can consume it without modification. Collections without a
+ * cover_photo are filtered out.
  *
  * Query params:
- *   query    — search term (required)
  *   page     — page number, defaults to 1
- *   per_page — results per page, defaults to IMAGES_PER_PAGE, max 30
- *   lang     — ISO 639-1 language code for search results, defaults to "en"
+ *   per_page — results per page, defaults to IMAGES_PER_PAGE
  */
 
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { IMAGES_PER_PAGE } from "@/app/utils/constants";
 
-async function GET(req: NextRequest): Promise<NextResponse> {
+type UnsplashCollection = {
+  cover_photo: unknown | null;
+};
+
+async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ username: string }> },
+): Promise<NextResponse> {
+  const { username } = await params;
   const { searchParams } = req.nextUrl;
-  const query = searchParams.get("query");
   const pageParam = searchParams.get("page") ?? "1";
   const perPageParam = searchParams.get("per_page") ?? String(IMAGES_PER_PAGE);
-  const lang = searchParams.get("lang") ?? "en";
-
-  if (!query) {
-    return NextResponse.json(
-      { message: "Query parameter is required" },
-      { status: 400 },
-    );
-  }
 
   const pageNum = parseInt(pageParam, 10);
+
   if (isNaN(pageNum) || pageNum < 1) {
     return NextResponse.json(
       { message: "Invalid page parameter" },
@@ -50,31 +51,29 @@ async function GET(req: NextRequest): Promise<NextResponse> {
 
   if (!unsplashKey) {
     console.error("Unsplash API key (UNSPLASH_KEY) is not configured.");
+
     return NextResponse.json(
       { message: "Unsplash API key is not configured on the server" },
       { status: 500 },
     );
   }
 
-  const params = new URLSearchParams({
-    query,
+  const apiParams = new URLSearchParams({
     page: String(pageNum),
     per_page: String(perPageNum),
-    lang,
     client_id: unsplashKey,
   });
 
-  const apiUrl = `https://api.unsplash.com/search/photos?${params.toString()}`;
+  const apiUrl = `https://api.unsplash.com/users/${username}/collections?${apiParams.toString()}`;
 
   try {
-    const response = await fetch(apiUrl, { next: { revalidate: 86400 } });
+    const response = await fetch(apiUrl, { next: { revalidate: 3600 } });
 
     if (!response.ok) {
       const messages: Record<number, string> = {
-        400: "The search request was invalid. Please try a different query.",
         401: "Unsplash API key is invalid or revoked. Check server configuration.",
         403: "Unsplash API key is invalid or revoked. Check server configuration.",
-        404: "The requested resource was not found on Unsplash.",
+        404: `User "${username}" was not found on Unsplash.`,
         500: "Unsplash is experiencing issues. Please try again later.",
         503: "Unsplash is temporarily unavailable. Please try again later.",
       };
@@ -91,14 +90,20 @@ async function GET(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ message }, { status: response.status });
     }
 
-    const data: unknown = await response.json();
+    const total = parseInt(response.headers.get("X-Total") ?? "0", 10);
+    const collections = (await response.json()) as UnsplashCollection[];
+    const total_pages = Math.ceil(total / perPageNum);
 
-    return NextResponse.json(data);
+    const results = collections
+      .map((c) => c.cover_photo)
+      .filter((photo) => photo !== null);
+
+    return NextResponse.json({ results, total_pages });
   } catch (error) {
     console.error(error);
 
     return NextResponse.json(
-      { message: "Error fetching images from Unsplash" },
+      { message: "Error fetching collections from Unsplash" },
       { status: 500 },
     );
   }

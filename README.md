@@ -64,15 +64,15 @@ Image Search is a web application built with Next.js 15, React 19, and Tailwind 
 
 ## Available Scripts
 
-| Script | Description |
-| --- | --- |
-| `npm run dev` | Start the development server with Turbopack |
-| `npm run build` | Build for production |
-| `npm start` | Start the production server |
-| `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Run ESLint with auto-fix |
-| `npm run prettier:check` | Check formatting with Prettier |
-| `npm run prettier:fix` | Auto-format with Prettier |
+| Script                   | Description                                 |
+| ------------------------ | ------------------------------------------- |
+| `npm run dev`            | Start the development server with Turbopack |
+| `npm run build`          | Build for production                        |
+| `npm start`              | Start the production server                 |
+| `npm run lint`           | Run ESLint                                  |
+| `npm run lint:fix`       | Run ESLint with auto-fix                    |
+| `npm run prettier:check` | Check formatting with Prettier              |
+| `npm run prettier:fix`   | Auto-format with Prettier                   |
 
 ## Contributing
 

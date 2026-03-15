@@ -1,6 +1,6 @@
-/** Renders previous/next buttons, a page counter, and a direct page jump input. */
-
 "use client";
+
+/** Renders previous/next buttons, a page counter, and a direct page jump input. */
 
 import { useEffect, useState } from "react";
 import type { ChangeEvent, JSX, KeyboardEvent } from "react";

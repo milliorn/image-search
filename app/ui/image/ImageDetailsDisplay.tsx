@@ -1,6 +1,6 @@
-/** Renders metadata for a single image: description, date, author, and social links. */
-
 "use client";
+
+/** Renders metadata for a single image: description, date, author, and social links. */
 
 import Link from "next/link";
 import type { JSX } from "react";
@@ -8,14 +8,28 @@ import type { ImageDetailsDisplayProps } from "@/app/models/ImageProps";
 
 /** Extracts and displays photo metadata from the Unsplash API response. */
 const ImageDetailsDisplay = ({
+  activeMode,
+  activeUsername,
   image,
+  onAuthorClick,
+  onCollectionsClick,
+  onLikesClick,
 }: ImageDetailsDisplayProps): JSX.Element => {
   const {
     alt_description,
     description,
     created_at,
     likes,
-    user: { name, location, portfolio_url, instagram_username, twitter_username, links: { html: authorUrl } },
+    user: {
+      name,
+      username,
+      location,
+      total_collections,
+      portfolio_url,
+      instagram_username,
+      twitter_username,
+      links: { html: authorUrl },
+    },
     links: { html },
   } = image;
 
@@ -23,6 +37,7 @@ const ImageDetailsDisplay = ({
   const createdAt = isNaN(dateObj.getTime())
     ? "Unknown"
     : dateObj.toISOString().substring(0, 10);
+
   const displayDescription = alt_description || description || "No Description";
 
   return (
@@ -86,6 +101,31 @@ const ImageDetailsDisplay = ({
         >
           Source
         </Link>
+        {!(activeUsername === username && activeMode === "photos") && (
+          <button
+            className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600 cursor-pointer"
+            onClick={() => onAuthorClick(username)}
+          >
+            See More Photos by {name}
+          </button>
+        )}
+        {!(activeUsername === username && activeMode === "likes") && (
+          <button
+            className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600 cursor-pointer"
+            onClick={() => onLikesClick(username)}
+          >
+            Liked Photos by {name}
+          </button>
+        )}
+        {total_collections > 0 &&
+          !(activeUsername === username && activeMode === "collections") && (
+            <button
+              className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600 cursor-pointer"
+              onClick={() => onCollectionsClick(username)}
+            >
+              Collections by {name}
+            </button>
+          )}
       </div>
     </div>
   );
