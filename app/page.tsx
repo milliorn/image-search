@@ -11,7 +11,12 @@ import ImageGrid from "./ui/image/ImageGrid";
 import LoadingIndicator from "./ui/LoadingIndicator";
 import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
-import { imageButtons, IMAGES_PER_PAGE, LANGUAGES, PER_PAGE_OPTIONS } from "./utils/constants";
+import {
+  imageButtons,
+  IMAGES_PER_PAGE,
+  LANGUAGES,
+  PER_PAGE_OPTIONS,
+} from "./utils/constants";
 
 function Home() {
   const searchInput = useRef<HTMLInputElement | null>(null);
@@ -25,7 +30,9 @@ function Home() {
   const [perPage, setPerPage] = useState(IMAGES_PER_PAGE);
   const [lang, setLang] = useState("en");
   const [username, setUsername] = useState("");
-  const [userFetchMode, setUserFetchMode] = useState<"photos" | "likes" | "collections">("photos");
+  const [userFetchMode, setUserFetchMode] = useState<
+    "photos" | "likes" | "collections"
+  >("photos");
 
   const fetchImages = useFetchImages(
     searchInput,
@@ -45,10 +52,13 @@ function Home() {
     event.preventDefault();
     const query = searchInput.current?.value?.trim() ?? "";
 
-    if (!query) { return; }
+    if (!query) {
+      return;
+    }
 
     setUsername("");
     setHasSearched(true);
+    
     if (page === 1) {
       fetchImages(query, 1);
     } else {
@@ -65,7 +75,10 @@ function Home() {
     setHasSearched(false);
     setUsername("");
     setUserFetchMode("photos");
-    if (searchInput.current) {searchInput.current.value = "";}
+
+    if (searchInput.current) {
+      searchInput.current.value = "";
+    }
   };
 
   // Switches to user photos mode and fetches from page 1.
@@ -106,6 +119,7 @@ function Home() {
       searchInput.current.value = selection;
       setUsername("");
       setHasSearched(true);
+
       if (page === 1) {
         fetchImages(selection, 1);
       } else {
@@ -134,7 +148,10 @@ function Home() {
   return (
     <main className="container mx-auto p-4">
       <h1 className="text-4xl font-bold text-center mb-4">
-        <button onClick={handleReset} className="cursor-pointer hover:opacity-75">
+        <button
+          onClick={handleReset}
+          className="cursor-pointer hover:opacity-75"
+        >
           Image Search
         </button>
       </h1>
@@ -146,7 +163,9 @@ function Home() {
         >
           {isDark ? "Light Mode" : "Dark Mode"}
         </button>
-        <label htmlFor="per-page" className="sr-only">Results per page</label>
+        <label htmlFor="per-page" className="sr-only">
+          Results per page
+        </label>
         <select
           id="per-page"
           name="per-page"
@@ -155,10 +174,14 @@ function Home() {
           className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer text-center"
         >
           {PER_PAGE_OPTIONS.map((n) => (
-            <option key={n} value={n}>{n} results</option>
+            <option key={n} value={n}>
+              {n} results
+            </option>
           ))}
         </select>
-        <label htmlFor="lang" className="sr-only">Language</label>
+        <label htmlFor="lang" className="sr-only">
+          Language
+        </label>
         <select
           id="lang"
           name="lang"
@@ -167,7 +190,9 @@ function Home() {
           className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer text-center"
         >
           {LANGUAGES.map(({ code, label }) => (
-            <option key={code} value={code}>{label}</option>
+            <option key={code} value={code}>
+              {label}
+            </option>
           ))}
         </select>
       </div>
@@ -178,15 +203,26 @@ function Home() {
       {loading ? (
         <LoadingIndicator color="#3949AB" height={16} />
       ) : error ? (
-        <p className="text-center text-red-600 dark:text-red-400 mt-8">{error}</p>
+        <p className="text-center text-red-600 dark:text-red-400 mt-8">
+          {error}
+        </p>
       ) : !hasSearched ? (
         <p className="text-center text-gray-600 dark:text-gray-400 mt-8">
           Search for images above to get started.
         </p>
       ) : images.length === 0 ? (
-        <p className="text-center text-gray-600 dark:text-gray-400 mt-8">No results found.</p>
+        <p className="text-center text-gray-600 dark:text-gray-400 mt-8">
+          No results found.
+        </p>
       ) : (
-        <ImageGrid activeMode={userFetchMode} activeUsername={username} images={images} onAuthorClick={handleAuthorClick} onCollectionsClick={handleCollectionsClick} onLikesClick={handleLikesClick} />
+        <ImageGrid
+          activeMode={userFetchMode}
+          activeUsername={username}
+          images={images}
+          onAuthorClick={handleAuthorClick}
+          onCollectionsClick={handleCollectionsClick}
+          onLikesClick={handleLikesClick}
+        />
       )}
       <PaginationControls
         loading={loading}

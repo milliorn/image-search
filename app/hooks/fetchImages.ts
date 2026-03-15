@@ -36,16 +36,22 @@ const useFetchImages = (
           page: String(resolvedPage),
           per_page: String(perPage),
         });
+
         url = `/api/users/${username}/${userFetchMode}?${params.toString()}`;
       } else {
         const query = queryOverride ?? searchInput.current?.value ?? "";
-        if (!query) {return;}
+
+        if (!query) {
+          return;
+        }
+        
         const params = new URLSearchParams({
           query,
           page: String(resolvedPage),
           per_page: String(perPage),
           lang,
         });
+
         url = `/api/images?${params.toString()}`;
       }
 
@@ -62,8 +68,14 @@ const useFetchImages = (
         const response = await fetch(url, { signal });
 
         if (!response.ok) {
-          const body = await response.json().catch(() => null) as { message?: string } | null;
-          setError(body?.message ?? `Failed to fetch images: ${response.statusText}`);
+          const body = (await response.json().catch(() => null)) as {
+            message?: string;
+          } | null;
+
+          setError(
+            body?.message ?? `Failed to fetch images: ${response.statusText}`,
+          );
+
           setLoading(false);
           return;
         }
@@ -75,18 +87,21 @@ const useFetchImages = (
         } catch {
           setError("Received an unexpected response from the server.");
           setLoading(false);
+
           return;
         }
 
         if (!("results" in data)) {
           setError(data.message ?? "Unexpected response from the server.");
           setLoading(false);
+
           return;
         }
 
         const unique = [
           ...new Map(data.results.map((img) => [img.id, img])).values(),
         ];
+
         setImages(unique);
         setTotalPages(data.total_pages);
         setLoading(false);
@@ -95,12 +110,24 @@ const useFetchImages = (
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
+
         console.error(error);
         setError("Something went wrong. Please try again.");
         setLoading(false);
       }
     },
-    [lang, page, perPage, userFetchMode, username, searchInput, setError, setImages, setLoading, setTotalPages],
+    [
+      lang,
+      page,
+      perPage,
+      userFetchMode,
+      username,
+      searchInput,
+      setError,
+      setImages,
+      setLoading,
+      setTotalPages,
+    ],
   );
 };
 

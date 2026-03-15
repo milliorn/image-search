@@ -140,4 +140,10 @@ const LANGUAGES: { code: string; label: string }[] = [
   { code: "zu", label: "Zulu" },
 ];
 
-export { imageButtons, IMAGES_PER_PAGE, LANGUAGES, PER_PAGE_OPTIONS, UNSPLASH_MAX_PAGES };
+export {
+  imageButtons,
+  IMAGES_PER_PAGE,
+  LANGUAGES,
+  PER_PAGE_OPTIONS,
+  UNSPLASH_MAX_PAGES,
+};

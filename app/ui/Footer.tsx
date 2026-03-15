@@ -1,5 +1,3 @@
-/** Renders the site footer with a dynamic copyright year and a link to the author's GitHub. */
-
 import Link from "next/link";
 import type { JSX } from "react";
 

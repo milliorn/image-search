@@ -1,6 +1,6 @@
-/** Renders a centered bar spinner while data is being fetched. */
-
 "use client";
+
+/** Renders a centered bar spinner while data is being fetched. */
 
 import { BarLoader } from "react-spinners";
 import type { LoadingIndicatorProps } from "../models/UIComponentProps";

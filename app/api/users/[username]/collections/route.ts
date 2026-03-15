@@ -30,6 +30,7 @@ async function GET(
   const perPageParam = searchParams.get("per_page") ?? String(IMAGES_PER_PAGE);
 
   const pageNum = parseInt(pageParam, 10);
+
   if (isNaN(pageNum) || pageNum < 1) {
     return NextResponse.json(
       { message: "Invalid page parameter" },
@@ -38,6 +39,7 @@ async function GET(
   }
 
   const perPageNum = parseInt(perPageParam, 10);
+
   if (isNaN(perPageNum) || perPageNum < 1 || perPageNum > 30) {
     return NextResponse.json(
       { message: "Invalid per_page parameter" },
@@ -49,6 +51,7 @@ async function GET(
 
   if (!unsplashKey) {
     console.error("Unsplash API key (UNSPLASH_KEY) is not configured.");
+    
     return NextResponse.json(
       { message: "Unsplash API key is not configured on the server" },
       { status: 500 },
@@ -75,10 +78,13 @@ async function GET(
         503: "Unsplash is temporarily unavailable. Please try again later.",
       };
 
-      const message = messages[response.status] ?? `Unsplash API error (${response.status}).`;
+      const message =
+        messages[response.status] ?? `Unsplash API error (${response.status}).`;
 
       if (response.status === 401 || response.status === 403) {
-        console.error(`Unsplash API key is invalid or revoked (${response.status}).`);
+        console.error(
+          `Unsplash API key is invalid or revoked (${response.status}).`,
+        );
       }
 
       return NextResponse.json({ message }, { status: response.status });
@@ -95,6 +101,7 @@ async function GET(
     return NextResponse.json({ results, total_pages });
   } catch (error) {
     console.error(error);
+
     return NextResponse.json(
       { message: "Error fetching collections from Unsplash" },
       { status: 500 },

@@ -1,6 +1,6 @@
-/** Renders a search form with a text input and submit button. */
-
 "use client";
+
+/** Renders a search form with a text input and submit button. */
 
 import type { SearchInputProps } from "../models/UIComponentProps";
 

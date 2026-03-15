@@ -1,6 +1,6 @@
-/** Renders a row of preset category filter buttons. */
-
 "use client";
+
+/** Renders a row of preset category filter buttons. */
 
 import type { FilterButtonsGridProps } from "../models/UIComponentProps";
 

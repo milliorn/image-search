@@ -1,6 +1,6 @@
-/** Renders metadata for a single image: description, date, author, and social links. */
-
 "use client";
+
+/** Renders metadata for a single image: description, date, author, and social links. */
 
 import Link from "next/link";
 import type { JSX } from "react";
@@ -20,7 +20,16 @@ const ImageDetailsDisplay = ({
     description,
     created_at,
     likes,
-    user: { name, username, location, total_collections, portfolio_url, instagram_username, twitter_username, links: { html: authorUrl } },
+    user: {
+      name,
+      username,
+      location,
+      total_collections,
+      portfolio_url,
+      instagram_username,
+      twitter_username,
+      links: { html: authorUrl },
+    },
     links: { html },
   } = image;
 
@@ -28,6 +37,7 @@ const ImageDetailsDisplay = ({
   const createdAt = isNaN(dateObj.getTime())
     ? "Unknown"
     : dateObj.toISOString().substring(0, 10);
+
   const displayDescription = alt_description || description || "No Description";
 
   return (
@@ -107,14 +117,15 @@ const ImageDetailsDisplay = ({
             Liked Photos by {name}
           </button>
         )}
-        {total_collections > 0 && !(activeUsername === username && activeMode === "collections") && (
-          <button
-            className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600 cursor-pointer"
-            onClick={() => onCollectionsClick(username)}
-          >
-            Collections by {name}
-          </button>
-        )}
+        {total_collections > 0 &&
+          !(activeUsername === username && activeMode === "collections") && (
+            <button
+              className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600 cursor-pointer"
+              onClick={() => onCollectionsClick(username)}
+            >
+              Collections by {name}
+            </button>
+          )}
       </div>
     </div>
   );
