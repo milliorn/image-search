@@ -12,6 +12,7 @@ const ImageDetailsDisplay = ({
   activeUsername,
   image,
   onAuthorClick,
+  onCollectionsClick,
   onLikesClick,
 }: ImageDetailsDisplayProps): JSX.Element => {
   const {
@@ -19,7 +20,7 @@ const ImageDetailsDisplay = ({
     description,
     created_at,
     likes,
-    user: { name, username, location, portfolio_url, instagram_username, twitter_username, links: { html: authorUrl } },
+    user: { name, username, location, total_collections, portfolio_url, instagram_username, twitter_username, links: { html: authorUrl } },
     links: { html },
   } = image;
 
@@ -104,6 +105,14 @@ const ImageDetailsDisplay = ({
             onClick={() => onLikesClick(username)}
           >
             Liked Photos by {name}
+          </button>
+        )}
+        {total_collections > 0 && !(activeUsername === username && activeMode === "collections") && (
+          <button
+            className="text-indigo-700 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600 cursor-pointer"
+            onClick={() => onCollectionsClick(username)}
+          >
+            Collections by {name}
           </button>
         )}
       </div>

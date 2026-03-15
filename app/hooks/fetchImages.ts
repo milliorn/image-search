@@ -19,7 +19,7 @@ const useFetchImages = (
   perPage: number,
   lang: string,
   username: string,
-  userFetchMode: "photos" | "likes",
+  userFetchMode: "photos" | "likes" | "collections",
   setImages: (value: SetStateAction<ImageDetails[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void,
 ): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {

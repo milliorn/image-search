@@ -25,7 +25,7 @@ function Home() {
   const [perPage, setPerPage] = useState(IMAGES_PER_PAGE);
   const [lang, setLang] = useState("en");
   const [username, setUsername] = useState("");
-  const [userFetchMode, setUserFetchMode] = useState<"photos" | "likes">("photos");
+  const [userFetchMode, setUserFetchMode] = useState<"photos" | "likes" | "collections">("photos");
 
   const fetchImages = useFetchImages(
     searchInput,
@@ -79,6 +79,14 @@ function Home() {
   // Switches to user likes mode and fetches from page 1.
   const handleLikesClick = (authorUsername: string) => {
     setUserFetchMode("likes");
+    setUsername(authorUsername);
+    setHasSearched(true);
+    setPage(1);
+  };
+
+  // Switches to user collections mode and fetches from page 1.
+  const handleCollectionsClick = (authorUsername: string) => {
+    setUserFetchMode("collections");
     setUsername(authorUsername);
     setHasSearched(true);
     setPage(1);
@@ -178,7 +186,7 @@ function Home() {
       ) : images.length === 0 ? (
         <p className="text-center text-gray-600 dark:text-gray-400 mt-8">No results found.</p>
       ) : (
-        <ImageGrid activeMode={userFetchMode} activeUsername={username} images={images} onAuthorClick={handleAuthorClick} onLikesClick={handleLikesClick} />
+        <ImageGrid activeMode={userFetchMode} activeUsername={username} images={images} onAuthorClick={handleAuthorClick} onCollectionsClick={handleCollectionsClick} onLikesClick={handleLikesClick} />
       )}
       <PaginationControls
         loading={loading}
