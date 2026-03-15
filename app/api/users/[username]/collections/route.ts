@@ -51,7 +51,7 @@ async function GET(
 
   if (!unsplashKey) {
     console.error("Unsplash API key (UNSPLASH_KEY) is not configured.");
-    
+
     return NextResponse.json(
       { message: "Unsplash API key is not configured on the server" },
       { status: 500 },

@@ -108,7 +108,7 @@ type Tag = {
   source?: TagSource;
 };
 
-/** A single Unsplash photo as returned by the search endpoint. */
+/** A single Unsplash photo as returned by the search, user photos, likes, and collections endpoints. */
 type Photo = {
   id: string;
   slug: string;

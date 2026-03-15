@@ -1,7 +1,9 @@
 "use client";
 
 /**
- * Hook that returns a memoized fetch function for querying the Unsplash image API.
+ * Hook that returns a memoized fetch function for querying the Unsplash API.
+ * Fetches photo search results or a user's photos, likes, or collections
+ * depending on whether a username and userFetchMode are provided.
  * Each call aborts any pending request before starting a new one, preventing
  * stale responses from overwriting fresh results.
  */
@@ -44,7 +46,7 @@ const useFetchImages = (
         if (!query) {
           return;
         }
-        
+
         const params = new URLSearchParams({
           query,
           page: String(resolvedPage),

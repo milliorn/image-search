@@ -5,8 +5,10 @@
  * Keeping the Unsplash client ID server-side prevents it from being exposed to the browser.
  *
  * Query params:
- *   query — search term (required)
- *   page  — page number, defaults to 1
+ *   query    — search term (required)
+ *   page     — page number, defaults to 1
+ *   per_page — results per page, defaults to IMAGES_PER_PAGE, max 30
+ *   lang     — ISO 639-1 language code for search results, defaults to "en"
  */
 
 import type { NextRequest } from "next/server";
@@ -94,7 +96,7 @@ async function GET(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json(data);
   } catch (error) {
     console.error(error);
-    
+
     return NextResponse.json(
       { message: "Error fetching images from Unsplash" },
       { status: 500 },

@@ -58,7 +58,7 @@ function Home() {
 
     setUsername("");
     setHasSearched(true);
-    
+
     if (page === 1) {
       fetchImages(query, 1);
     } else {

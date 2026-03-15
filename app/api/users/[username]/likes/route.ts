@@ -90,7 +90,7 @@ async function GET(
     return NextResponse.json({ results: photos, total_pages });
   } catch (error) {
     console.error(error);
-    
+
     return NextResponse.json(
       { message: "Error fetching liked photos from Unsplash" },
       { status: 500 },
