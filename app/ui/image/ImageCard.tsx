@@ -4,6 +4,7 @@
 import type { ImageCardProps } from "@/app/models/ImageProps";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import type { JSX } from "react";
 import ImageDetailsDisplay from "./ImageDetailsDisplay";
 
@@ -17,23 +18,32 @@ const ImageCard = ({
   onLikesClick,
   priority,
 }: ImageCardProps): JSX.Element => {
+  const [hasError, setHasError] = useState(false);
+
   return (
     <div className="text-center capitalize my-4 text-indigo-900 dark:text-indigo-100">
-      <Link href={image.links.html} rel="noopener noreferrer" target="_blank">
-        <Image
-          alt={image.alt_description || "image"}
-          className="rounded shadow-lg my-4 mx-auto border border-indigo-300 dark:border-indigo-200"
-          height={image.height}
-          priority={priority}
-          sizes="(min-width: 1280px) 33vw, (min-width: 1024px) 50vw, 100vw"
-          src={image.urls.regular}
-          style={{ backgroundColor: image.color ?? undefined }}
-          width={image.width}
-          onError={() =>
-            console.error(`Failed to load image: ${image.urls.regular}`)
-          }
-        />
-      </Link>
+      {hasError ? (
+        <p className="text-center text-gray-600 dark:text-gray-400 my-4">
+          Image failed to load.
+        </p>
+      ) : (
+        <Link href={image.links.html} rel="noopener noreferrer" target="_blank">
+          <Image
+            alt={image.alt_description || "image"}
+            className="rounded shadow-lg my-4 mx-auto border border-indigo-300 dark:border-indigo-200"
+            height={image.height}
+            priority={priority}
+            sizes="(min-width: 1280px) 33vw, (min-width: 1024px) 50vw, 100vw"
+            src={image.urls.regular}
+            style={{ backgroundColor: image.color ?? undefined }}
+            width={image.width}
+            onError={() => {
+              console.error(`Failed to load image: ${image.urls.regular}`);
+              setHasError(true);
+            }}
+          />
+        </Link>
+      )}
       <ImageDetailsDisplay
         activeMode={activeMode}
         activeUsername={activeUsername}
