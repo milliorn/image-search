@@ -1,11 +1,8 @@
-/** Root layout. Applies the Inter font, global styles, and shared Footer to every page. */
+/** Root layout. Applies global styles and shared Footer to every page. */
 
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "./ui/Footer";
-
-const inter = Inter({ subsets: ["latin"] });
 
 /** Viewport configuration for theme color and initial scale. */
 const viewport: Viewport = {
@@ -88,7 +85,7 @@ const metadata: Metadata = {
   },
 };
 
-/** Wraps every page with the shared HTML shell, font, and Footer. */
+/** Wraps every page with the shared HTML shell and Footer. */
 function RootLayout({
   children,
 }: Readonly<{
@@ -96,7 +93,7 @@ function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         {children}
         <Footer />
       </body>
