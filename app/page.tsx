@@ -155,7 +155,7 @@ function Home() {
           Image Search
         </button>
       </h1>
-      <SearchInput onSubmit={onChange} searchRef={searchInput} />
+      <SearchInput loading={loading} onSubmit={onChange} searchRef={searchInput} />
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4 mb-8">
         <button
           onClick={() => setIsDark((prev) => !prev)}
