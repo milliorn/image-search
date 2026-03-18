@@ -173,7 +173,7 @@ function Home() {
           onClick={() => setIsRandom((prev) => !prev)}
           className={`${isRandom ? "bg-indigo-900" : "bg-indigo-600"} hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer`}
         >
-          {isRandom ? "Random - On" : "Random - Off"}
+          {isRandom ? "Random 👍" : "Random 👎"}
         </button>
         <label htmlFor="per-page" className="sr-only">
           Results per page
