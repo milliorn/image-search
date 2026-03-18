@@ -33,6 +33,7 @@ function Home() {
   const [userFetchMode, setUserFetchMode] = useState<
     "photos" | "likes" | "collections"
   >("photos");
+  const [isRandom, setIsRandom] = useState(false);
 
   const fetchImages = useFetchImages(
     searchInput,
@@ -45,6 +46,7 @@ function Home() {
     userFetchMode,
     setImages,
     setTotalPages,
+    isRandom,
   );
 
   // Resets to page 1 and fetches on form submit.
@@ -75,6 +77,7 @@ function Home() {
     setHasSearched(false);
     setUsername("");
     setUserFetchMode("photos");
+    setIsRandom(false);
 
     if (searchInput.current) {
       searchInput.current.value = "";
@@ -83,6 +86,7 @@ function Home() {
 
   // Switches to user photos mode and fetches from page 1.
   const handleAuthorClick = (authorUsername: string) => {
+    setIsRandom(false);
     setUserFetchMode("photos");
     setUsername(authorUsername);
     setHasSearched(true);
@@ -91,6 +95,7 @@ function Home() {
 
   // Switches to user likes mode and fetches from page 1.
   const handleLikesClick = (authorUsername: string) => {
+    setIsRandom(false);
     setUserFetchMode("likes");
     setUsername(authorUsername);
     setHasSearched(true);
@@ -99,6 +104,7 @@ function Home() {
 
   // Switches to user collections mode and fetches from page 1.
   const handleCollectionsClick = (authorUsername: string) => {
+    setIsRandom(false);
     setUserFetchMode("collections");
     setUsername(authorUsername);
     setHasSearched(true);
@@ -156,12 +162,18 @@ function Home() {
         </button>
       </h1>
       <SearchInput loading={loading} onSubmit={onChange} searchRef={searchInput} />
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4 mb-8">
         <button
           onClick={() => setIsDark((prev) => !prev)}
           className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer"
         >
           {isDark ? "Light Mode" : "Dark Mode"}
+        </button>
+        <button
+          onClick={() => setIsRandom((prev) => !prev)}
+          className={`${isRandom ? "bg-indigo-900" : "bg-indigo-600"} hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer`}
+        >
+          {isRandom ? "Random - On" : "Random - Off"}
         </button>
         <label htmlFor="per-page" className="sr-only">
           Results per page

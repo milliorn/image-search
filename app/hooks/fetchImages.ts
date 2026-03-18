@@ -24,8 +24,11 @@ const useFetchImages = (
   userFetchMode: "photos" | "likes" | "collections",
   setImages: (value: SetStateAction<ImageDetails[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void,
+  isRandom: boolean,
 ): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
   const abortControllerRef = useRef<AbortController | null>(null);
+  const isRandomRef = useRef(isRandom);
+  isRandomRef.current = isRandom;
 
   return useCallback(
     async (queryOverride?: string, pageOverride?: number) => {
@@ -33,7 +36,16 @@ const useFetchImages = (
 
       let url: string;
 
-      if (username) {
+      if (isRandomRef.current) {
+        const query = queryOverride ?? searchInput.current?.value ?? "";
+        const params = new URLSearchParams({ count: String(perPage) });
+
+        if (query) {
+          params.set("query", query);
+        }
+
+        url = `/api/photos/random?${params.toString()}`;
+      } else if (username) {
         const params = new URLSearchParams({
           page: String(resolvedPage),
           per_page: String(perPage),
