@@ -12,15 +12,22 @@ Image Search is a web application built with Next.js 15, React 19, and Tailwind 
 
 - **Search:** Find images by keyword with paginated results.
 - **Filter Buttons:** One-click preset categories (nature, space, travel, and more).
+- **Sort Order:** Toggle results between relevance and latest.
+- **Color Filter:** Narrow results by dominant color (12 options including black & white).
+- **Language Filter:** Filter search results by language (70+ languages via the Unsplash beta API).
+- **Results per Page:** Choose 12, 18, 24, or 30 results per page.
+- **Random Photos:** Fetch a random set of photos independent of any search query.
 - **Pagination:** Navigate results across pages with previous/next buttons and a direct page jump input.
 - **Image Grid:** Responsive grid layout (1 → 2 → 3 columns).
-- **Image Details:** Each card shows description, upload date, author, tags, and social links.
+- **Image Details:** Each card shows description, upload date, author, location, likes, and social links.
+- **Author Browsing:** Click any author to browse their photos, liked photos, or collections.
+- **Dark Mode:** Toggle between light and dark themes; initialized from OS preference.
 - **PWA:** Installable as a Progressive Web App via the included web manifest.
 - **SEO:** Metadata, Open Graph tags, sitemap, and robots configuration included.
 
 ## Technology Stack
 
-- **Next.js 15** — App Router, server-side API proxy route, ISR caching
+- **Next.js 15** — App Router, server-side API proxy routes, ISR caching
 - **React 19** — Client components with hooks
 - **Tailwind CSS 4** — Utility-first styling
 - **TypeScript 5** — Strict mode enabled throughout
