@@ -162,7 +162,7 @@ function Home() {
         </button>
       </h1>
       <SearchInput loading={loading} onSubmit={onChange} searchRef={searchInput} />
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4 mb-8">
+      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-2 mt-4 mb-8">
         <button
           onClick={() => setIsDark((prev) => !prev)}
           className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer"
