@@ -168,7 +168,11 @@ function Home() {
           Image Search
         </button>
       </h1>
-      <SearchInput loading={loading} onSubmit={onChange} searchRef={searchInput} />
+      <SearchInput
+        loading={loading}
+        onSubmit={onChange}
+        searchRef={searchInput}
+      />
       <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mt-4 mb-8">
         <button
           onClick={() => setIsDark((prev) => !prev)}
@@ -178,7 +182,9 @@ function Home() {
         </button>
         <button
           onClick={() =>
-            setOrderBy((prev) => (prev === "relevance" ? "latest" : "relevance"))
+            setOrderBy((prev) =>
+              prev === "relevance" ? "latest" : "relevance",
+            )
           }
           className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer"
         >
