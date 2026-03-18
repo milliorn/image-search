@@ -19,6 +19,7 @@ type PaginationControlsProps = {
 };
 
 type SearchInputProps = {
+  loading: boolean;
   onSubmit: (e: SyntheticEvent<HTMLFormElement>) => void;
   searchRef: RefObject<HTMLInputElement | null>;
 };

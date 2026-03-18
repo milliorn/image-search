@@ -1,42 +1,29 @@
 /**
- * GET /api/users/:username/likes
+ * GET /api/photos/random
  *
- * Proxies requests to the Unsplash user liked photos endpoint.
+ * Proxies requests to the Unsplash random photos endpoint.
  * Returns results in the same { results, total_pages } shape as /api/images
- * so the existing hook can consume both without changes to the response handling.
+ * so the existing hook can consume it without modification.
+ * total_pages is 0 so pagination controls are hidden for random results.
  *
  * Query params:
- *   page     — page number, defaults to 1
- *   per_page — results per page, defaults to IMAGES_PER_PAGE
+ *   count — number of photos to return, defaults to IMAGES_PER_PAGE, max 30
+ *   query — optional search term to filter random results
  */
 
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { IMAGES_PER_PAGE } from "@/app/utils/constants";
 
-async function GET(
-  req: NextRequest,
-  { params }: { params: Promise<{ username: string }> },
-): Promise<NextResponse> {
-  const { username } = await params;
+async function GET(req: NextRequest): Promise<NextResponse> {
   const { searchParams } = req.nextUrl;
-  const pageParam = searchParams.get("page") ?? "1";
-  const perPageParam = searchParams.get("per_page") ?? String(IMAGES_PER_PAGE);
+  const countParam = searchParams.get("count") ?? String(IMAGES_PER_PAGE);
+  const query = searchParams.get("query") ?? "";
+  const count = parseInt(countParam, 10);
 
-  const pageNum = parseInt(pageParam, 10);
-
-  if (isNaN(pageNum) || pageNum < 1) {
+  if (isNaN(count) || count < 1 || count > 30) {
     return NextResponse.json(
-      { message: "Invalid page parameter" },
-      { status: 400 },
-    );
-  }
-
-  const perPageNum = parseInt(perPageParam, 10);
-
-  if (isNaN(perPageNum) || perPageNum < 1 || perPageNum > 30) {
-    return NextResponse.json(
-      { message: "Invalid per_page parameter" },
+      { message: "Invalid count parameter" },
       { status: 400 },
     );
   }
@@ -45,6 +32,7 @@ async function GET(
 
   if (!unsplashKey) {
     console.error("Unsplash API key (UNSPLASH_KEY) is not configured.");
+
     return NextResponse.json(
       { message: "Unsplash API key is not configured on the server" },
       { status: 500 },
@@ -52,21 +40,23 @@ async function GET(
   }
 
   const apiParams = new URLSearchParams({
-    page: String(pageNum),
-    per_page: String(perPageNum),
+    count: String(count),
     client_id: unsplashKey,
   });
 
-  const apiUrl = `https://api.unsplash.com/users/${username}/likes?${apiParams.toString()}`;
+  if (query) {
+    apiParams.set("query", query);
+  }
+
+  const apiUrl = `https://api.unsplash.com/photos/random?${apiParams.toString()}`;
 
   try {
-    const response = await fetch(apiUrl, { next: { revalidate: 3600 } });
+    const response = await fetch(apiUrl);
 
     if (!response.ok) {
       const messages: Record<number, string> = {
         401: "Unsplash API key is invalid or revoked. Check server configuration.",
         403: "Unsplash API key is invalid or revoked. Check server configuration.",
-        404: `User "${username}" was not found on Unsplash.`,
         429: "Rate limit reached. Please wait a moment before searching again.",
         500: "Unsplash is experiencing issues. Please try again later.",
         503: "Unsplash is temporarily unavailable. Please try again later.",
@@ -84,16 +74,14 @@ async function GET(
       return NextResponse.json({ message }, { status: response.status });
     }
 
-    const total = parseInt(response.headers.get("X-Total") ?? "0", 10);
     const photos: unknown = await response.json();
-    const total_pages = Math.ceil(total / perPageNum);
 
-    return NextResponse.json({ results: photos, total_pages });
+    return NextResponse.json({ results: photos, total_pages: 0 });
   } catch (error) {
     console.error(error);
 
     return NextResponse.json(
-      { message: "Error fetching liked photos from Unsplash" },
+      { message: "Error fetching random photos from Unsplash" },
       { status: 500 },
     );
   }

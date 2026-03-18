@@ -2,8 +2,8 @@
 
 /**
  * Hook that returns a memoized fetch function for querying the Unsplash API.
- * Fetches photo search results or a user's photos, likes, or collections
- * depending on whether a username and userFetchMode are provided.
+ * Fetches random photos when isRandom is true, a user's photos/likes/collections
+ * when username is set, or keyword search results otherwise.
  * Each call aborts any pending request before starting a new one, preventing
  * stale responses from overwriting fresh results.
  */
@@ -20,12 +20,21 @@ const useFetchImages = (
   page: number,
   perPage: number,
   lang: string,
+  orderBy: "relevance" | "latest",
+  color: string,
   username: string,
   userFetchMode: "photos" | "likes" | "collections",
   setImages: (value: SetStateAction<ImageDetails[]>) => void,
   setTotalPages: (value: SetStateAction<number>) => void,
+  isRandom: boolean,
 ): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
   const abortControllerRef = useRef<AbortController | null>(null);
+  const isRandomRef = useRef(isRandom);
+  isRandomRef.current = isRandom;
+  const orderByRef = useRef(orderBy);
+  orderByRef.current = orderBy;
+  const colorRef = useRef(color);
+  colorRef.current = color;
 
   return useCallback(
     async (queryOverride?: string, pageOverride?: number) => {
@@ -33,7 +42,16 @@ const useFetchImages = (
 
       let url: string;
 
-      if (username) {
+      if (isRandomRef.current) {
+        const query = queryOverride ?? searchInput.current?.value ?? "";
+        const params = new URLSearchParams({ count: String(perPage) });
+
+        if (query) {
+          params.set("query", query);
+        }
+
+        url = `/api/photos/random?${params.toString()}`;
+      } else if (username) {
         const params = new URLSearchParams({
           page: String(resolvedPage),
           per_page: String(perPage),
@@ -52,7 +70,12 @@ const useFetchImages = (
           page: String(resolvedPage),
           per_page: String(perPage),
           lang,
+          order_by: orderByRef.current,
         });
+
+        if (colorRef.current) {
+          params.set("color", colorRef.current);
+        }
 
         url = `/api/images?${params.toString()}`;
       }

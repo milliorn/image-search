@@ -12,6 +12,7 @@ import LoadingIndicator from "./ui/LoadingIndicator";
 import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
 import {
+  COLORS,
   imageButtons,
   IMAGES_PER_PAGE,
   LANGUAGES,
@@ -29,10 +30,13 @@ function Home() {
   const [isDark, setIsDark] = useState(false);
   const [perPage, setPerPage] = useState(IMAGES_PER_PAGE);
   const [lang, setLang] = useState("en");
+  const [orderBy, setOrderBy] = useState<"relevance" | "latest">("relevance");
+  const [color, setColor] = useState("");
   const [username, setUsername] = useState("");
   const [userFetchMode, setUserFetchMode] = useState<
     "photos" | "likes" | "collections"
   >("photos");
+  const [isRandom, setIsRandom] = useState(false);
 
   const fetchImages = useFetchImages(
     searchInput,
@@ -41,10 +45,13 @@ function Home() {
     page,
     perPage,
     lang,
+    orderBy,
+    color,
     username,
     userFetchMode,
     setImages,
     setTotalPages,
+    isRandom,
   );
 
   // Resets to page 1 and fetches on form submit.
@@ -75,6 +82,9 @@ function Home() {
     setHasSearched(false);
     setUsername("");
     setUserFetchMode("photos");
+    setIsRandom(false);
+    setOrderBy("relevance");
+    setColor("");
 
     if (searchInput.current) {
       searchInput.current.value = "";
@@ -83,6 +93,7 @@ function Home() {
 
   // Switches to user photos mode and fetches from page 1.
   const handleAuthorClick = (authorUsername: string) => {
+    setIsRandom(false);
     setUserFetchMode("photos");
     setUsername(authorUsername);
     setHasSearched(true);
@@ -91,6 +102,7 @@ function Home() {
 
   // Switches to user likes mode and fetches from page 1.
   const handleLikesClick = (authorUsername: string) => {
+    setIsRandom(false);
     setUserFetchMode("likes");
     setUsername(authorUsername);
     setHasSearched(true);
@@ -99,6 +111,7 @@ function Home() {
 
   // Switches to user collections mode and fetches from page 1.
   const handleCollectionsClick = (authorUsername: string) => {
+    setIsRandom(false);
     setUserFetchMode("collections");
     setUsername(authorUsername);
     setHasSearched(true);
@@ -155,13 +168,33 @@ function Home() {
           Image Search
         </button>
       </h1>
-      <SearchInput onSubmit={onChange} searchRef={searchInput} />
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4 mb-8">
+      <SearchInput
+        loading={loading}
+        onSubmit={onChange}
+        searchRef={searchInput}
+      />
+      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mt-4 mb-8">
         <button
           onClick={() => setIsDark((prev) => !prev)}
           className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer"
         >
           {isDark ? "Light Mode" : "Dark Mode"}
+        </button>
+        <button
+          onClick={() =>
+            setOrderBy((prev) =>
+              prev === "relevance" ? "latest" : "relevance",
+            )
+          }
+          className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer"
+        >
+          {orderBy === "relevance" ? "Relevance" : "Latest"}
+        </button>
+        <button
+          onClick={() => setIsRandom((prev) => !prev)}
+          className={`${isRandom ? "bg-indigo-900" : "bg-indigo-600"} hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer`}
+        >
+          {isRandom ? "Random 👍" : "Random 👎"}
         </button>
         <label htmlFor="per-page" className="sr-only">
           Results per page
@@ -191,6 +224,22 @@ function Home() {
         >
           {LANGUAGES.map(({ code, label }) => (
             <option key={code} value={code}>
+              {label}
+            </option>
+          ))}
+        </select>
+        <label htmlFor="color" className="sr-only">
+          Color filter
+        </label>
+        <select
+          id="color"
+          name="color"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+          className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer text-center"
+        >
+          {COLORS.map(({ value, label }) => (
+            <option key={value} value={value}>
               {label}
             </option>
           ))}

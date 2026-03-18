@@ -27,6 +27,22 @@ const imageButtons = [
   "wallpaper",
 ];
 
+/** Color filter options for the Unsplash search API. Empty string means no filter. */
+const COLORS: { value: string; label: string }[] = [
+  { value: "", label: "Any Color" },
+  { value: "black_and_white", label: "Black & White" },
+  { value: "black", label: "Black" },
+  { value: "white", label: "White" },
+  { value: "yellow", label: "Yellow" },
+  { value: "orange", label: "Orange" },
+  { value: "red", label: "Red" },
+  { value: "purple", label: "Purple" },
+  { value: "magenta", label: "Magenta" },
+  { value: "green", label: "Green" },
+  { value: "teal", label: "Teal" },
+  { value: "blue", label: "Blue" },
+];
+
 /** Supported languages for the Unsplash search beta. */
 const LANGUAGES: { code: string; label: string }[] = [
   { code: "af", label: "Afrikaans" },
@@ -141,6 +157,7 @@ const LANGUAGES: { code: string; label: string }[] = [
 ];
 
 export {
+  COLORS,
   imageButtons,
   IMAGES_PER_PAGE,
   LANGUAGES,

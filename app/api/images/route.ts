@@ -9,6 +9,8 @@
  *   page     — page number, defaults to 1
  *   per_page — results per page, defaults to IMAGES_PER_PAGE, max 30
  *   lang     — ISO 639-1 language code for search results, defaults to "en"
+ *   order_by — sort order, "relevance" (default) or "latest"
+ *   color    — filter by dominant color (optional)
  */
 
 import type { NextRequest } from "next/server";
@@ -21,6 +23,15 @@ async function GET(req: NextRequest): Promise<NextResponse> {
   const pageParam = searchParams.get("page") ?? "1";
   const perPageParam = searchParams.get("per_page") ?? String(IMAGES_PER_PAGE);
   const lang = searchParams.get("lang") ?? "en";
+  const orderBy = searchParams.get("order_by") ?? "relevance";
+  const color = searchParams.get("color") ?? "";
+
+  if (orderBy !== "relevance" && orderBy !== "latest") {
+    return NextResponse.json(
+      { message: "Invalid order_by parameter" },
+      { status: 400 },
+    );
+  }
 
   if (!query) {
     return NextResponse.json(
@@ -61,8 +72,13 @@ async function GET(req: NextRequest): Promise<NextResponse> {
     page: String(pageNum),
     per_page: String(perPageNum),
     lang,
+    order_by: orderBy,
     client_id: unsplashKey,
   });
+
+  if (color) {
+    params.set("color", color);
+  }
 
   const apiUrl = `https://api.unsplash.com/search/photos?${params.toString()}`;
 
@@ -73,6 +89,7 @@ async function GET(req: NextRequest): Promise<NextResponse> {
       const messages: Record<number, string> = {
         400: "The search request was invalid. Please try a different query.",
         401: "Unsplash API key is invalid or revoked. Check server configuration.",
+        429: "Rate limit reached. Please wait a moment before searching again.",
         403: "Unsplash API key is invalid or revoked. Check server configuration.",
         404: "The requested resource was not found on Unsplash.",
         500: "Unsplash is experiencing issues. Please try again later.",
