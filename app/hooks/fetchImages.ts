@@ -2,8 +2,8 @@
 
 /**
  * Hook that returns a memoized fetch function for querying the Unsplash API.
- * Fetches photo search results or a user's photos, likes, or collections
- * depending on whether a username and userFetchMode are provided.
+ * Fetches random photos when isRandom is true, a user's photos/likes/collections
+ * when username is set, or keyword search results otherwise.
  * Each call aborts any pending request before starting a new one, preventing
  * stale responses from overwriting fresh results.
  */
