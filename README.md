@@ -12,7 +12,7 @@ Image Search is a full-stack web application built with Next.js 16, React 19, an
 
 - **Keyword Search**: Search millions of Unsplash photos by any term. Results are paginated and can be sorted by relevance or date uploaded.
 - **Preset Categories**: Twelve one-click filter buttons (animals, anime, art, food, home, music, nature, seasons, space, sports, travel, wallpaper) populate the search field and fetch results immediately.
-- **Sort Order**: Toggle between *Relevance* and *Latest* at any time without re-entering a search term.
+- **Sort Order**: Toggle between _Relevance_ and _Latest_ at any time without re-entering a search term.
 - **Color Filter**: Narrow results by dominant color. Twelve options including black & white, black, white, and ten named colors.
 - **Language Filter**: Filter results by language. Over 70 ISO 639-1 languages are supported via the Unsplash search beta endpoint.
 - **Results per Page**: Choose 12, 18, 24, or 30 results per page. All values are multiples of 6, so the grid always fills evenly across 1-, 2-, and 3-column layouts.
@@ -28,15 +28,15 @@ Image Search is a full-stack web application built with Next.js 16, React 19, an
 
 ## Technology Stack
 
-| Technology | Version | Role |
-| --- | --- | --- |
-| **Next.js** | 16 | App Router, Route Handlers (API proxy), ISR caching, Turbopack |
-| **React** | 19 | Client components, hooks (`useState`, `useEffect`, `useRef`, `useCallback`) |
-| **Tailwind CSS** | 4 | Utility-first styling, dark mode via `dark:` variants, custom `xs` breakpoint |
-| **TypeScript** | 5 | Strict mode with additional compile-time checks (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, etc.) |
-| **ESLint** | 9 | `next/core-web-vitals` + `typescript-eslint` strict rules |
-| **PostCSS** | 8 | CSS processing via `@tailwindcss/postcss` |
-| **react-spinners** | latest | `BarLoader` animated loading indicator |
+| Technology         | Version | Role                                                                                                             |
+| ------------------ | ------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Next.js**        | 16      | App Router, Route Handlers (API proxy), ISR caching, Turbopack                                                   |
+| **React**          | 19      | Client components, hooks (`useState`, `useEffect`, `useRef`, `useCallback`)                                      |
+| **Tailwind CSS**   | 4       | Utility-first styling, dark mode via `dark:` variants, custom `xs` breakpoint                                    |
+| **TypeScript**     | 5       | Strict mode with additional compile-time checks (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, etc.) |
+| **ESLint**         | 9       | `next/core-web-vitals` + `typescript-eslint` strict rules                                                        |
+| **PostCSS**        | 8       | CSS processing via `@tailwindcss/postcss`                                                                        |
+| **react-spinners** | latest  | `BarLoader` animated loading indicator                                                                           |
 
 ## Project Structure
 
@@ -84,7 +84,12 @@ All routes are Next.js App Router Route Handlers. The Unsplash client ID (`UNSPL
 Every successful response follows the same JSON shape so the `useFetchImages` hook can consume all five endpoints without branching on the URL:
 
 ```json
-{ "results": [ /* ImageDetails[] */ ], "total_pages": 42 }
+{
+  "results": [
+    /* ImageDetails[] */
+  ],
+  "total_pages": 42
+}
 ```
 
 Error responses always follow:
@@ -97,32 +102,32 @@ Error responses always follow:
 
 Proxies the Unsplash [Search Photos](https://unsplash.com/documentation#search-photos) endpoint. Responses are ISR-cached for **24 hours**.
 
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `query` | string | *(required)* | Keyword search term |
-| `page` | number | `1` | Page number (min 1) |
-| `per_page` | number | `12` | Results per page (1–30) |
-| `lang` | string | `"en"` | ISO 639-1 language code |
-| `order_by` | string | `"relevance"` | `"relevance"` or `"latest"` |
-| `color` | string | *(none)* | Dominant color filter (optional; omit for any color) |
+| Parameter  | Type   | Default       | Description                                          |
+| ---------- | ------ | ------------- | ---------------------------------------------------- |
+| `query`    | string | _(required)_  | Keyword search term                                  |
+| `page`     | number | `1`           | Page number (min 1)                                  |
+| `per_page` | number | `12`          | Results per page (1–30)                              |
+| `lang`     | string | `"en"`        | ISO 639-1 language code                              |
+| `order_by` | string | `"relevance"` | `"relevance"` or `"latest"`                          |
+| `color`    | string | _(none)_      | Dominant color filter (optional; omit for any color) |
 
 ### `GET /api/photos/random`
 
 Proxies the Unsplash [Random Photos](https://unsplash.com/documentation#get-a-random-photo) endpoint. Returns `total_pages: 0` so pagination controls are hidden automatically. Responses are **not** ISR-cached; results are intentionally random on every request.
 
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `count` | number | `12` | Number of photos to return (1–30) |
-| `query` | string | *(none)* | Optional keyword to bias random results |
+| Parameter | Type   | Default  | Description                             |
+| --------- | ------ | -------- | --------------------------------------- |
+| `count`   | number | `12`     | Number of photos to return (1–30)       |
+| `query`   | string | _(none)_ | Optional keyword to bias random results |
 
 ### `GET /api/users/:username/photos`
 
 Proxies [List a User's Photos](https://unsplash.com/documentation#list-a-users-photos). Total page count is derived from the `X-Total` response header returned by Unsplash. ISR-cached for **1 hour**.
 
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `page` | number | `1` | Page number |
-| `per_page` | number | `12` | Results per page (1–30) |
+| Parameter  | Type   | Default | Description             |
+| ---------- | ------ | ------- | ----------------------- |
+| `page`     | number | `1`     | Page number             |
+| `per_page` | number | `12`    | Results per page (1–30) |
 
 ### `GET /api/users/:username/likes`
 
@@ -163,10 +168,10 @@ Proxies [List a User's Collections](https://unsplash.com/documentation#list-a-us
    NEXT_PUBLIC_SITE_URL=http://localhost:3000
    ```
 
-   | Variable | Required | Description |
-   | --- | --- | --- |
-   | `UNSPLASH_KEY` | Yes | Unsplash API client ID. Read server-side only; never sent to the browser. |
-   | `NEXT_PUBLIC_SITE_URL` | Yes | Canonical base URL. Used by `sitemap.ts` to generate absolute URLs. Change to your production domain before deploying. |
+   | Variable               | Required | Description                                                                                                            |
+   | ---------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
+   | `UNSPLASH_KEY`         | Yes      | Unsplash API client ID. Read server-side only; never sent to the browser.                                              |
+   | `NEXT_PUBLIC_SITE_URL` | Yes      | Canonical base URL. Used by `sitemap.ts` to generate absolute URLs. Change to your production domain before deploying. |
 
 4. **Start the development server**
 
@@ -187,22 +192,22 @@ Or deploy to [Vercel](https://vercel.com). The project is pre-configured for zer
 
 ## Available Scripts
 
-| Script | Description |
-| --- | --- |
-| `npm run dev` | Start the development server with Turbopack HMR |
-| `npm run build` | Compile and optimize for production |
-| `npm start` | Start the production server (requires a prior `build`) |
-| `npm run lint` | Run ESLint across all source files |
-| `npm run lint:fix` | Run ESLint with auto-fix enabled |
-| `npm run prettier:check` | Check source formatting with Prettier |
-| `npm run prettier:fix` | Auto-format all source files with Prettier |
+| Script                   | Description                                            |
+| ------------------------ | ------------------------------------------------------ |
+| `npm run dev`            | Start the development server with Turbopack HMR        |
+| `npm run build`          | Compile and optimize for production                    |
+| `npm start`              | Start the production server (requires a prior `build`) |
+| `npm run lint`           | Run ESLint across all source files                     |
+| `npm run lint:fix`       | Run ESLint with auto-fix enabled                       |
+| `npm run prettier:check` | Check source formatting with Prettier                  |
+| `npm run prettier:fix`   | Auto-format all source files with Prettier             |
 
 ## Environment Variables
 
-| Variable | Scope | Required | Purpose |
-| --- | --- | --- | --- |
-| `UNSPLASH_KEY` | Server only | Yes | Unsplash API client ID. Read by all API route handlers at request time. Setting this as a `NEXT_PUBLIC_` variable would expose it in the browser bundle; do not do this. |
-| `NEXT_PUBLIC_SITE_URL` | Client + Server | Yes | Canonical site URL. Used by `sitemap.ts` to generate absolute `<loc>` entries. Set to the production domain (e.g. `https://example.com`) before deploying. |
+| Variable               | Scope           | Required | Purpose                                                                                                                                                                  |
+| ---------------------- | --------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `UNSPLASH_KEY`         | Server only     | Yes      | Unsplash API client ID. Read by all API route handlers at request time. Setting this as a `NEXT_PUBLIC_` variable would expose it in the browser bundle; do not do this. |
+| `NEXT_PUBLIC_SITE_URL` | Client + Server | Yes      | Canonical site URL. Used by `sitemap.ts` to generate absolute `<loc>` entries. Set to the production domain (e.g. `https://example.com`) before deploying.               |
 
 ## Contributing
 

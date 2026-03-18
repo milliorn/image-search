@@ -39,9 +39,15 @@ const useFetchImages = (
   // React may render the component multiple times before committing, leaving
   // the ref pointing at a value from an abandoned render. useEffect runs only
   // after the commit, so the ref always reflects the last painted state.
-  useEffect(() => { isRandomRef.current = isRandom; }, [isRandom]);
-  useEffect(() => { orderByRef.current = orderBy; }, [orderBy]);
-  useEffect(() => { colorRef.current = color; }, [color]);
+  useEffect(() => {
+    isRandomRef.current = isRandom;
+  }, [isRandom]);
+  useEffect(() => {
+    orderByRef.current = orderBy;
+  }, [orderBy]);
+  useEffect(() => {
+    colorRef.current = color;
+  }, [color]);
 
   return useCallback(
     async (queryOverride?: string, pageOverride?: number) => {

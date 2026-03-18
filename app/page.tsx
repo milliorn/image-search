@@ -33,9 +33,9 @@ function Home() {
   const [totalPages, setTotalPages] = useState(0);
   const [username, setUsername] = useState("");
   const searchInput = useRef<HTMLInputElement | null>(null);
-  
+
   const [userFetchMode, setUserFetchMode] = useState<
-  "photos" | "likes" | "collections"
+    "photos" | "likes" | "collections"
   >("photos");
 
   const [isDark, setIsDark] = useState(false);
@@ -45,7 +45,7 @@ function Home() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsDark(window.matchMedia("(prefers-color-scheme: dark)").matches);
   }, []);
-  
+
   const fetchImages = useFetchImages(
     searchInput,
     setLoading,
