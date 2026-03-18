@@ -8,7 +8,7 @@
  * stale responses from overwriting fresh results.
  */
 
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import type { RefObject, SetStateAction } from "react";
 import type { ApiResponse } from "../models/ApiResponse";
 import type { ImageDetails } from "../models/ImageDetails";
@@ -30,11 +30,24 @@ const useFetchImages = (
 ): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
   const abortControllerRef = useRef<AbortController | null>(null);
   const isRandomRef = useRef(isRandom);
-  isRandomRef.current = isRandom;
   const orderByRef = useRef(orderBy);
-  orderByRef.current = orderBy;
   const colorRef = useRef(color);
-  colorRef.current = color;
+
+  // Sync filter values into refs after each committed render.
+  // Assigning ref.current directly during render is disallowed by the
+  // react-hooks/refs rule (eslint-plugin-react-hooks v7+) because concurrent
+  // React may render the component multiple times before committing, leaving
+  // the ref pointing at a value from an abandoned render. useEffect runs only
+  // after the commit, so the ref always reflects the last painted state.
+  useEffect(() => {
+    isRandomRef.current = isRandom;
+  }, [isRandom]);
+  useEffect(() => {
+    orderByRef.current = orderBy;
+  }, [orderBy]);
+  useEffect(() => {
+    colorRef.current = color;
+  }, [color]);
 
   return useCallback(
     async (queryOverride?: string, pageOverride?: number) => {
