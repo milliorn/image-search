@@ -8,8 +8,8 @@
  * cover_photo are filtered out.
  *
  * Query params:
- *   page     — page number, defaults to 1
- *   per_page — results per page, defaults to IMAGES_PER_PAGE
+ *   page     - page number, defaults to 1
+ *   per_page - results per page, defaults to IMAGES_PER_PAGE
  */
 
 import type { NextRequest } from "next/server";

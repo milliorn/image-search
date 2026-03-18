@@ -18,7 +18,7 @@ const viewport: Viewport = {
 const metadata: Metadata = {
   title: "Image Search",
   description:
-    "Search and browse millions of free high-resolution photos. Explore images by category — nature, travel, animals, art, food, and more. Powered by Unsplash.",
+    "Search and browse millions of free high-resolution photos. Explore images by category: nature, travel, animals, art, food, and more. Powered by Unsplash.",
   generator: "Next.js",
   applicationName: "Image Search",
   keywords: [
@@ -52,7 +52,7 @@ const metadata: Metadata = {
   openGraph: {
     title: "Image Search",
     description:
-      "Search and browse millions of free high-resolution photos. Explore images by category — nature, travel, animals, art, food, and more.",
+      "Search and browse millions of free high-resolution photos. Explore images by category: nature, travel, animals, art, food, and more.",
     url: "https://image-search-black-iota.vercel.app",
     siteName: "Image Search",
     type: "website",
@@ -62,7 +62,7 @@ const metadata: Metadata = {
     card: "summary_large_image",
     title: "Image Search",
     description:
-      "Search and browse millions of free high-resolution photos. Explore images by category — nature, travel, animals, art, food, and more.",
+      "Search and browse millions of free high-resolution photos. Explore images by category: nature, travel, animals, art, food, and more.",
     creator: "@milliorn",
   },
   authors: [{ name: "Scott Milliorn", url: "https://milliorn.xyz/" }],

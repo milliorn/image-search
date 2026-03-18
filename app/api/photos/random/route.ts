@@ -7,8 +7,8 @@
  * total_pages is 0 so pagination controls are hidden for random results.
  *
  * Query params:
- *   count — number of photos to return, defaults to IMAGES_PER_PAGE, max 30
- *   query — optional search term to filter random results
+ *   count - number of photos to return, defaults to IMAGES_PER_PAGE, max 30
+ *   query - optional search term to filter random results
  */
 
 import type { NextRequest } from "next/server";

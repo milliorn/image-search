@@ -1,3 +1,5 @@
+/** Renders the site footer with a copyright notice and a link to the author's GitHub profile. */
+
 import Link from "next/link";
 import type { JSX } from "react";
 

@@ -5,12 +5,12 @@
  * Keeping the Unsplash client ID server-side prevents it from being exposed to the browser.
  *
  * Query params:
- *   query    — search term (required)
- *   page     — page number, defaults to 1
- *   per_page — results per page, defaults to IMAGES_PER_PAGE, max 30
- *   lang     — ISO 639-1 language code for search results, defaults to "en"
- *   order_by — sort order, "relevance" (default) or "latest"
- *   color    — filter by dominant color (optional)
+ *   query    - search term (required)
+ *   page     - page number, defaults to 1
+ *   per_page - results per page, defaults to IMAGES_PER_PAGE, max 30
+ *   lang     - ISO 639-1 language code for search results, defaults to "en"
+ *   order_by - sort order, "relevance" (default) or "latest"
+ *   color    - filter by dominant color (optional)
  */
 
 import type { NextRequest } from "next/server";
