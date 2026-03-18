@@ -9,6 +9,7 @@
  *   page     — page number, defaults to 1
  *   per_page — results per page, defaults to IMAGES_PER_PAGE, max 30
  *   lang     — ISO 639-1 language code for search results, defaults to "en"
+ *   order_by — sort order, "relevance" (default) or "latest"
  */
 
 import type { NextRequest } from "next/server";
@@ -21,6 +22,14 @@ async function GET(req: NextRequest): Promise<NextResponse> {
   const pageParam = searchParams.get("page") ?? "1";
   const perPageParam = searchParams.get("per_page") ?? String(IMAGES_PER_PAGE);
   const lang = searchParams.get("lang") ?? "en";
+  const orderBy = searchParams.get("order_by") ?? "relevance";
+
+  if (orderBy !== "relevance" && orderBy !== "latest") {
+    return NextResponse.json(
+      { message: "Invalid order_by parameter" },
+      { status: 400 },
+    );
+  }
 
   if (!query) {
     return NextResponse.json(
@@ -61,6 +70,7 @@ async function GET(req: NextRequest): Promise<NextResponse> {
     page: String(pageNum),
     per_page: String(perPageNum),
     lang,
+    order_by: orderBy,
     client_id: unsplashKey,
   });
 

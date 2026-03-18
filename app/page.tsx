@@ -29,6 +29,7 @@ function Home() {
   const [isDark, setIsDark] = useState(false);
   const [perPage, setPerPage] = useState(IMAGES_PER_PAGE);
   const [lang, setLang] = useState("en");
+  const [orderBy, setOrderBy] = useState<"relevance" | "latest">("relevance");
   const [username, setUsername] = useState("");
   const [userFetchMode, setUserFetchMode] = useState<
     "photos" | "likes" | "collections"
@@ -42,6 +43,7 @@ function Home() {
     page,
     perPage,
     lang,
+    orderBy,
     username,
     userFetchMode,
     setImages,
@@ -78,6 +80,7 @@ function Home() {
     setUsername("");
     setUserFetchMode("photos");
     setIsRandom(false);
+    setOrderBy("relevance");
 
     if (searchInput.current) {
       searchInput.current.value = "";
@@ -162,12 +165,20 @@ function Home() {
         </button>
       </h1>
       <SearchInput loading={loading} onSubmit={onChange} searchRef={searchInput} />
-      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-2 mt-4 mb-8">
+      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-5 gap-2 mt-4 mb-8">
         <button
           onClick={() => setIsDark((prev) => !prev)}
           className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer"
         >
           {isDark ? "Light Mode" : "Dark Mode"}
+        </button>
+        <button
+          onClick={() =>
+            setOrderBy((prev) => (prev === "relevance" ? "latest" : "relevance"))
+          }
+          className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer"
+        >
+          {orderBy === "relevance" ? "Relevance" : "Latest"}
         </button>
         <button
           onClick={() => setIsRandom((prev) => !prev)}
