@@ -57,6 +57,7 @@ async function GET(req: NextRequest): Promise<NextResponse> {
       const messages: Record<number, string> = {
         401: "Unsplash API key is invalid or revoked. Check server configuration.",
         403: "Unsplash API key is invalid or revoked. Check server configuration.",
+        429: "Rate limit reached. Please wait a moment before searching again.",
         500: "Unsplash is experiencing issues. Please try again later.",
         503: "Unsplash is temporarily unavailable. Please try again later.",
       };
