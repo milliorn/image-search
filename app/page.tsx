@@ -12,6 +12,7 @@ import LoadingIndicator from "./ui/LoadingIndicator";
 import PaginationControls from "./ui/PaginationControls";
 import SearchInput from "./ui/SearchInput";
 import {
+  COLORS,
   imageButtons,
   IMAGES_PER_PAGE,
   LANGUAGES,
@@ -30,6 +31,7 @@ function Home() {
   const [perPage, setPerPage] = useState(IMAGES_PER_PAGE);
   const [lang, setLang] = useState("en");
   const [orderBy, setOrderBy] = useState<"relevance" | "latest">("relevance");
+  const [color, setColor] = useState("");
   const [username, setUsername] = useState("");
   const [userFetchMode, setUserFetchMode] = useState<
     "photos" | "likes" | "collections"
@@ -44,6 +46,7 @@ function Home() {
     perPage,
     lang,
     orderBy,
+    color,
     username,
     userFetchMode,
     setImages,
@@ -81,6 +84,7 @@ function Home() {
     setUserFetchMode("photos");
     setIsRandom(false);
     setOrderBy("relevance");
+    setColor("");
 
     if (searchInput.current) {
       searchInput.current.value = "";
@@ -165,7 +169,7 @@ function Home() {
         </button>
       </h1>
       <SearchInput loading={loading} onSubmit={onChange} searchRef={searchInput} />
-      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-5 gap-2 mt-4 mb-8">
+      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-6 gap-2 mt-4 mb-8">
         <button
           onClick={() => setIsDark((prev) => !prev)}
           className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer"
@@ -214,6 +218,22 @@ function Home() {
         >
           {LANGUAGES.map(({ code, label }) => (
             <option key={code} value={code}>
+              {label}
+            </option>
+          ))}
+        </select>
+        <label htmlFor="color" className="sr-only">
+          Color filter
+        </label>
+        <select
+          id="color"
+          name="color"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+          className="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-1 px-4 rounded-lg text-xl cursor-pointer text-center"
+        >
+          {COLORS.map(({ value, label }) => (
+            <option key={value} value={value}>
               {label}
             </option>
           ))}

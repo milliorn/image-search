@@ -21,6 +21,7 @@ const useFetchImages = (
   perPage: number,
   lang: string,
   orderBy: "relevance" | "latest",
+  color: string,
   username: string,
   userFetchMode: "photos" | "likes" | "collections",
   setImages: (value: SetStateAction<ImageDetails[]>) => void,
@@ -32,6 +33,8 @@ const useFetchImages = (
   isRandomRef.current = isRandom;
   const orderByRef = useRef(orderBy);
   orderByRef.current = orderBy;
+  const colorRef = useRef(color);
+  colorRef.current = color;
 
   return useCallback(
     async (queryOverride?: string, pageOverride?: number) => {
@@ -69,6 +72,10 @@ const useFetchImages = (
           lang,
           order_by: orderByRef.current,
         });
+
+        if (colorRef.current) {
+          params.set("color", colorRef.current);
+        }
 
         url = `/api/images?${params.toString()}`;
       }
