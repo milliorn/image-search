@@ -20,24 +20,32 @@ import {
 } from "./utils/constants";
 
 function Home() {
-  const searchInput = useRef<HTMLInputElement | null>(null);
-  const [images, setImages] = useState<ImageDetails[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-  const [perPage, setPerPage] = useState(IMAGES_PER_PAGE);
-  const [lang, setLang] = useState("en");
-  const [orderBy, setOrderBy] = useState<"relevance" | "latest">("relevance");
   const [color, setColor] = useState("");
-  const [username, setUsername] = useState("");
-  const [userFetchMode, setUserFetchMode] = useState<
-    "photos" | "likes" | "collections"
-  >("photos");
+  const [error, setError] = useState<string | null>(null);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [images, setImages] = useState<ImageDetails[]>([]);
   const [isRandom, setIsRandom] = useState(false);
+  const [lang, setLang] = useState("en");
+  const [loading, setLoading] = useState(false);
+  const [orderBy, setOrderBy] = useState<"relevance" | "latest">("relevance");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(IMAGES_PER_PAGE);
+  const [totalPages, setTotalPages] = useState(0);
+  const [username, setUsername] = useState("");
+  const searchInput = useRef<HTMLInputElement | null>(null);
+  
+  const [userFetchMode, setUserFetchMode] = useState<
+  "photos" | "likes" | "collections"
+  >("photos");
 
+  const [isDark, setIsDark] = useState(false);
+
+  // Initialize dark mode from OS preference.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsDark(window.matchMedia("(prefers-color-scheme: dark)").matches);
+  }, []);
+  
   const fetchImages = useFetchImages(
     searchInput,
     setLoading,
@@ -142,11 +150,6 @@ function Home() {
       console.error("searchInput ref is not attached to the DOM");
     }
   };
-
-  // Initialize dark mode from OS preference.
-  useEffect(() => {
-    setIsDark(window.matchMedia("(prefers-color-scheme: dark)").matches);
-  }, []);
 
   // Sync dark class to <html> whenever isDark changes.
   useEffect(() => {

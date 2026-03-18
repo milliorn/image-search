@@ -8,7 +8,7 @@
  * stale responses from overwriting fresh results.
  */
 
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import type { RefObject, SetStateAction } from "react";
 import type { ApiResponse } from "../models/ApiResponse";
 import type { ImageDetails } from "../models/ImageDetails";
@@ -30,11 +30,12 @@ const useFetchImages = (
 ): ((queryOverride?: string, pageOverride?: number) => Promise<void>) => {
   const abortControllerRef = useRef<AbortController | null>(null);
   const isRandomRef = useRef(isRandom);
-  isRandomRef.current = isRandom;
   const orderByRef = useRef(orderBy);
-  orderByRef.current = orderBy;
   const colorRef = useRef(color);
-  colorRef.current = color;
+
+  useEffect(() => { isRandomRef.current = isRandom; }, [isRandom]);
+  useEffect(() => { orderByRef.current = orderBy; }, [orderBy]);
+  useEffect(() => { colorRef.current = color; }, [color]);
 
   return useCallback(
     async (queryOverride?: string, pageOverride?: number) => {
