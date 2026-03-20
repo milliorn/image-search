@@ -15,7 +15,9 @@ function makeRequest(params: Record<string, string> = {}): NextRequest {
   return new NextRequest(url.toString());
 }
 
-function makeParams(username = "testuser"): { params: Promise<{ username: string }> } {
+function makeParams(username = "testuser"): {
+  params: Promise<{ username: string }>;
+} {
   return { params: Promise.resolve({ username }) };
 }
 
@@ -74,7 +76,7 @@ describe("GET /api/users/:username/likes — missing API key", () => {
 describe("GET /api/users/:username/likes — upstream responses", () => {
   it("returns 200 with results and total_pages derived from X-Total header", async () => {
     const mockPhotos = [{ id: "1" }, { id: "2" }];
-    
+
     jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: true,
       status: 200,
@@ -167,7 +169,9 @@ describe("GET /api/users/:username/likes — upstream URL construction", () => {
 
     await GET(makeRequest(), makeParams());
 
-    const calledInit = fetchSpy.mock.calls[0]?.[1] as { next: { revalidate: number } };
+    const calledInit = fetchSpy.mock.calls[0]?.[1] as {
+      next: { revalidate: number };
+    };
     expect(calledInit.next.revalidate).toBe(3600);
   });
 });

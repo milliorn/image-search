@@ -13,7 +13,9 @@ function makeRequest(params: Record<string, string> = {}): NextRequest {
   return new NextRequest(url.toString());
 }
 
-function makeParams(username = "testuser"): { params: Promise<{ username: string }> } {
+function makeParams(username = "testuser"): {
+  params: Promise<{ username: string }>;
+} {
   return { params: Promise.resolve({ username }) };
 }
 
@@ -121,7 +123,7 @@ describe("GET /api/users/:username/photos — upstream responses", () => {
 
     const res = await GET(makeRequest(), makeParams());
     expect(res.status).toBe(429);
-    
+
     const body = (await res.json()) as { message: string };
     expect(body.message).toContain("Rate limit");
   });
@@ -132,7 +134,7 @@ describe("GET /api/users/:username/photos — upstream responses", () => {
       .mockRejectedValueOnce(new Error("Network failure"));
 
     const res = await GET(makeRequest(), makeParams());
-    
+
     expect(res.status).toBe(500);
     expect(await res.json()).toEqual({
       message: "Error fetching user photos from Unsplash",
@@ -165,7 +167,9 @@ describe("GET /api/users/:username/photos — upstream URL construction", () => 
 
     await GET(makeRequest(), makeParams());
 
-    const calledInit = fetchSpy.mock.calls[0]?.[1] as { next: { revalidate: number } };
+    const calledInit = fetchSpy.mock.calls[0]?.[1] as {
+      next: { revalidate: number };
+    };
     expect(calledInit.next.revalidate).toBe(3600);
   });
 });

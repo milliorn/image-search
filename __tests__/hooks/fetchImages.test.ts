@@ -3,10 +3,12 @@ import type { RefObject } from "react";
 import useFetchImages from "@/app/hooks/fetchImages";
 import type { ImageDetails } from "@/app/models/ImageDetails";
 
-const makePhoto = (id: string) => ({ id } as unknown as ImageDetails);
+const makePhoto = (id: string) => ({ id }) as unknown as ImageDetails;
 
 const makeSearchInput = (value: string): RefObject<HTMLInputElement | null> =>
-  ({ current: { value } as HTMLInputElement }) as RefObject<HTMLInputElement | null>;
+  ({
+    current: { value } as HTMLInputElement,
+  }) as RefObject<HTMLInputElement | null>;
 
 type RenderOptions = {
   searchInput?: RefObject<HTMLInputElement | null>;
@@ -111,7 +113,7 @@ describe("useFetchImages — search mode", () => {
 
   it("calls setLoading(true) then setLoading(false) on success", async () => {
     mockSuccessFetch();
-    
+
     const setLoading = jest.fn();
     const { result } = renderFetchImages({ setLoading });
 
@@ -301,9 +303,9 @@ describe("useFetchImages — error handling", () => {
   });
 
   it("swallows AbortError without calling setError or setLoading(false)", async () => {
-    jest.spyOn(global, "fetch").mockRejectedValueOnce(
-      new DOMException("Aborted", "AbortError"),
-    );
+    jest
+      .spyOn(global, "fetch")
+      .mockRejectedValueOnce(new DOMException("Aborted", "AbortError"));
 
     const { result, setError, setLoading } = renderFetchImages();
 
@@ -321,7 +323,7 @@ describe("useFetchImages — error handling", () => {
     jest
       .spyOn(global, "fetch")
       .mockRejectedValueOnce(new Error("Network failure"));
-      
+
     const { result, setError } = renderFetchImages();
 
     await act(async () => {
@@ -371,7 +373,9 @@ describe("useFetchImages — ref sync", () => {
       await result.current("cats");
     });
 
-    expect(fetchSpy.mock.calls[0]?.[0] as string).toContain("order_by=relevance");
+    expect(fetchSpy.mock.calls[0]?.[0] as string).toContain(
+      "order_by=relevance",
+    );
 
     rerender({ orderBy: "latest" });
 

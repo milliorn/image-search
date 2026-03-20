@@ -15,7 +15,9 @@ function makeRequest(params: Record<string, string> = {}): NextRequest {
   return new NextRequest(url.toString());
 }
 
-function makeParams(username = "testuser"): { params: Promise<{ username: string }> } {
+function makeParams(username = "testuser"): {
+  params: Promise<{ username: string }>;
+} {
   return { params: Promise.resolve({ username }) };
 }
 
@@ -82,10 +84,7 @@ describe("GET /api/users/:username/collections — cover_photo extraction", () =
       headers: { get: () => null },
       json: jest
         .fn()
-        .mockResolvedValue([
-          { cover_photo: photo1 },
-          { cover_photo: photo2 },
-        ]),
+        .mockResolvedValue([{ cover_photo: photo1 }, { cover_photo: photo2 }]),
     } as unknown as Response);
 
     const res = await GET(makeRequest(), makeParams());
@@ -96,7 +95,7 @@ describe("GET /api/users/:username/collections — cover_photo extraction", () =
 
   it("filters out collections where cover_photo is null", async () => {
     const photo = { id: "p1" };
-    
+
     jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: true,
       status: 200,
@@ -213,7 +212,9 @@ describe("GET /api/users/:username/collections — upstream URL construction", (
 
     await GET(makeRequest(), makeParams());
 
-    const calledInit = fetchSpy.mock.calls[0]?.[1] as { next: { revalidate: number } };
+    const calledInit = fetchSpy.mock.calls[0]?.[1] as {
+      next: { revalidate: number };
+    };
     expect(calledInit.next.revalidate).toBe(3600);
   });
 });
