@@ -39,6 +39,7 @@ describe("SearchInput", () => {
 
   it("attaches searchRef to the input element", () => {
     const ref = createRef<HTMLInputElement | null>();
+
     render(<SearchInput {...baseProps} searchRef={ref} />);
     expect(ref.current).toBe(screen.getByRole("searchbox"));
   });
@@ -51,7 +52,10 @@ describe("SearchInput", () => {
 
     it("button is enabled", () => {
       render(<SearchInput {...baseProps} loading={false} />);
-      expect(screen.getByRole("button", { name: /search/i })).not.toBeDisabled();
+
+      expect(
+        screen.getByRole("button", { name: /search/i }),
+      ).not.toBeDisabled();
     });
   });
 
@@ -70,16 +74,22 @@ describe("SearchInput", () => {
   describe("form submission", () => {
     it("calls onSubmit when the button is clicked", async () => {
       const user = userEvent.setup();
+
       render(<SearchInput {...baseProps} />);
+
       await user.click(screen.getByRole("button", { name: /search/i }));
+
       expect(baseProps.onSubmit).toHaveBeenCalledTimes(1);
     });
 
     it("calls onSubmit when Enter is pressed in the input", async () => {
       const user = userEvent.setup();
+
       render(<SearchInput {...baseProps} />);
+
       await user.click(screen.getByRole("searchbox"));
       await user.keyboard("{Enter}");
+      
       expect(baseProps.onSubmit).toHaveBeenCalledTimes(1);
     });
   });

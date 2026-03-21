@@ -74,6 +74,7 @@ describe("GET /api/images — input validation", () => {
 describe("GET /api/images — missing API key", () => {
   it("returns 500 when UNSPLASH_KEY is not set", async () => {
     delete process.env["UNSPLASH_KEY"];
+    
     const res = await GET(makeRequest({ query: "cats" }));
 
     expect(res.status).toBe(500);
@@ -131,7 +132,7 @@ describe("GET /api/images — upstream responses", () => {
       .mockRejectedValueOnce(new Error("Network failure"));
 
     const res = await GET(makeRequest({ query: "cats" }));
-    
+
     expect(res.status).toBe(500);
     expect(await res.json()).toEqual({
       message: "Error fetching images from Unsplash",

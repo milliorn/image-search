@@ -127,21 +127,33 @@ describe("PaginationControls", () => {
   describe("Go button", () => {
     it("calls setPage with the typed value when clicked", async () => {
       const user = userEvent.setup();
+
       renderControls({ page: 1, totalPages: 10 });
-      const input = screen.getByRole("spinbutton", { name: "Page Number Input" });
+
+      const input = screen.getByRole("spinbutton", {
+        name: "Page Number Input",
+      });
+
       await user.clear(input);
       await user.type(input, "5");
       await user.click(screen.getByRole("button", { name: "Go" }));
+
       expect(setPage).toHaveBeenCalledWith(5);
     });
 
     it("calls setPage when Enter is pressed in the input", async () => {
       const user = userEvent.setup();
+
       renderControls({ page: 1, totalPages: 10 });
-      const input = screen.getByRole("spinbutton", { name: "Page Number Input" });
+
+      const input = screen.getByRole("spinbutton", {
+        name: "Page Number Input",
+      });
+
       await user.clear(input);
       await user.type(input, "7");
       await user.keyboard("{Enter}");
+
       expect(setPage).toHaveBeenCalledWith(7);
     });
 
@@ -152,10 +164,16 @@ describe("PaginationControls", () => {
 
     it("is disabled when input is out of range", async () => {
       const user = userEvent.setup();
+
       renderControls({ page: 1, totalPages: 10 });
-      const input = screen.getByRole("spinbutton", { name: "Page Number Input" });
+      
+      const input = screen.getByRole("spinbutton", {
+        name: "Page Number Input",
+      });
+
       await user.clear(input);
       await user.type(input, "99");
+
       expect(screen.getByRole("button", { name: "Go" })).toBeDisabled();
     });
   });
@@ -163,8 +181,11 @@ describe("PaginationControls", () => {
   describe("stepper buttons", () => {
     it("Decrease button decrements the input value", async () => {
       const user = userEvent.setup();
+
       renderControls({ page: 5 });
+
       await user.click(screen.getByRole("button", { name: "Decrease page" }));
+
       expect(
         screen.getByRole("spinbutton", { name: "Page Number Input" }),
       ).toHaveValue(4);
@@ -172,6 +193,7 @@ describe("PaginationControls", () => {
 
     it("Decrease button is disabled when input is at 1", () => {
       renderControls({ page: 1 });
+
       expect(
         screen.getByRole("button", { name: "Decrease page" }),
       ).toBeDisabled();
@@ -179,8 +201,11 @@ describe("PaginationControls", () => {
 
     it("Increase button increments the input value", async () => {
       const user = userEvent.setup();
+
       renderControls({ page: 5, totalPages: 10 });
+
       await user.click(screen.getByRole("button", { name: "Increase page" }));
+
       expect(
         screen.getByRole("spinbutton", { name: "Page Number Input" }),
       ).toHaveValue(6);
@@ -188,6 +213,7 @@ describe("PaginationControls", () => {
 
     it("Increase button is disabled at total pages", () => {
       renderControls({ page: 10, totalPages: 10 });
+      
       expect(
         screen.getByRole("button", { name: "Increase page" }),
       ).toBeDisabled();

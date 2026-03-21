@@ -1,82 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ImageDetailsDisplay from "@/app/ui/image/ImageDetailsDisplay";
-import type { ImageDetails } from "@/app/models/ImageDetails";
-
-jest.mock("next/link", () => ({
-  __esModule: true,
-  default: jest.fn(
-    ({
-      href,
-      children,
-    }: {
-      href: string;
-      children: React.ReactNode;
-    }) => <a href={href}>{children}</a>,
-  ),
-}));
-
-function makeImage(overrides: Partial<ImageDetails> = {}): ImageDetails {
-  return {
-    id: "test-id",
-    slug: "test-slug",
-    alternative_slugs: {},
-    created_at: "2024-03-15T00:00:00Z",
-    updated_at: "2024-03-15T00:00:00Z",
-    width: 800,
-    height: 600,
-    color: "#123456",
-    blur_hash: "test-blur",
-    breadcrumbs: [],
-    urls: {
-      raw: "https://example.com/raw.jpg",
-      full: "https://example.com/full.jpg",
-      regular: "https://example.com/regular.jpg",
-      small: "https://example.com/small.jpg",
-      thumb: "https://example.com/thumb.jpg",
-      small_s3: "https://example.com/small_s3.jpg",
-    },
-    links: {
-      self: "https://api.unsplash.com/photos/test-id",
-      html: "https://unsplash.com/photos/test-id",
-      download: "https://unsplash.com/photos/test-id/download",
-      download_location: "https://api.unsplash.com/photos/test-id/download",
-    },
-    likes: 42,
-    liked_by_user: false,
-    topic_submissions: {},
-    asset_type: "photo",
-    user: {
-      id: "user-id",
-      updated_at: "2024-03-15T00:00:00Z",
-      username: "testuser",
-      name: "Test User",
-      first_name: "Test",
-      links: {
-        self: "https://api.unsplash.com/users/testuser",
-        html: "https://unsplash.com/@testuser",
-        photos: "https://api.unsplash.com/users/testuser/photos",
-        likes: "https://api.unsplash.com/users/testuser/likes",
-        portfolio: "https://api.unsplash.com/users/testuser/portfolio",
-        following: "https://api.unsplash.com/users/testuser/following",
-        followers: "https://api.unsplash.com/users/testuser/followers",
-      },
-      profile_image: {
-        small: "https://example.com/profile-small.jpg",
-        medium: "https://example.com/profile-medium.jpg",
-        large: "https://example.com/profile-large.jpg",
-      },
-      total_collections: 0,
-      total_likes: 0,
-      total_photos: 0,
-      total_promoted_photos: 0,
-      accepted_tos: true,
-      for_hire: false,
-    },
-    alt_description: "a test image",
-    ...overrides,
-  };
-}
+import { makeImage } from "../../fixtures/makeImage";
 
 const onAuthorClick = jest.fn();
 const onLikesClick = jest.fn();
@@ -106,7 +31,10 @@ describe("ImageDetailsDisplay", () => {
       render(
         <ImageDetailsDisplay
           {...baseProps}
-          image={makeImage({ alt_description: "", description: "A beautiful scene" })}
+          image={makeImage({
+            alt_description: "",
+            description: "A beautiful scene",
+          })}
         />,
       );
       expect(screen.getByText("A beautiful scene")).toBeInTheDocument();
@@ -160,7 +88,9 @@ describe("ImageDetailsDisplay", () => {
       render(
         <ImageDetailsDisplay
           {...baseProps}
-          image={makeImage({ user: { ...makeImage().user, location: "Paris" } })}
+          image={makeImage({
+            user: { ...makeImage().user, location: "Paris" },
+          })}
         />,
       );
       expect(screen.getByText("Location: Paris")).toBeInTheDocument();
@@ -175,7 +105,9 @@ describe("ImageDetailsDisplay", () => {
   describe("likes", () => {
     it("shows likes when greater than 0", () => {
       render(<ImageDetailsDisplay {...baseProps} />);
-      expect(screen.getByText(`Likes: ${baseProps.image.likes}`)).toBeInTheDocument();
+      expect(
+        screen.getByText(`Likes: ${baseProps.image.likes}`),
+      ).toBeInTheDocument();
     });
 
     it("hides likes when 0", () => {
@@ -204,7 +136,9 @@ describe("ImageDetailsDisplay", () => {
 
     it("hides Instagram link when instagram_username is absent", () => {
       render(<ImageDetailsDisplay {...baseProps} />);
-      expect(screen.queryByRole("link", { name: "Instagram" })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("link", { name: "Instagram" }),
+      ).not.toBeInTheDocument();
     });
 
     it("shows Twitter link when twitter_username is present", () => {
@@ -224,7 +158,9 @@ describe("ImageDetailsDisplay", () => {
 
     it("hides Twitter link when twitter_username is absent", () => {
       render(<ImageDetailsDisplay {...baseProps} />);
-      expect(screen.queryByRole("link", { name: "Twitter" })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("link", { name: "Twitter" }),
+      ).not.toBeInTheDocument();
     });
 
     it("shows Portfolio link when portfolio_url is present", () => {
@@ -232,7 +168,10 @@ describe("ImageDetailsDisplay", () => {
         <ImageDetailsDisplay
           {...baseProps}
           image={makeImage({
-            user: { ...makeImage().user, portfolio_url: "https://portfolio.example.com" },
+            user: {
+              ...makeImage().user,
+              portfolio_url: "https://portfolio.example.com",
+            },
           })}
         />,
       );
@@ -244,7 +183,9 @@ describe("ImageDetailsDisplay", () => {
 
     it("hides Portfolio link when portfolio_url is absent", () => {
       render(<ImageDetailsDisplay {...baseProps} />);
-      expect(screen.queryByRole("link", { name: "Portfolio" })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("link", { name: "Portfolio" }),
+      ).not.toBeInTheDocument();
     });
 
     it("always shows the Source link", () => {
@@ -259,22 +200,36 @@ describe("ImageDetailsDisplay", () => {
   describe("See More Photos button", () => {
     it("is shown when activeUsername does not match", () => {
       render(
-        <ImageDetailsDisplay {...baseProps} activeMode="photos" activeUsername="other-user" />,
+        <ImageDetailsDisplay
+          {...baseProps}
+          activeMode="photos"
+          activeUsername="other-user"
+        />,
       );
-      expect(screen.getByRole("button", { name: /See More Photos by Test User/ })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /See More Photos by Test User/ }),
+      ).toBeInTheDocument();
     });
 
     it("is hidden when viewing this author's photos", () => {
       render(
-        <ImageDetailsDisplay {...baseProps} activeMode="photos" activeUsername="testuser" />,
+        <ImageDetailsDisplay
+          {...baseProps}
+          activeMode="photos"
+          activeUsername="testuser"
+        />,
       );
-      expect(screen.queryByRole("button", { name: /See More Photos/ })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: /See More Photos/ }),
+      ).not.toBeInTheDocument();
     });
 
     it("calls onAuthorClick with username when clicked", async () => {
       const user = userEvent.setup();
       render(<ImageDetailsDisplay {...baseProps} />);
-      await user.click(screen.getByRole("button", { name: /See More Photos by Test User/ }));
+      await user.click(
+        screen.getByRole("button", { name: /See More Photos by Test User/ }),
+      );
       expect(onAuthorClick).toHaveBeenCalledWith("testuser");
     });
   });
@@ -282,22 +237,36 @@ describe("ImageDetailsDisplay", () => {
   describe("Liked Photos button", () => {
     it("is shown when activeUsername does not match", () => {
       render(
-        <ImageDetailsDisplay {...baseProps} activeMode="likes" activeUsername="other-user" />,
+        <ImageDetailsDisplay
+          {...baseProps}
+          activeMode="likes"
+          activeUsername="other-user"
+        />,
       );
-      expect(screen.getByRole("button", { name: /Liked Photos by Test User/ })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /Liked Photos by Test User/ }),
+      ).toBeInTheDocument();
     });
 
     it("is hidden when viewing this author's liked photos", () => {
       render(
-        <ImageDetailsDisplay {...baseProps} activeMode="likes" activeUsername="testuser" />,
+        <ImageDetailsDisplay
+          {...baseProps}
+          activeMode="likes"
+          activeUsername="testuser"
+        />,
       );
-      expect(screen.queryByRole("button", { name: /Liked Photos/ })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: /Liked Photos/ }),
+      ).not.toBeInTheDocument();
     });
 
     it("calls onLikesClick with username when clicked", async () => {
       const user = userEvent.setup();
       render(<ImageDetailsDisplay {...baseProps} />);
-      await user.click(screen.getByRole("button", { name: /Liked Photos by Test User/ }));
+      await user.click(
+        screen.getByRole("button", { name: /Liked Photos by Test User/ }),
+      );
       expect(onLikesClick).toHaveBeenCalledWith("testuser");
     });
   });
@@ -316,12 +285,16 @@ describe("ImageDetailsDisplay", () => {
           image={imageWithCollections}
         />,
       );
-      expect(screen.getByRole("button", { name: /Collections by Test User/ })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /Collections by Test User/ }),
+      ).toBeInTheDocument();
     });
 
     it("is hidden when total_collections is 0", () => {
       render(<ImageDetailsDisplay {...baseProps} />);
-      expect(screen.queryByRole("button", { name: /Collections/ })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: /Collections/ }),
+      ).not.toBeInTheDocument();
     });
 
     it("is hidden when viewing this author's collections", () => {
@@ -333,7 +306,9 @@ describe("ImageDetailsDisplay", () => {
           image={imageWithCollections}
         />,
       );
-      expect(screen.queryByRole("button", { name: /Collections/ })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: /Collections/ }),
+      ).not.toBeInTheDocument();
     });
 
     it("calls onCollectionsClick with username when clicked", async () => {
@@ -341,7 +316,9 @@ describe("ImageDetailsDisplay", () => {
       render(
         <ImageDetailsDisplay {...baseProps} image={imageWithCollections} />,
       );
-      await user.click(screen.getByRole("button", { name: /Collections by Test User/ }));
+      await user.click(
+        screen.getByRole("button", { name: /Collections by Test User/ }),
+      );
       expect(onCollectionsClick).toHaveBeenCalledWith("testuser");
     });
   });

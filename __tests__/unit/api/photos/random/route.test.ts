@@ -11,7 +11,7 @@ function makeRequest(params: Record<string, string> = {}): NextRequest {
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.set(key, value),
   );
-  
+
   return new NextRequest(url.toString());
 }
 
