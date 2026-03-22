@@ -105,6 +105,7 @@ const PaginationControls = ({
           onClick={() =>
             setInputPage((prev) => {
               const n = parseInt(prev, 10);
+              /* c8 ignore next -- button is disabled when n is NaN */
               return String(Math.min(totalPagesMax, isNaN(n) ? 1 : n + 1));
             })
           }

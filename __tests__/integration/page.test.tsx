@@ -506,6 +506,24 @@ describe("Home page integration", () => {
     });
   });
 
+  it("shows 'Light Mode' label after clicking the dark mode toggle", async () => {
+    mockFetch();
+
+    const user = userEvent.setup();
+
+    render(<Home />);
+
+    expect(
+      screen.getByRole("button", { name: "Dark Mode" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Dark Mode" }));
+
+    expect(
+      screen.getByRole("button", { name: "Light Mode" }),
+    ).toBeInTheDocument();
+  });
+
   it("fetches the previous page when the Previous button is clicked", async () => {
     const image = makeImage({ id: "1" });
 
