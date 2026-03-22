@@ -65,6 +65,7 @@ function Home() {
   // Resets to page 1 and fetches on form submit.
   const onChange = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
+    /* c8 ignore next -- searchInput ref is always attached when the component is mounted */
     const query = searchInput.current?.value?.trim() ?? "";
 
     if (!query) {
@@ -94,6 +95,7 @@ function Home() {
     setOrderBy("relevance");
     setColor("");
 
+    /* c8 ignore next -- searchInput ref is always attached when the component is mounted */
     if (searchInput.current) {
       searchInput.current.value = "";
     }
@@ -146,6 +148,7 @@ function Home() {
       } else {
         setPage(1);
       }
+      /* c8 ignore next 3 -- searchInput ref is always attached when the component is mounted */
     } else {
       console.error("searchInput ref is not attached to the DOM");
     }
