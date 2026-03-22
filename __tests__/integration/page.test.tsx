@@ -506,6 +506,45 @@ describe("Home page integration", () => {
     });
   });
 
+  it("resets to page 1 and fetches when a new search is submitted from page 2", async () => {
+    const image = makeImage({ id: "1" });
+
+    mockFetch([image], 3);
+
+    const user = userEvent.setup();
+
+    render(<Home />);
+
+    await user.type(screen.getByRole("searchbox"), "nature");
+    await user.click(screen.getByRole("button", { name: "Search" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Page 1 of 3")).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByRole("button", { name: "Next" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Page 2 of 3")).toBeInTheDocument();
+    });
+
+    await user.clear(screen.getByRole("searchbox"));
+    await user.type(screen.getByRole("searchbox"), "mountains");
+    await user.click(screen.getByRole("button", { name: "Search" }));
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenLastCalledWith(
+        expect.stringContaining("query=mountains"),
+        expect.objectContaining({ signal: expect.any(AbortSignal) }),
+      );
+    });
+
+    expect(global.fetch).toHaveBeenLastCalledWith(
+      expect.stringContaining("page=1"),
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
+    );
+  });
+
   it("shows 'Relevance' label after toggling sort order twice", async () => {
     mockFetch();
 
