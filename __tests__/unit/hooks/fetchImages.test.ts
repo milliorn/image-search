@@ -111,6 +111,20 @@ describe("useFetchImages — search mode", () => {
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 
+  it("returns early without calling fetch when searchInput.current is null", async () => {
+    const fetchSpy = jest.spyOn(global, "fetch");
+
+    const { result } = renderFetchImages({
+      searchInput: { current: null } as RefObject<HTMLInputElement | null>,
+    });
+
+    await act(async () => {
+      await result.current();
+    });
+
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
   it("calls setLoading(true) then setLoading(false) on success", async () => {
     mockSuccessFetch();
 
@@ -192,6 +206,20 @@ describe("useFetchImages — random mode", () => {
     const { result } = renderFetchImages({
       isRandom: true,
       searchInput: makeSearchInput(""),
+    });
+
+    await act(async () => {
+      await result.current();
+    });
+
+    expect(fetchSpy.mock.calls[0]?.[0] as string).not.toContain("query=");
+  });
+
+  it("omits query from random URL when searchInput.current is null", async () => {
+    const fetchSpy = mockSuccessFetch({ results: [], total_pages: 0 });
+    const { result } = renderFetchImages({
+      isRandom: true,
+      searchInput: { current: null } as RefObject<HTMLInputElement | null>,
     });
 
     await act(async () => {
@@ -300,6 +328,40 @@ describe("useFetchImages — error handling", () => {
     });
 
     expect(setError).toHaveBeenCalledWith("Unexpected error");
+  });
+
+  it("falls back to generic message when data has no results and no message", async () => {
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: jest.fn().mockResolvedValue({}),
+    } as unknown as Response);
+
+    const { result, setError } = renderFetchImages();
+
+    await act(async () => {
+      await result.current("cats");
+    });
+
+    expect(setError).toHaveBeenCalledWith(
+      "Unexpected response from the server.",
+    );
+  });
+
+  it("calls setError when the success response body cannot be parsed as JSON", async () => {
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: jest.fn().mockRejectedValue(new Error("Invalid JSON")),
+    } as unknown as Response);
+
+    const { result, setError } = renderFetchImages();
+
+    await act(async () => {
+      await result.current("cats");
+    });
+
+    expect(setError).toHaveBeenCalledWith(
+      "Received an unexpected response from the server.",
+    );
   });
 
   it("swallows AbortError without calling setError or setLoading(false)", async () => {

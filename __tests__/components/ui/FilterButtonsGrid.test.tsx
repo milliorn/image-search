@@ -17,6 +17,7 @@ describe("FilterButtonsGrid", () => {
         onFilterSelect={onFilterSelect}
       />,
     );
+    
     expect(screen.getAllByRole("button")).toHaveLength(filters.length);
   });
 
@@ -27,6 +28,7 @@ describe("FilterButtonsGrid", () => {
         onFilterSelect={onFilterSelect}
       />,
     );
+
     expect(screen.getByRole("button", { name: "Cats" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Dogs" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Nature" })).toBeInTheDocument();
@@ -36,6 +38,7 @@ describe("FilterButtonsGrid", () => {
     render(
       <FilterButtonsGrid imageButtons={[]} onFilterSelect={onFilterSelect} />,
     );
+
     expect(screen.queryAllByRole("button")).toHaveLength(0);
   });
 
@@ -47,22 +50,26 @@ describe("FilterButtonsGrid", () => {
         onFilterSelect={onFilterSelect}
       />,
     );
+    
     await user.click(screen.getByRole("button", { name: "Cats" }));
+
     expect(onFilterSelect).toHaveBeenCalledTimes(1);
     expect(onFilterSelect).toHaveBeenCalledWith("cats");
   });
 
   it("calls onFilterSelect independently for each button", async () => {
     const user = userEvent.setup();
+
     render(
       <FilterButtonsGrid
         imageButtons={filters}
         onFilterSelect={onFilterSelect}
       />,
     );
+
     await user.click(screen.getByRole("button", { name: "Dogs" }));
     await user.click(screen.getByRole("button", { name: "Nature" }));
-    
+
     expect(onFilterSelect).toHaveBeenCalledTimes(2);
     expect(onFilterSelect).toHaveBeenNthCalledWith(1, "dogs");
     expect(onFilterSelect).toHaveBeenNthCalledWith(2, "nature");

@@ -117,6 +117,37 @@ describe("GET /api/users/:username/likes — upstream responses", () => {
     expect(body.message).toContain("janedoe");
   });
 
+  it("returns 401 with key-revoked message and logs an error when upstream returns 401", async () => {
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: false,
+      status: 401,
+    } as unknown as Response);
+
+    const consoleSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    const res = await GET(makeRequest(), makeParams());
+
+    expect(res.status).toBe(401);
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("401"));
+  });
+
+  it("returns the status code with a generic message when upstream returns an unknown error", async () => {
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: false,
+      status: 418,
+    } as unknown as Response);
+
+    const res = await GET(makeRequest(), makeParams());
+
+    expect(res.status).toBe(418);
+
+    expect(await res.json()).toEqual({
+      message: "Unsplash API error (418).",
+    });
+  });
+
   it("returns 429 with rate-limit message when upstream returns 429", async () => {
     jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: false,

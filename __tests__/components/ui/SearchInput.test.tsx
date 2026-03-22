@@ -89,7 +89,7 @@ describe("SearchInput", () => {
 
       await user.click(screen.getByRole("searchbox"));
       await user.keyboard("{Enter}");
-      
+
       expect(baseProps.onSubmit).toHaveBeenCalledTimes(1);
     });
   });

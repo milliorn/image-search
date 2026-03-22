@@ -70,8 +70,11 @@ describe("PaginationControls", () => {
 
     it("calls setPage with page - 1 when clicked", async () => {
       const user = userEvent.setup();
+
       renderControls({ page: 3 });
+
       await user.click(screen.getByRole("button", { name: "Previous" }));
+
       expect(setPage).toHaveBeenCalledWith(2);
     });
   });
@@ -103,6 +106,7 @@ describe("PaginationControls", () => {
   describe("page input", () => {
     it("shows the current page", () => {
       renderControls({ page: 5 });
+
       expect(
         screen.getByRole("spinbutton", { name: "Page Number Input" }),
       ).toHaveValue(5);
@@ -110,6 +114,7 @@ describe("PaginationControls", () => {
 
     it("syncs with page prop changes", () => {
       const { rerender } = renderControls({ page: 1 });
+
       rerender(
         <PaginationControls
           loading={false}
@@ -118,6 +123,7 @@ describe("PaginationControls", () => {
           totalPages={10}
         />,
       );
+      
       expect(
         screen.getByRole("spinbutton", { name: "Page Number Input" }),
       ).toHaveValue(5);
@@ -166,7 +172,7 @@ describe("PaginationControls", () => {
       const user = userEvent.setup();
 
       renderControls({ page: 1, totalPages: 10 });
-      
+
       const input = screen.getByRole("spinbutton", {
         name: "Page Number Input",
       });
@@ -213,7 +219,7 @@ describe("PaginationControls", () => {
 
     it("Increase button is disabled at total pages", () => {
       renderControls({ page: 10, totalPages: 10 });
-      
+
       expect(
         screen.getByRole("button", { name: "Increase page" }),
       ).toBeDisabled();

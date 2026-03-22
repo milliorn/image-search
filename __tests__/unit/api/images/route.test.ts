@@ -74,7 +74,7 @@ describe("GET /api/images — input validation", () => {
 describe("GET /api/images — missing API key", () => {
   it("returns 500 when UNSPLASH_KEY is not set", async () => {
     delete process.env["UNSPLASH_KEY"];
-    
+
     const res = await GET(makeRequest({ query: "cats" }));
 
     expect(res.status).toBe(500);
@@ -124,6 +124,21 @@ describe("GET /api/images — upstream responses", () => {
 
     const body = (await res.json()) as { message: string };
     expect(body.message).toContain("Rate limit");
+  });
+
+  it("returns the status code with a generic message when upstream returns an unknown error", async () => {
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: false,
+      status: 418,
+    } as unknown as Response);
+
+    const res = await GET(makeRequest({ query: "cats" }));
+
+    expect(res.status).toBe(418);
+
+    expect(await res.json()).toEqual({
+      message: "Unsplash API error (418).",
+    });
   });
 
   it("returns 500 when fetch throws a network error", async () => {

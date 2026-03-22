@@ -32,7 +32,12 @@ afterEach(() => {
 
 describe("ImageGrid", () => {
   it("renders an ImageCard for each image", () => {
-    const images = [makeImage({ id: "a" }), makeImage({ id: "b" }), makeImage({ id: "c" })];
+    const images = [
+      makeImage({ id: "a" }),
+      makeImage({ id: "b" }),
+      makeImage({ id: "c" }),
+    ];
+    
     render(<ImageGrid {...baseProps} images={images} />);
     expect(screen.getAllByTestId(/^image-card-/)).toHaveLength(3);
   });
@@ -69,9 +74,18 @@ describe("ImageGrid", () => {
 
       render(<ImageGrid {...baseProps} images={images} />);
 
-      expect(screen.getByTestId("image-card-a")).toHaveAttribute("data-priority", "true");
-      expect(screen.getByTestId("image-card-b")).toHaveAttribute("data-priority", "true");
-      expect(screen.getByTestId("image-card-c")).toHaveAttribute("data-priority", "true");
+      expect(screen.getByTestId("image-card-a")).toHaveAttribute(
+        "data-priority",
+        "true",
+      );
+      expect(screen.getByTestId("image-card-b")).toHaveAttribute(
+        "data-priority",
+        "true",
+      );
+      expect(screen.getByTestId("image-card-c")).toHaveAttribute(
+        "data-priority",
+        "true",
+      );
     });
 
     it("sets priority=false for images beyond the first 3", () => {
@@ -83,7 +97,10 @@ describe("ImageGrid", () => {
       ];
 
       render(<ImageGrid {...baseProps} images={images} />);
-      expect(screen.getByTestId("image-card-d")).toHaveAttribute("data-priority", "false");
+      expect(screen.getByTestId("image-card-d")).toHaveAttribute(
+        "data-priority",
+        "false",
+      );
     });
   });
 
@@ -98,8 +115,15 @@ describe("ImageGrid", () => {
       />,
     );
     const calls = MockImageCard.mock.calls;
+
+    expect(calls[0][0]).toMatchObject({
+      activeMode: "likes",
+      activeUsername: "jane",
+    });
     
-    expect(calls[0][0]).toMatchObject({ activeMode: "likes", activeUsername: "jane" });
-    expect(calls[1][0]).toMatchObject({ activeMode: "likes", activeUsername: "jane" });
+    expect(calls[1][0]).toMatchObject({
+      activeMode: "likes",
+      activeUsername: "jane",
+    });
   });
 });
