@@ -77,6 +77,19 @@ describe("ImageCard", () => {
     expect(MockImage.mock.calls[0][0]).toHaveProperty("priority", true);
   });
 
+  it("passes undefined backgroundColor when image color is null", () => {
+    render(
+      <ImageCard
+        {...baseProps}
+        image={makeImage({ color: null as unknown as string })}
+      />,
+    );
+    
+    expect(MockImage.mock.calls[0][0]).toHaveProperty("style", {
+      backgroundColor: undefined,
+    });
+  });
+
   it("renders ImageDetailsDisplay", () => {
     render(<ImageCard {...baseProps} />);
     expect(screen.getByTestId("image-details-display")).toBeInTheDocument();
