@@ -126,6 +126,21 @@ describe("GET /api/images — upstream responses", () => {
     expect(body.message).toContain("Rate limit");
   });
 
+  it("returns the status code with a generic message when upstream returns an unknown error", async () => {
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: false,
+      status: 418,
+    } as unknown as Response);
+
+    const res = await GET(makeRequest({ query: "cats" }));
+
+    expect(res.status).toBe(418);
+    
+    expect(await res.json()).toEqual({
+      message: "Unsplash API error (418).",
+    });
+  });
+
   it("returns 500 when fetch throws a network error", async () => {
     jest
       .spyOn(global, "fetch")
