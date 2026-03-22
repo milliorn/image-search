@@ -506,6 +506,26 @@ describe("Home page integration", () => {
     });
   });
 
+  it("shows 'Relevance' label after toggling sort order twice", async () => {
+    mockFetch();
+
+    const user = userEvent.setup();
+
+    render(<Home />);
+
+    await user.click(screen.getByRole("button", { name: "Relevance" }));
+
+    expect(
+      screen.getByRole("button", { name: "Latest" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Latest" }));
+
+    expect(
+      screen.getByRole("button", { name: "Relevance" }),
+    ).toBeInTheDocument();
+  });
+
   it("shows 'Light Mode' label after clicking the dark mode toggle", async () => {
     mockFetch();
 
