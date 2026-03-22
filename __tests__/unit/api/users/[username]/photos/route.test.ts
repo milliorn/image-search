@@ -120,8 +120,10 @@ describe("GET /api/users/:username/photos — upstream responses", () => {
       ok: false,
       status: 401,
     } as unknown as Response);
-    
-    const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+
+    const consoleSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
 
     const res = await GET(makeRequest(), makeParams());
 

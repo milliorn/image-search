@@ -123,7 +123,9 @@ describe("GET /api/users/:username/likes — upstream responses", () => {
       status: 401,
     } as unknown as Response);
 
-    const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    const consoleSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
 
     const res = await GET(makeRequest(), makeParams());
 
@@ -140,7 +142,7 @@ describe("GET /api/users/:username/likes — upstream responses", () => {
     const res = await GET(makeRequest(), makeParams());
 
     expect(res.status).toBe(418);
-    
+
     expect(await res.json()).toEqual({
       message: "Unsplash API error (418).",
     });

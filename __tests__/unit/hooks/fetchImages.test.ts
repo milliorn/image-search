@@ -113,7 +113,7 @@ describe("useFetchImages — search mode", () => {
 
   it("returns early without calling fetch when searchInput.current is null", async () => {
     const fetchSpy = jest.spyOn(global, "fetch");
-    
+
     const { result } = renderFetchImages({
       searchInput: { current: null } as RefObject<HTMLInputElement | null>,
     });
@@ -342,7 +342,9 @@ describe("useFetchImages — error handling", () => {
       await result.current("cats");
     });
 
-    expect(setError).toHaveBeenCalledWith("Unexpected response from the server.");
+    expect(setError).toHaveBeenCalledWith(
+      "Unexpected response from the server.",
+    );
   });
 
   it("calls setError when the success response body cannot be parsed as JSON", async () => {

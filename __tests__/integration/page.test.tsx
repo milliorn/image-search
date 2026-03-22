@@ -54,11 +54,11 @@ describe("Home page integration", () => {
 
   it("shows images and pagination after a successful search", async () => {
     const image = makeImage({ id: "1", alt_description: "mountain lake" });
-    
+
     mockFetch([image], 3);
-    
+
     const user = userEvent.setup();
-    
+
     render(<Home />);
 
     await user.type(screen.getByRole("searchbox"), "nature");
@@ -69,7 +69,7 @@ describe("Home page integration", () => {
     });
 
     expect(screen.getByText("Page 1 of 3")).toBeInTheDocument();
-    
+
     expect(global.fetch).toHaveBeenCalledWith(
       expect.stringContaining("/api/images?query=nature"),
       expect.objectContaining({ signal: expect.any(AbortSignal) }),
@@ -82,9 +82,9 @@ describe("Home page integration", () => {
       statusText: "Internal Server Error",
       json: () => Promise.resolve({ message: "Something went wrong" }),
     } as unknown as Response);
-    
+
     const user = userEvent.setup();
-    
+
     render(<Home />);
 
     await user.type(screen.getByRole("searchbox"), "nature");
@@ -97,9 +97,9 @@ describe("Home page integration", () => {
 
   it("shows 'No results found.' when the API returns an empty array", async () => {
     mockFetch([], 0);
-    
+
     const user = userEvent.setup();
-    
+
     render(<Home />);
 
     await user.type(screen.getByRole("searchbox"), "xkcdzzz");
@@ -112,11 +112,11 @@ describe("Home page integration", () => {
 
   it("fetches with filter query when a category button is clicked", async () => {
     const image = makeImage({ id: "1" });
-    
+
     mockFetch([image], 1);
-    
+
     const user = userEvent.setup();
-    
+
     render(<Home />);
 
     await user.click(
@@ -135,11 +135,11 @@ describe("Home page integration", () => {
 
   it("fetches page 2 when the Next button is clicked", async () => {
     const image = makeImage({ id: "1" });
-    
+
     mockFetch([image], 3);
-    
+
     const user = userEvent.setup();
-    
+
     render(<Home />);
 
     await user.type(screen.getByRole("searchbox"), "nature");
@@ -161,11 +161,11 @@ describe("Home page integration", () => {
 
   it("resets to initial state when the title is clicked", async () => {
     const image = makeImage({ id: "1" });
-    
+
     mockFetch([image], 1);
-    
+
     const user = userEvent.setup();
-    
+
     render(<Home />);
 
     await user.type(screen.getByRole("searchbox"), "nature");
@@ -180,7 +180,7 @@ describe("Home page integration", () => {
     expect(
       screen.getByText("Search for images above to get started."),
     ).toBeInTheDocument();
-    
+
     expect(screen.queryByAltText("a test image")).not.toBeInTheDocument();
   });
 
@@ -635,9 +635,7 @@ describe("Home page integration", () => {
 
     await user.click(screen.getByRole("button", { name: "Relevance" }));
 
-    expect(
-      screen.getByRole("button", { name: "Latest" }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Latest" })).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Latest" }));
 

@@ -43,6 +43,7 @@ afterEach(() => {
 describe("ImageCard", () => {
   it("renders the image with alt_description", () => {
     render(<ImageCard {...baseProps} />);
+    
     expect(screen.getByRole("img")).toHaveAttribute(
       "alt",
       baseProps.image.alt_description,
@@ -53,11 +54,13 @@ describe("ImageCard", () => {
     render(
       <ImageCard {...baseProps} image={makeImage({ alt_description: "" })} />,
     );
+
     expect(screen.getByRole("img")).toHaveAttribute("alt", "image");
   });
 
   it("uses urls.regular as the image src", () => {
     render(<ImageCard {...baseProps} />);
+
     expect(screen.getByRole("img")).toHaveAttribute(
       "src",
       baseProps.image.urls.regular,
@@ -66,6 +69,7 @@ describe("ImageCard", () => {
 
   it("wraps the image in a link to links.html", () => {
     render(<ImageCard {...baseProps} />);
+
     expect(screen.getByRole("link")).toHaveAttribute(
       "href",
       baseProps.image.links.html,
@@ -74,6 +78,7 @@ describe("ImageCard", () => {
 
   it("passes priority to Image", () => {
     render(<ImageCard {...baseProps} priority={true} />);
+
     expect(MockImage.mock.calls[0][0]).toHaveProperty("priority", true);
   });
 
@@ -84,7 +89,7 @@ describe("ImageCard", () => {
         image={makeImage({ color: null as unknown as string })}
       />,
     );
-    
+
     expect(MockImage.mock.calls[0][0]).toHaveProperty("style", {
       backgroundColor: undefined,
     });
@@ -92,19 +97,24 @@ describe("ImageCard", () => {
 
   it("renders ImageDetailsDisplay", () => {
     render(<ImageCard {...baseProps} />);
+
     expect(screen.getByTestId("image-details-display")).toBeInTheDocument();
   });
 
   describe("image load error", () => {
     it("shows error message when image fails to load", () => {
       render(<ImageCard {...baseProps} />);
+
       fireEvent.error(screen.getByRole("img"));
+
       expect(screen.getByText("Image failed to load.")).toBeInTheDocument();
     });
 
     it("removes the image after load error", () => {
       render(<ImageCard {...baseProps} />);
+
       fireEvent.error(screen.getByRole("img"));
+
       expect(screen.queryByRole("img")).not.toBeInTheDocument();
     });
   });
