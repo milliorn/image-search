@@ -506,6 +506,47 @@ describe("Home page integration", () => {
     });
   });
 
+  it("resets to page 1 and fetches when a filter button is clicked from page 2", async () => {
+    const image = makeImage({ id: "1" });
+
+    mockFetch([image], 3);
+
+    const user = userEvent.setup();
+
+    render(<Home />);
+
+    await user.type(screen.getByRole("searchbox"), "nature");
+    await user.click(screen.getByRole("button", { name: "Search" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Page 1 of 3")).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByRole("button", { name: "Next" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Page 2 of 3")).toBeInTheDocument();
+    });
+
+    await user.click(
+      screen.getByRole("button", {
+        name: new RegExp(`^${imageButtons[0]}$`, "i"),
+      }),
+    );
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenLastCalledWith(
+        expect.stringContaining(`query=${imageButtons[0]}`),
+        expect.objectContaining({ signal: expect.any(AbortSignal) }),
+      );
+    });
+
+    expect(global.fetch).toHaveBeenLastCalledWith(
+      expect.stringContaining("page=1"),
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
+    );
+  });
+
   it("resets to page 1 when per-page is changed while on page 2", async () => {
     const image = makeImage({ id: "1" });
 
