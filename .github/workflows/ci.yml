@@ -1,0 +1,42 @@
+name: CI
+
+# Run on every push and pull request targeting main.
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  ci:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+    # Least-privilege: only read access to the repository contents is needed.
+    permissions:
+      contents: read
+    steps:
+      # Check out the repository so subsequent steps have access to the source.
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Use the Node.js version defined in package.json's engines field.
+      # Caching npm speeds up dependency installs on repeat runs.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: npm
+
+      # Install exact versions from package-lock.json (no version drift).
+      - name: Install dependencies
+        run: npm ci
+
+      # Run ESLint using eslint.config.ts (ESLint 9 flat config).
+      # Fails the workflow if any linting errors are found.
+      - name: Run ESLint
+        run: npm run lint
+
+      # Run all unit, component, and integration tests with coverage.
+      # Fails the workflow if any test fails.
+      - name: Run tests
+        run: npm run test:coverage
