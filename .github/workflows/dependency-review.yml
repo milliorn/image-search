@@ -1,0 +1,42 @@
+# Dependency Review Action
+#
+# This Action will scan dependency manifest files that change as part of a Pull Request,
+# surfacing known-vulnerable versions of the packages declared or updated in the PR.
+# Once installed, if the workflow run is marked as required, PRs introducing known-vulnerable
+# packages will be blocked from merging.
+#
+# Source repository: https://github.com/actions/dependency-review-action
+# Public documentation: https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-dependency-review#dependency-review-enforcement
+name: "Dependency review"
+
+# Run on every pull request targeting main.
+# Scans dependency manifest changes (package.json, package-lock.json) against
+# GitHub's advisory database for known CVEs.
+# When set as a required status check, this blocks automerge (and manual merges)
+# if a vulnerable dependency is introduced -- even via Dependabot patch/minor PRs.
+on:
+  pull_request:
+    branches: ["main"]
+
+# https://docs.github.com/en/enterprise-cloud@latest/code-security/supply-chain-security/understanding-your-software-supply-chain/using-the-dependency-submission-api
+permissions:
+  contents: read
+  # Required for comment-summary-in-pr to post results as a PR comment.
+  pull-requests: write
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      # Check out the repository so the action can read the manifest files.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Scan changed dependency files and fail if any known vulnerability
+      # at moderate severity or higher is introduced by this PR.
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        # Commonly enabled options, see https://github.com/actions/dependency-review-action#configuration-options for all available options.
+        with:
+          comment-summary-in-pr: always
+          fail-on-severity: low
