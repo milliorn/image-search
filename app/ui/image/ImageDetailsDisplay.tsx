@@ -1,12 +1,12 @@
 "use client";
 
-/** Renders metadata for a single image: description, date, author, and social links. */
+/** Renders metadata for a single image: description, date, author, location, likes, social links, and navigation buttons to the author's photos, likes, and collections. */
 
 import Link from "next/link";
 import type { JSX } from "react";
 import type { ImageDetailsDisplayProps } from "@/app/models/ImageProps";
 
-/** Extracts and displays photo metadata from the Unsplash API response. */
+/** Navigation buttons (photos, likes, collections) are hidden when the active view already shows that mode for this author. */
 const ImageDetailsDisplay = ({
   activeMode,
   activeUsername,

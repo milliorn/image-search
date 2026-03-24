@@ -17,7 +17,7 @@ describe("FilterButtonsGrid", () => {
         onFilterSelect={onFilterSelect}
       />,
     );
-    
+
     expect(screen.getAllByRole("button")).toHaveLength(filters.length);
   });
 
@@ -50,7 +50,7 @@ describe("FilterButtonsGrid", () => {
         onFilterSelect={onFilterSelect}
       />,
     );
-    
+
     await user.click(screen.getByRole("button", { name: "Cats" }));
 
     expect(onFilterSelect).toHaveBeenCalledTimes(1);

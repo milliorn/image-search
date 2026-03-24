@@ -41,5 +41,11 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", ".next"]
+  "exclude": ["node_modules", ".next"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS",
+      "verbatimModuleSyntax": false
+    }
+  }
 }

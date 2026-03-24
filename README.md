@@ -28,15 +28,17 @@ Image Search is a full-stack web application built with Next.js 16, React 19, an
 
 ## Technology Stack
 
-| Technology         | Version | Role                                                                                                             |
-| ------------------ | ------- | ---------------------------------------------------------------------------------------------------------------- |
-| **Next.js**        | 16      | App Router, Route Handlers (API proxy), ISR caching, Turbopack                                                   |
-| **React**          | 19      | Client components, hooks (`useState`, `useEffect`, `useRef`, `useCallback`)                                      |
-| **Tailwind CSS**   | 4       | Utility-first styling, dark mode via `dark:` variants, custom `xs` breakpoint                                    |
-| **TypeScript**     | 5       | Strict mode with additional compile-time checks (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, etc.) |
-| **ESLint**         | 9       | `next/core-web-vitals` + `typescript-eslint` strict rules                                                        |
-| **PostCSS**        | 8       | CSS processing via `@tailwindcss/postcss`                                                                        |
-| **react-spinners** | latest  | `BarLoader` animated loading indicator                                                                           |
+| Technology                | Version | Role                                                                                                             |
+| ------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Next.js**               | 16      | App Router, Route Handlers (API proxy), ISR caching, Turbopack                                                   |
+| **React**                 | 19      | Client components, hooks (`useState`, `useEffect`, `useRef`, `useCallback`)                                      |
+| **Tailwind CSS**          | 4       | Utility-first styling, dark mode via `dark:` variants, custom `xs` breakpoint                                    |
+| **TypeScript**            | 5       | Strict mode with additional compile-time checks (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, etc.) |
+| **ESLint**                | 9       | `next/core-web-vitals` + `typescript-eslint` strict rules                                                        |
+| **PostCSS**               | 8       | CSS processing via `@tailwindcss/postcss`                                                                        |
+| **react-spinners**        | latest  | `BarLoader` animated loading indicator                                                                           |
+| **Jest**                  | 30      | Test runner with V8 coverage provider and jsdom environment                                                      |
+| **React Testing Library** | 16      | Component and integration tests                                                                                  |
 
 ## Project Structure
 
@@ -59,7 +61,7 @@ app/
 ├── ui/
 │   ├── image/
 │   │   ├── ImageCard.tsx                 Single photo card with thumbnail and error fallback
-│   │   ├── ImageDetailsDisplay.tsx       Photo metadata, author, and social links
+│   │   ├── ImageDetailsDisplay.tsx       Photo metadata, author, social links, and navigation buttons
 │   │   └── ImageGrid.tsx                 Responsive grid of ImageCards
 │   ├── FilterButtonsGrid.tsx             Preset category buttons
 │   ├── Footer.tsx                        Site footer with copyright and author link
@@ -192,15 +194,21 @@ Or deploy to [Vercel](https://vercel.com). The project is pre-configured for zer
 
 ## Available Scripts
 
-| Script                   | Description                                            |
-| ------------------------ | ------------------------------------------------------ |
-| `npm run dev`            | Start the development server with Turbopack HMR        |
-| `npm run build`          | Compile and optimize for production                    |
-| `npm start`              | Start the production server (requires a prior `build`) |
-| `npm run lint`           | Run ESLint across all source files                     |
-| `npm run lint:fix`       | Run ESLint with auto-fix enabled                       |
-| `npm run prettier:check` | Check source formatting with Prettier                  |
-| `npm run prettier:fix`   | Auto-format all source files with Prettier             |
+| Script                     | Description                                            |
+| -------------------------- | ------------------------------------------------------ |
+| `npm run dev`              | Start the development server with Turbopack HMR        |
+| `npm run build`            | Compile and optimize for production                    |
+| `npm start`                | Start the production server (requires a prior `build`) |
+| `npm run lint`             | Run ESLint across all source files                     |
+| `npm run lint:fix`         | Run ESLint with auto-fix enabled                       |
+| `npm run prettier:check`   | Check source formatting with Prettier                  |
+| `npm run prettier:fix`     | Auto-format all source files with Prettier             |
+| `npm test`                 | Run the full test suite                                |
+| `npm run test:unit`        | Run API route, hook, and utility unit tests only       |
+| `npm run test:components`  | Run UI component tests only                            |
+| `npm run test:integration` | Run home page integration tests only                   |
+| `npm run test:watch`       | Run tests in interactive watch mode                    |
+| `npm run test:coverage`    | Run tests and generate a V8 coverage report            |
 
 ## Environment Variables
 
@@ -208,6 +216,29 @@ Or deploy to [Vercel](https://vercel.com). The project is pre-configured for zer
 | ---------------------- | --------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `UNSPLASH_KEY`         | Server only     | Yes      | Unsplash API client ID. Read by all API route handlers at request time. Setting this as a `NEXT_PUBLIC_` variable would expose it in the browser bundle; do not do this. |
 | `NEXT_PUBLIC_SITE_URL` | Client + Server | Yes      | Canonical site URL. Used by `sitemap.ts` to generate absolute `<loc>` entries. Set to the production domain (e.g. `https://example.com`) before deploying.               |
+
+## Testing
+
+The project uses Jest 30 with `jest-environment-jsdom` and React Testing Library. Tests are split into three tiers:
+
+| Tier            | Location                 | What it covers                                                                                 |
+| --------------- | ------------------------ | ---------------------------------------------------------------------------------------------- |
+| **Unit**        | `__tests__/unit/`        | All five API route handlers, the `useFetchImages` hook, and the `constants` utility module     |
+| **Component**   | `__tests__/components/`  | All eight UI components in isolation with mocked dependencies                                  |
+| **Integration** | `__tests__/integration/` | The `Home` page end-to-end: search, pagination, author browsing, filters, dark mode, and reset |
+
+### Test helpers
+
+- **`__tests__/fixtures/makeImage.ts`**: Factory function that builds a complete `ImageDetails` object with sensible defaults and accepts partial overrides. Used across all component and integration tests to avoid duplicating fixture data.
+- **`__mocks__/next/link.tsx`**: Manual Jest mock that replaces `next/link` with a plain `<a>` tag, avoiding Next.js router setup in tests.
+
+### Notes
+
+- API route tests run under `@jest-environment node` because `NextRequest` is not available in jsdom.
+- `matchMedia` is not implemented in jsdom; the integration test stubs it in `beforeAll`.
+- Coverage is collected from `app/**/*.{ts,tsx}` and excludes `app/models/` (pure type declarations) and the Next.js framework files `layout.tsx`, `manifest.ts`, `robots.ts`, and `sitemap.ts`.
+
+Run `npm run test:coverage` to generate an HTML report at `coverage/lcov-report/index.html`.
 
 ## Contributing
 
@@ -219,7 +250,13 @@ Contributions are welcome. Please follow these steps:
 4. Push to the branch: `git push origin feature/your-feature-name`
 5. Open a Pull Request against `main`.
 
-Please ensure `npm run lint` and `npm run prettier:check` pass before opening a PR.
+Before opening a PR, ensure all of the following pass:
+
+```bash
+npm run lint
+npm run prettier:check
+npm test
+```
 
 ## License
 

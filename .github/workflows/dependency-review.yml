@@ -40,3 +40,4 @@ jobs:
         with:
           comment-summary-in-pr: always
           fail-on-severity: low
+          retry-on-snapshot-warnings: true
