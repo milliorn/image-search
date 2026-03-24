@@ -43,7 +43,7 @@ afterEach(() => {
 describe("ImageCard", () => {
   it("renders the image with alt_description", () => {
     render(<ImageCard {...baseProps} />);
-    
+
     expect(screen.getByRole("img")).toHaveAttribute(
       "alt",
       baseProps.image.alt_description,

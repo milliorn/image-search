@@ -37,7 +37,7 @@ describe("ImageGrid", () => {
       makeImage({ id: "b" }),
       makeImage({ id: "c" }),
     ];
-    
+
     render(<ImageGrid {...baseProps} images={images} />);
     expect(screen.getAllByTestId(/^image-card-/)).toHaveLength(3);
   });
@@ -120,7 +120,7 @@ describe("ImageGrid", () => {
       activeMode: "likes",
       activeUsername: "jane",
     });
-    
+
     expect(calls[1][0]).toMatchObject({
       activeMode: "likes",
       activeUsername: "jane",

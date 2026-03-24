@@ -123,7 +123,7 @@ describe("PaginationControls", () => {
           totalPages={10}
         />,
       );
-      
+
       expect(
         screen.getByRole("spinbutton", { name: "Page Number Input" }),
       ).toHaveValue(5);
