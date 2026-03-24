@@ -1,11 +1,25 @@
 name: CI
 
-# Run on every push and pull request targeting main.
+# Run only on pull requests targeting main.
+# Push to main is omitted -- CI already ran on the PR before merge,
+# so re-running on push is a duplicate that costs extra minutes.
 on:
-  push:
-    branches: ["main"]
   pull_request:
     branches: ["main"]
+    # Only run when source code or dependencies change.
+    # Skips CI for docs, config, or workflow-only changes.
+    paths:
+      - "app/**"
+      - "__tests__/**"
+      - "*.ts"
+      - "*.tsx"
+      - "package-lock.json"
+
+# Cancel any in-progress run for the same PR branch when a new commit is pushed.
+# Prevents paying for stale runs that are no longer relevant.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   ci:
