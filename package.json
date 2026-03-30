@@ -45,6 +45,9 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
+  "engines": {
+    "node": ">=24"
+  },
   "browserslist": [
     "last 2 Chrome versions",
     "last 2 Firefox versions",

@@ -77,10 +77,10 @@ npm run prettier:fix
 
 Tests live in `__tests__/` and are split into three suites:
 
-| Suite | Command | Covers |
-|---|---|---|
-| Unit | `npm run test:unit` | Pure functions and utilities |
-| Components | `npm run test:components` | React component rendering and interaction |
+| Suite       | Command                    | Covers                                       |
+| ----------- | -------------------------- | -------------------------------------------- |
+| Unit        | `npm run test:unit`        | Pure functions and utilities                 |
+| Components  | `npm run test:components`  | React component rendering and interaction    |
 | Integration | `npm run test:integration` | API route handlers and multi-component flows |
 
 Run all suites at once:
