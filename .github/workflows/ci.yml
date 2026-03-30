@@ -50,7 +50,7 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
-      # Run all unit, component, and integration tests with coverage.
+      # Run all unit, component, and integration tests.
       # Fails the workflow if any test fails.
       - name: Run tests
-        run: npm run test:coverage
+        run: npm run test
