@@ -31,7 +31,7 @@ jobs:
     steps:
       # Check out the repository so subsequent steps have access to the source.
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # Use the Node.js version defined in package.json's engines field.
       # Caching npm speeds up dependency installs on repeat runs.
