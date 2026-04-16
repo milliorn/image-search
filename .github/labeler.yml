@@ -1,0 +1,84 @@
+api:
+  - changed-files:
+      - any-glob-to-any-file:
+          - app/api/**
+
+components:
+  - changed-files:
+      - any-glob-to-any-file:
+          - app/ui/**
+
+hooks:
+  - changed-files:
+      - any-glob-to-any-file:
+          - app/hooks/**
+
+models:
+  - changed-files:
+      - any-glob-to-any-file:
+          - app/models/**
+
+styles:
+  - changed-files:
+      - any-glob-to-any-file:
+          - app/globals.css
+          - app/globals.css.d.ts
+
+pages:
+  - changed-files:
+      - any-glob-to-any-file:
+          - app/layout.tsx
+          - app/page.tsx
+
+utils:
+  - changed-files:
+      - any-glob-to-any-file:
+          - app/utils/**
+
+seo:
+  - changed-files:
+      - any-glob-to-any-file:
+          - app/manifest.ts
+          - app/robots.ts
+          - app/sitemap.ts
+
+tests:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/__tests__/**'
+          - '**/*.test.*'
+          - '**/*.spec.*'
+          - coverage/**
+          - jest.config.*
+          - jest.setup.*
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.md'
+
+github_actions:
+  - changed-files:
+      - any-glob-to-any-file:
+          - .github/workflows/**
+          - .github/labeler.yml
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - package.json
+          - package-lock.json
+          - yarn.lock
+          - pnpm-lock.yaml
+          - .github/dependabot.yml
+
+config:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '*.config.*'
+          - tsconfig.json
+          - eslint.config.*
+          - .eslintrc*
+          - .prettierrc*
+          - .editorconfig
+          - next.config.*
