@@ -45,9 +45,9 @@ seo:
 tests:
   - changed-files:
       - any-glob-to-any-file:
-          - '**/__tests__/**'
-          - '**/*.test.*'
-          - '**/*.spec.*'
+          - "**/__tests__/**"
+          - "**/*.test.*"
+          - "**/*.spec.*"
           - coverage/**
           - jest.config.*
           - jest.setup.*
@@ -55,7 +55,7 @@ tests:
 documentation:
   - changed-files:
       - any-glob-to-any-file:
-          - '**/*.md'
+          - "**/*.md"
 
 github_actions:
   - changed-files:
@@ -75,7 +75,7 @@ dependencies:
 config:
   - changed-files:
       - any-glob-to-any-file:
-          - '*.config.*'
+          - "*.config.*"
           - tsconfig.json
           - eslint.config.*
           - .eslintrc*
