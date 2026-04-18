@@ -46,6 +46,7 @@ tests:
   - changed-files:
       - any-glob-to-any-file:
           - "**/__tests__/**"
+          - "**/__mocks__/**"
           - "**/*.test.*"
           - "**/*.spec.*"
           - coverage/**
@@ -82,3 +83,5 @@ config:
           - .prettierrc*
           - .editorconfig
           - next.config.*
+          - .gitignore
+          - LICENSE
