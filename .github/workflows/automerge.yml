@@ -57,12 +57,14 @@ jobs:
           fi
 
       # --auto queues the merge so all required branch protection checks must
-      # pass first (e.g. dependency-review) before the merge goes through.
+      # pass first before the merge goes through. update-branch satisfies the
+      # strict up-to-date requirement so auto-merge isn't left waiting.
       - name: Allow — approve and merge
         if: steps.decision.outputs.action == 'allow'
         run: |
           gh pr review "$PR_URL" --approve -b "Auto-approved: **${{ steps.metadata.outputs.update-type }}** ${{ steps.metadata.outputs.package-ecosystem }} update."
           gh pr merge "$PR_URL" --squash --auto
+          gh pr update-branch "$PR_URL" || true
 
       - name: Deny — unexpected update
         if: steps.decision.outputs.action == 'deny'
