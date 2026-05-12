@@ -18,7 +18,7 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "next": "^16.2.4",
+    "next": "^16.2.6",
     "react": "^19.1.1",
     "react-dom": "^19.2.0",
     "react-spinners": "^0.17.0"
@@ -38,7 +38,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
-    "postcss": "^8.5.13",
+    "postcss": "^8.5.14",
     "tailwindcss": "^4.2.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
