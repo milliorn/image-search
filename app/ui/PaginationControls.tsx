@@ -2,7 +2,7 @@
 
 /** Renders previous/next buttons, a page counter, and a direct page jump input. */
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { ChangeEvent, JSX, KeyboardEvent } from "react";
 import type { PaginationControlsProps } from "../models/UIComponentProps";
 import { UNSPLASH_MAX_PAGES } from "../utils/constants";
@@ -19,23 +19,21 @@ const PaginationControls = ({
 }: PaginationControlsProps): JSX.Element | null => {
   const totalPagesMax =
     totalPages <= UNSPLASH_MAX_PAGES ? totalPages : UNSPLASH_MAX_PAGES;
-  const [inputPage, setInputPage] = useState(page.toString());
+  const [draft, setDraft] = useState<string | null>(null);
+  const inputPage = draft ?? page.toString();
   const parsedInputPage = parseInt(inputPage, 10);
 
   const handlePageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputPage(e.target.value);
+    setDraft(e.target.value);
   };
 
   const goToPage = () => {
     const pageNum = parseInt(inputPage, 10);
     if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPagesMax) {
+      setDraft(null);
       setPage(pageNum);
     }
   };
-
-  useEffect(() => {
-    setInputPage(page.toString());
-  }, [page]);
 
   if (totalPages === 0) {
     return null;
@@ -47,7 +45,7 @@ const PaginationControls = ({
         <button
           disabled={loading || page === 1}
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setPage(page - 1)}
+          onClick={() => { setDraft(null); setPage(page - 1); }}
         >
           Previous
         </button>
@@ -59,7 +57,7 @@ const PaginationControls = ({
         <button
           disabled={loading || page === totalPagesMax}
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setPage(page + 1)}
+          onClick={() => { setDraft(null); setPage(page + 1); }}
         >
           Next
         </button>
@@ -70,13 +68,11 @@ const PaginationControls = ({
           aria-label="Decrease page"
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-3 rounded"
           disabled={loading || isNaN(parsedInputPage) || parsedInputPage <= 1}
-          onClick={() =>
-            setInputPage((prev) => {
-              const n = parseInt(prev, 10);
-              /* c8 ignore next -- button is disabled when n is NaN */
-              return String(Math.max(1, isNaN(n) ? 1 : n - 1));
-            })
-          }
+          onClick={() => {
+            const n = parseInt(inputPage, 10);
+            /* c8 ignore next -- button is disabled when n is NaN */
+            setDraft(String(Math.max(1, isNaN(n) ? 1 : n - 1)));
+          }}
         >
           −
         </button>
@@ -102,13 +98,11 @@ const PaginationControls = ({
             isNaN(parsedInputPage) ||
             parsedInputPage >= totalPagesMax
           }
-          onClick={() =>
-            setInputPage((prev) => {
-              const n = parseInt(prev, 10);
-              /* c8 ignore next -- button is disabled when n is NaN */
-              return String(Math.min(totalPagesMax, isNaN(n) ? 1 : n + 1));
-            })
-          }
+          onClick={() => {
+            const n = parseInt(inputPage, 10);
+            /* c8 ignore next -- button is disabled when n is NaN */
+            setDraft(String(Math.min(totalPagesMax, isNaN(n) ? 1 : n + 1)));
+          }}
         >
           +
         </button>
