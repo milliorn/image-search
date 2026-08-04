@@ -56,17 +56,18 @@ jobs:
             echo "action=deny" >> "$GITHUB_OUTPUT"
           fi
 
-      # update-branch runs first so any merge commit it pushes gets its checks
-      # re-run normally, instead of landing after --auto is armed (which left
-      # the pushed merge commit's required checks stuck on action_required,
-      # never firing, and the PR permanently blocked).
-      # --auto then queues the merge so all required branch protection checks
-      # must pass first before the merge goes through.
+      # --auto queues the merge so all required branch protection checks must
+      # pass first before the merge goes through. We don't call
+      # `gh pr update-branch` here: it pushes a merge commit that re-triggers
+      # CI on the PR, and because the PR is authored by dependabot[bot] this
+      # repo's "require approval for Dependabot PRs" setting blocks that
+      # re-triggered run from ever starting — the required check then never
+      # completes and the PR is stuck forever. GitHub's own auto-merge queue
+      # updates the branch as needed without hitting that gate.
       - name: Allow — approve and merge
         if: steps.decision.outputs.action == 'allow'
         run: |
           gh pr review "$PR_URL" --approve -b "Auto-approved: **${{ steps.metadata.outputs.update-type }}** ${{ steps.metadata.outputs.package-ecosystem }} update."
-          gh pr update-branch "$PR_URL" || true
           gh pr merge "$PR_URL" --squash --auto
 
       - name: Deny — unexpected update
