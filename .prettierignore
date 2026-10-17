@@ -1,0 +1,12 @@
+# next.js
+.next/
+out/
+
+# lighthouse audit artifacts
+.lighthouse/
+
+# dependencies
+node_modules/
+
+# coverage
+coverage/

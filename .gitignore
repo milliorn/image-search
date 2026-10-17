@@ -9,6 +9,9 @@
 # testing
 /coverage
 
+# lighthouse audit artifacts
+/.lighthouse
+
 # next.js
 /.next/
 /out/
