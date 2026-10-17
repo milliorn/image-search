@@ -190,6 +190,20 @@ describe("GET /api/users/:username/likes — upstream URL construction", () => {
     expect(calledUrl).toContain("/users/johndoe/likes");
   });
 
+  it("URL-encodes a username containing reserved characters", async () => {
+    const fetchSpy = jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      headers: { get: () => null },
+      json: jest.fn().mockResolvedValue([]),
+    } as unknown as Response);
+
+    await GET(makeRequest(), makeParams("john/doe?x=1"));
+
+    const calledUrl = fetchSpy.mock.calls[0]?.[0] as string;
+    expect(calledUrl).toContain("/users/john%2Fdoe%3Fx%3D1/likes");
+  });
+
   it("passes revalidate: 3600 to fetch", async () => {
     const fetchSpy = jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: true,

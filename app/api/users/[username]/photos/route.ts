@@ -58,7 +58,7 @@ async function GET(
     client_id: unsplashKey,
   });
 
-  const apiUrl = `https://api.unsplash.com/users/${username}/photos?${apiParams.toString()}`;
+  const apiUrl = `https://api.unsplash.com/users/${encodeURIComponent(username)}/photos?${apiParams.toString()}`;
 
   try {
     const response = await fetch(apiUrl, { next: { revalidate: 3600 } });

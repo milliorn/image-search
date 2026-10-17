@@ -20,6 +20,25 @@ type UnsplashCollection = {
   cover_photo: unknown | null;
 };
 
+/** Narrows a cover_photo to the minimal shape ImageDetailsDisplay destructures, filtering out malformed entries before they reach the client. */
+function hasValidCoverPhotoShape(
+  photo: unknown,
+): photo is { user: { name: unknown }; links: { html: unknown } } {
+  if (typeof photo !== "object" || photo === null) {
+    return false;
+  }
+
+  const { user, links } = photo as Record<string, unknown>;
+
+  return (
+    typeof user === "object" &&
+    user !== null &&
+    typeof links === "object" &&
+    links !== null &&
+    typeof (links as Record<string, unknown>)["html"] === "string"
+  );
+}
+
 async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ username: string }> },
@@ -64,7 +83,7 @@ async function GET(
     client_id: unsplashKey,
   });
 
-  const apiUrl = `https://api.unsplash.com/users/${username}/collections?${apiParams.toString()}`;
+  const apiUrl = `https://api.unsplash.com/users/${encodeURIComponent(username)}/collections?${apiParams.toString()}`;
 
   try {
     const response = await fetch(apiUrl, { next: { revalidate: 3600 } });
@@ -97,7 +116,7 @@ async function GET(
 
     const results = collections
       .map((c) => c.cover_photo)
-      .filter((photo) => photo !== null);
+      .filter(hasValidCoverPhotoShape);
 
     return NextResponse.json({ results, total_pages });
   } catch (error) {
