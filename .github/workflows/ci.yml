@@ -50,6 +50,16 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
+      # Verify formatting matches Prettier's expected output.
+      # Fails the workflow if any file is unformatted.
+      - name: Check formatting
+        run: npm run prettier:check
+
+      # Type-check the project against tsconfig.json's strict settings.
+      # Fails the workflow if any type error is found.
+      - name: Run typecheck
+        run: npm run typecheck
+
       # Run all unit, component, and integration tests.
       # Fails the workflow if any test fails.
       - name: Run tests

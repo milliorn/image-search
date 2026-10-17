@@ -73,10 +73,18 @@ describe("GET /api/users/:username/collections — missing API key", () => {
   });
 });
 
+function makeCoverPhoto(id: string): Record<string, unknown> {
+  return {
+    id,
+    user: { name: `User ${id}` },
+    links: { html: `https://unsplash.com/photos/${id}` },
+  };
+}
+
 describe("GET /api/users/:username/collections — cover_photo extraction", () => {
   it("returns cover_photo from each collection as results", async () => {
-    const photo1 = { id: "p1" };
-    const photo2 = { id: "p2" };
+    const photo1 = makeCoverPhoto("p1");
+    const photo2 = makeCoverPhoto("p2");
 
     jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: true,
@@ -94,7 +102,7 @@ describe("GET /api/users/:username/collections — cover_photo extraction", () =
   });
 
   it("filters out collections where cover_photo is null", async () => {
-    const photo = { id: "p1" };
+    const photo = makeCoverPhoto("p1");
 
     jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: true,
@@ -136,13 +144,47 @@ describe("GET /api/users/:username/collections — cover_photo extraction", () =
       ok: true,
       status: 200,
       headers: { get: (name: string) => (name === "X-Total" ? "30" : null) },
-      json: jest.fn().mockResolvedValue([{ cover_photo: { id: "p1" } }]),
+      json: jest
+        .fn()
+        .mockResolvedValue([{ cover_photo: makeCoverPhoto("p1") }]),
     } as unknown as Response);
 
     const res = await GET(makeRequest({ per_page: "10" }), makeParams());
     const body = (await res.json()) as { total_pages: number };
 
     expect(body.total_pages).toBe(3);
+  });
+
+  it("filters out a cover_photo missing a user field", async () => {
+    const malformed = { id: "p1", links: { html: "https://unsplash.com/x" } };
+
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      headers: { get: () => null },
+      json: jest.fn().mockResolvedValue([{ cover_photo: malformed }]),
+    } as unknown as Response);
+
+    const res = await GET(makeRequest(), makeParams());
+    const body = (await res.json()) as { results: unknown[] };
+
+    expect(body.results).toEqual([]);
+  });
+
+  it("filters out a cover_photo missing links.html", async () => {
+    const malformed = { id: "p1", user: { name: "Someone" } };
+
+    jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      headers: { get: () => null },
+      json: jest.fn().mockResolvedValue([{ cover_photo: malformed }]),
+    } as unknown as Response);
+
+    const res = await GET(makeRequest(), makeParams());
+    const body = (await res.json()) as { results: unknown[] };
+
+    expect(body.results).toEqual([]);
   });
 });
 
@@ -229,6 +271,20 @@ describe("GET /api/users/:username/collections — upstream URL construction", (
 
     const calledUrl = fetchSpy.mock.calls[0]?.[0] as string;
     expect(calledUrl).toContain("/users/johndoe/collections");
+  });
+
+  it("URL-encodes a username containing reserved characters", async () => {
+    const fetchSpy = jest.spyOn(global, "fetch").mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      headers: { get: () => null },
+      json: jest.fn().mockResolvedValue([]),
+    } as unknown as Response);
+
+    await GET(makeRequest(), makeParams("john/doe?x=1"));
+
+    const calledUrl = fetchSpy.mock.calls[0]?.[0] as string;
+    expect(calledUrl).toContain("/users/john%2Fdoe%3Fx%3D1/collections");
   });
 
   it("passes revalidate: 3600 to fetch", async () => {

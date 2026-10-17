@@ -14,7 +14,7 @@ This project is in active development. Only the latest commit on `main` receives
 This is a Next.js application that proxies the [Unsplash API](https://unsplash.com/developers). The attack surface is limited to:
 
 - **API route handlers** (`/app/api/`) - server-side proxies that forward requests to Unsplash
-- **Environment variables** - the Unsplash access key (`NEXT_PUBLIC_UNSPLASH_ACCESS_KEY` or equivalent) must not be exposed
+- **Environment variables** - the Unsplash access key (`UNSPLASH_KEY`) must not be exposed
 - **Dependencies** - `next`, `react`, `react-spinners`, and their transitive dependencies
 
 This project does not have a database, user authentication, or persistent storage.
