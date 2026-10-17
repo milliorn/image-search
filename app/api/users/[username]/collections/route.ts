@@ -20,22 +20,38 @@ type UnsplashCollection = {
   cover_photo: unknown | null;
 };
 
-/** Narrows a cover_photo to the minimal shape ImageDetailsDisplay destructures, filtering out malformed entries before they reach the client. */
-function hasValidCoverPhotoShape(
-  photo: unknown,
-): photo is { user: { name: unknown }; links: { html: unknown } } {
+/** Narrows a cover_photo to the minimal shape ImageCard, ImageGrid, and ImageDetailsDisplay destructure, filtering out malformed entries before they reach the client. */
+function hasValidCoverPhotoShape(photo: unknown): photo is {
+  id: string;
+  links: { html: string };
+  user: { name: string; username: string; links: { html: string } };
+} {
   if (typeof photo !== "object" || photo === null) {
     return false;
   }
 
-  const { user, links } = photo as Record<string, unknown>;
+  const { id, links, user } = photo as Record<string, unknown>;
+
+  if (typeof id !== "string" || typeof links !== "object" || links === null) {
+    return false;
+  }
+
+  if (typeof (links as Record<string, unknown>)["html"] !== "string") {
+    return false;
+  }
+
+  if (typeof user !== "object" || user === null) {
+    return false;
+  }
+
+  const { name, username, links: userLinks } = user as Record<string, unknown>;
 
   return (
-    typeof user === "object" &&
-    user !== null &&
-    typeof links === "object" &&
-    links !== null &&
-    typeof (links as Record<string, unknown>)["html"] === "string"
+    typeof name === "string" &&
+    typeof username === "string" &&
+    typeof userLinks === "object" &&
+    userLinks !== null &&
+    typeof (userLinks as Record<string, unknown>)["html"] === "string"
   );
 }
 

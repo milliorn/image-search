@@ -87,9 +87,7 @@ Every successful response follows the same JSON shape so the `useFetchImages` ho
 
 ```json
 {
-  "results": [
-    /* ImageDetails[] */
-  ],
+  "results": [/* ImageDetails[] */],
   "total_pages": 42
 }
 ```

@@ -45,7 +45,10 @@ const PaginationControls = ({
         <button
           disabled={loading || page === 1}
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => { setDraft(null); setPage(page - 1); }}
+          onClick={() => {
+            setDraft(null);
+            setPage(page - 1);
+          }}
         >
           Previous
         </button>
@@ -57,7 +60,10 @@ const PaginationControls = ({
         <button
           disabled={loading || page === totalPagesMax}
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => { setDraft(null); setPage(page + 1); }}
+          onClick={() => {
+            setDraft(null);
+            setPage(page + 1);
+          }}
         >
           Next
         </button>
