@@ -159,88 +159,40 @@ describe("GET /api/users/:username/collections — cover_photo extraction", () =
     expect(body.total_pages).toBe(3);
   });
 
-  it("filters out a cover_photo missing a user field", async () => {
-    const malformed = { id: "p1", links: { html: "https://unsplash.com/x" } };
-
-    jest.spyOn(global, "fetch").mockResolvedValueOnce({
-      ok: true,
-      status: 200,
-      headers: { get: () => null },
-      json: jest.fn().mockResolvedValue([{ cover_photo: malformed }]),
-    } as unknown as Response);
-
-    const res = await GET(makeRequest(), makeParams());
-    const body = (await res.json()) as { results: unknown[] };
-
-    expect(body.results).toEqual([]);
-  });
-
-  it("filters out a cover_photo missing links.html", async () => {
-    const malformed = { id: "p1", user: { name: "Someone" } };
-
-    jest.spyOn(global, "fetch").mockResolvedValueOnce({
-      ok: true,
-      status: 200,
-      headers: { get: () => null },
-      json: jest.fn().mockResolvedValue([{ cover_photo: malformed }]),
-    } as unknown as Response);
-
-    const res = await GET(makeRequest(), makeParams());
-    const body = (await res.json()) as { results: unknown[] };
-
-    expect(body.results).toEqual([]);
-  });
-
-  it("filters out a cover_photo missing id", async () => {
-    const malformed = {
-      links: { html: "https://unsplash.com/x" },
-      user: {
-        name: "Someone",
-        username: "someone",
-        links: { html: "https://unsplash.com/@someone" },
+  it.each([
+    [
+      "missing a user field",
+      { id: "p1", links: { html: "https://unsplash.com/x" } },
+    ],
+    ["missing links.html", { id: "p1", user: { name: "Someone" } }],
+    [
+      "missing id",
+      {
+        links: { html: "https://unsplash.com/x" },
+        user: {
+          name: "Someone",
+          username: "someone",
+          links: { html: "https://unsplash.com/@someone" },
+        },
       },
-    };
-
-    jest.spyOn(global, "fetch").mockResolvedValueOnce({
-      ok: true,
-      status: 200,
-      headers: { get: () => null },
-      json: jest.fn().mockResolvedValue([{ cover_photo: malformed }]),
-    } as unknown as Response);
-
-    const res = await GET(makeRequest(), makeParams());
-    const body = (await res.json()) as { results: unknown[] };
-
-    expect(body.results).toEqual([]);
-  });
-
-  it("filters out a cover_photo whose user is missing username", async () => {
-    const malformed = {
-      id: "p1",
-      links: { html: "https://unsplash.com/x" },
-      user: { name: "Someone", links: { html: "https://unsplash.com/@x" } },
-    };
-
-    jest.spyOn(global, "fetch").mockResolvedValueOnce({
-      ok: true,
-      status: 200,
-      headers: { get: () => null },
-      json: jest.fn().mockResolvedValue([{ cover_photo: malformed }]),
-    } as unknown as Response);
-
-    const res = await GET(makeRequest(), makeParams());
-    const body = (await res.json()) as { results: unknown[] };
-
-    expect(body.results).toEqual([]);
-  });
-
-  it("filters out a cover_photo whose user is missing links.html (sparse user object)", async () => {
-    const malformed = {
-      id: "p1",
-      links: { html: "https://unsplash.com/x" },
-      user: { name: "Someone", username: "someone" },
-    };
-
+    ],
+    [
+      "whose user is missing username",
+      {
+        id: "p1",
+        links: { html: "https://unsplash.com/x" },
+        user: { name: "Someone", links: { html: "https://unsplash.com/@x" } },
+      },
+    ],
+    [
+      "whose user is missing links.html (sparse user object)",
+      {
+        id: "p1",
+        links: { html: "https://unsplash.com/x" },
+        user: { name: "Someone", username: "someone" },
+      },
+    ],
+  ])("filters out a cover_photo %s", async (_label, malformed) => {
     jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: true,
       status: 200,

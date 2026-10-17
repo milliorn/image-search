@@ -20,33 +20,32 @@ type UnsplashCollection = {
   cover_photo: unknown | null;
 };
 
-/** Narrows a cover_photo to the minimal shape ImageCard, ImageGrid, and ImageDetailsDisplay destructure, filtering out malformed entries before they reach the client. */
-function hasValidCoverPhotoShape(photo: unknown): photo is {
+type ValidCoverPhoto = {
   id: string;
   links: { html: string };
   user: { name: string; username: string; links: { html: string } };
-} {
+};
+
+/** Narrows a cover_photo to the minimal shape ImageCard, ImageGrid, and ImageDetailsDisplay destructure, filtering out malformed entries before they reach the client. */
+function hasValidCoverPhotoShape(photo: unknown): photo is ValidCoverPhoto {
   if (typeof photo !== "object" || photo === null) {
     return false;
   }
 
   const { id, links, user } = photo as Record<string, unknown>;
-
-  if (typeof id !== "string" || typeof links !== "object" || links === null) {
-    return false;
-  }
-
-  if (typeof (links as Record<string, unknown>)["html"] !== "string") {
-    return false;
-  }
-
-  if (typeof user !== "object" || user === null) {
-    return false;
-  }
-
-  const { name, username, links: userLinks } = user as Record<string, unknown>;
+  const {
+    name,
+    username,
+    links: userLinks,
+  } = (user ?? {}) as Record<string, unknown>;
 
   return (
+    typeof id === "string" &&
+    typeof links === "object" &&
+    links !== null &&
+    typeof (links as Record<string, unknown>)["html"] === "string" &&
+    typeof user === "object" &&
+    user !== null &&
     typeof name === "string" &&
     typeof username === "string" &&
     typeof userLinks === "object" &&
@@ -130,9 +129,13 @@ async function GET(
     const collections = (await response.json()) as UnsplashCollection[];
     const total_pages = Math.ceil(total / perPageNum);
 
-    const results = collections
-      .map((c) => c.cover_photo)
-      .filter(hasValidCoverPhotoShape);
+    const results = collections.reduce<ValidCoverPhoto[]>((acc, c) => {
+      if (hasValidCoverPhotoShape(c.cover_photo)) {
+        acc.push(c.cover_photo);
+      }
+
+      return acc;
+    }, []);
 
     return NextResponse.json({ results, total_pages });
   } catch (error) {
