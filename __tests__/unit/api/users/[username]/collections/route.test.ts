@@ -88,6 +88,53 @@ function makeCoverPhoto(id: string): Record<string, unknown> {
   };
 }
 
+type MissingField =
+  | "id"
+  | "height"
+  | "width"
+  | "links.html"
+  | "urls.regular"
+  | "user"
+  | "user.username"
+  | "user.links.html";
+
+function omit(
+  source: Record<string, unknown>,
+  key: string,
+): Record<string, unknown> {
+  return Object.fromEntries(Object.entries(source).filter(([k]) => k !== key));
+}
+
+/** Builds a valid cover_photo with the given top-level or user-nested field omitted, isolating exactly one missing field per malformed fixture. */
+function makeMalformedCoverPhoto(field: MissingField): Record<string, unknown> {
+  const photo = makeCoverPhoto("p1");
+  const links = photo["links"] as Record<string, unknown>;
+  const urls = photo["urls"] as Record<string, unknown>;
+  const user = photo["user"] as Record<string, unknown>;
+
+  switch (field) {
+    case "id":
+    case "height":
+    case "width":
+    case "user":
+      return omit(photo, field);
+    case "links.html":
+      return { ...photo, links: omit(links, "html") };
+    case "urls.regular":
+      return { ...photo, urls: omit(urls, "regular") };
+    case "user.username":
+      return { ...photo, user: omit(user, "username") };
+    case "user.links.html":
+      return {
+        ...photo,
+        user: {
+          ...user,
+          links: omit(user["links"] as Record<string, unknown>, "html"),
+        },
+      };
+  }
+}
+
 describe("GET /api/users/:username/collections — cover_photo extraction", () => {
   it("returns cover_photo from each collection as results", async () => {
     const photo1 = makeCoverPhoto("p1");
@@ -163,105 +210,17 @@ describe("GET /api/users/:username/collections — cover_photo extraction", () =
   });
 
   it.each([
-    [
-      "missing a user field",
-      {
-        id: "p1",
-        height: 400,
-        width: 600,
-        links: { html: "https://unsplash.com/x" },
-        urls: { regular: "https://images.unsplash.com/p1" },
-      },
-    ],
-    [
-      "missing links.html",
-      {
-        id: "p1",
-        height: 400,
-        width: 600,
-        urls: { regular: "https://images.unsplash.com/p1" },
-        user: { name: "Someone" },
-      },
-    ],
-    [
-      "missing id",
-      {
-        height: 400,
-        width: 600,
-        links: { html: "https://unsplash.com/x" },
-        urls: { regular: "https://images.unsplash.com/p1" },
-        user: {
-          name: "Someone",
-          username: "someone",
-          links: { html: "https://unsplash.com/@someone" },
-        },
-      },
-    ],
-    [
-      "missing urls.regular",
-      {
-        id: "p1",
-        height: 400,
-        width: 600,
-        links: { html: "https://unsplash.com/x" },
-        user: {
-          name: "Someone",
-          username: "someone",
-          links: { html: "https://unsplash.com/@someone" },
-        },
-      },
-    ],
-    [
-      "missing height",
-      {
-        id: "p1",
-        width: 600,
-        links: { html: "https://unsplash.com/x" },
-        urls: { regular: "https://images.unsplash.com/p1" },
-        user: {
-          name: "Someone",
-          username: "someone",
-          links: { html: "https://unsplash.com/@someone" },
-        },
-      },
-    ],
-    [
-      "missing width",
-      {
-        id: "p1",
-        height: 400,
-        links: { html: "https://unsplash.com/x" },
-        urls: { regular: "https://images.unsplash.com/p1" },
-        user: {
-          name: "Someone",
-          username: "someone",
-          links: { html: "https://unsplash.com/@someone" },
-        },
-      },
-    ],
-    [
-      "whose user is missing username",
-      {
-        id: "p1",
-        height: 400,
-        width: 600,
-        links: { html: "https://unsplash.com/x" },
-        urls: { regular: "https://images.unsplash.com/p1" },
-        user: { name: "Someone", links: { html: "https://unsplash.com/@x" } },
-      },
-    ],
-    [
-      "whose user is missing links.html (sparse user object)",
-      {
-        id: "p1",
-        height: 400,
-        width: 600,
-        links: { html: "https://unsplash.com/x" },
-        urls: { regular: "https://images.unsplash.com/p1" },
-        user: { name: "Someone", username: "someone" },
-      },
-    ],
-  ])("filters out a cover_photo %s", async (_label, malformed) => {
+    ["id", "id"],
+    ["height", "height"],
+    ["width", "width"],
+    ["links.html", "links.html"],
+    ["urls.regular", "urls.regular"],
+    ["a user field", "user"],
+    ["user.username", "user.username"],
+    ["user.links.html (sparse user object)", "user.links.html"],
+  ] as const)("filters out a cover_photo missing %s", async (_label, field) => {
+    const malformed = makeMalformedCoverPhoto(field);
+
     jest.spyOn(global, "fetch").mockResolvedValueOnce({
       ok: true,
       status: 200,
