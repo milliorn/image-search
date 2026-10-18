@@ -8,9 +8,11 @@ on:
     branches: ["main"]
 
 # Needs to open/update PRs and push tags/commits (the release PR branch
-# and, on merge, the version tag + GitHub Release).
+# and, on merge, the version tag + GitHub Release), plus issues write so
+# release-please can apply its autorelease:* tracking labels to the PR.
 permissions:
   contents: write
+  issues: write
   pull-requests: write
 
 jobs:
