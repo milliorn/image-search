@@ -17,9 +17,13 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
+      # A PAT is required instead of the default GITHUB_TOKEN: GitHub blocks
+      # GITHUB_TOKEN-authored pull requests from triggering other workflow
+      # runs, which would leave the release PR with no CI status.
       - name: Run release-please
         uses: googleapis/release-please-action@v5
         with:
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           # node release-type bumps package.json/package-lock.json and
           # keeps CHANGELOG.md in the same conventional-changelog format
           # already used for v0.1.1-v0.1.3.
