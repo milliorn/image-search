@@ -10,8 +10,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
-    "prettier:check": "npx prettier --check .",
-    "prettier:fix": "npx prettier --write .",
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write .",
     "test": "jest",
     "test:unit": "jest __tests__/unit",
     "test:components": "jest __tests__/components",
@@ -42,6 +42,7 @@
     "jest-environment-jsdom": "^30.5.2",
     "playwright": "^1.62.1",
     "postcss": "^8.5.28",
+    "prettier": "^3.9.10",
     "tailwindcss": "^4.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

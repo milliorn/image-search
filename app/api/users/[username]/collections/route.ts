@@ -22,17 +22,23 @@ type UnsplashCollection = {
 
 type ValidCoverPhoto = {
   id: string;
+  height: number;
+  width: number;
   links: { html: string };
+  urls: { regular: string };
   user: { name: string; username: string; links: { html: string } };
 };
 
-/** Narrows a cover_photo to the minimal shape ImageCard, ImageGrid, and ImageDetailsDisplay destructure, filtering out malformed entries before they reach the client. */
+/** Narrows a cover_photo to the minimal shape ImageCard, ImageGrid, and ImageDetailsDisplay destructure without a fallback, filtering out malformed entries before they reach the client. */
 function hasValidCoverPhotoShape(photo: unknown): photo is ValidCoverPhoto {
   if (typeof photo !== "object" || photo === null) {
     return false;
   }
 
-  const { id, links, user } = photo as Record<string, unknown>;
+  const { id, height, width, links, urls, user } = photo as Record<
+    string,
+    unknown
+  >;
   const {
     name,
     username,
@@ -41,9 +47,14 @@ function hasValidCoverPhotoShape(photo: unknown): photo is ValidCoverPhoto {
 
   return (
     typeof id === "string" &&
+    typeof height === "number" &&
+    typeof width === "number" &&
     typeof links === "object" &&
     links !== null &&
     typeof (links as Record<string, unknown>)["html"] === "string" &&
+    typeof urls === "object" &&
+    urls !== null &&
+    typeof (urls as Record<string, unknown>)["regular"] === "string" &&
     typeof user === "object" &&
     user !== null &&
     typeof name === "string" &&

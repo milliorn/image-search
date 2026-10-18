@@ -6,14 +6,17 @@ name: CI
 on:
   pull_request:
     branches: ["main"]
-    # Only run when source code or dependencies change.
-    # Skips CI for docs, config, or workflow-only changes.
+    # Only run when source code, dependencies, or the tooling config these
+    # checks depend on changes. Skips CI for docs-only changes.
     paths:
       - "app/**"
       - "__tests__/**"
       - "*.ts"
       - "*.tsx"
+      - "package.json"
       - "package-lock.json"
+      - "tsconfig.json"
+      - ".github/workflows/ci.yml"
 
 # Cancel any in-progress run for the same PR branch when a new commit is pushed.
 # Prevents paying for stale runs that are no longer relevant.

@@ -63,6 +63,7 @@ This project uses ESLint (with `next/core-web-vitals` and `typescript-eslint` st
 
 ```bash
 npm run lint
+npm run typecheck
 npm run prettier:check
 ```
 
@@ -105,7 +106,7 @@ All tests must pass and linting must be clean before opening a pull request.
 
 ## Submitting a Pull Request
 
-1. Ensure `npm run lint`, `npm run prettier:check`, and `npm test` all pass.
+1. Ensure `npm run lint`, `npm run typecheck`, `npm run prettier:check`, and `npm test` all pass.
 2. Push your branch to your fork:
 
    ```bash

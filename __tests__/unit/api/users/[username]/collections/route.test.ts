@@ -76,7 +76,10 @@ describe("GET /api/users/:username/collections — missing API key", () => {
 function makeCoverPhoto(id: string): Record<string, unknown> {
   return {
     id,
+    height: 400,
+    width: 600,
     links: { html: `https://unsplash.com/photos/${id}` },
+    urls: { regular: `https://images.unsplash.com/${id}` },
     user: {
       name: `User ${id}`,
       username: `user-${id}`,
@@ -162,13 +165,73 @@ describe("GET /api/users/:username/collections — cover_photo extraction", () =
   it.each([
     [
       "missing a user field",
-      { id: "p1", links: { html: "https://unsplash.com/x" } },
+      {
+        id: "p1",
+        height: 400,
+        width: 600,
+        links: { html: "https://unsplash.com/x" },
+        urls: { regular: "https://images.unsplash.com/p1" },
+      },
     ],
-    ["missing links.html", { id: "p1", user: { name: "Someone" } }],
+    [
+      "missing links.html",
+      {
+        id: "p1",
+        height: 400,
+        width: 600,
+        urls: { regular: "https://images.unsplash.com/p1" },
+        user: { name: "Someone" },
+      },
+    ],
     [
       "missing id",
       {
+        height: 400,
+        width: 600,
         links: { html: "https://unsplash.com/x" },
+        urls: { regular: "https://images.unsplash.com/p1" },
+        user: {
+          name: "Someone",
+          username: "someone",
+          links: { html: "https://unsplash.com/@someone" },
+        },
+      },
+    ],
+    [
+      "missing urls.regular",
+      {
+        id: "p1",
+        height: 400,
+        width: 600,
+        links: { html: "https://unsplash.com/x" },
+        user: {
+          name: "Someone",
+          username: "someone",
+          links: { html: "https://unsplash.com/@someone" },
+        },
+      },
+    ],
+    [
+      "missing height",
+      {
+        id: "p1",
+        width: 600,
+        links: { html: "https://unsplash.com/x" },
+        urls: { regular: "https://images.unsplash.com/p1" },
+        user: {
+          name: "Someone",
+          username: "someone",
+          links: { html: "https://unsplash.com/@someone" },
+        },
+      },
+    ],
+    [
+      "missing width",
+      {
+        id: "p1",
+        height: 400,
+        links: { html: "https://unsplash.com/x" },
+        urls: { regular: "https://images.unsplash.com/p1" },
         user: {
           name: "Someone",
           username: "someone",
@@ -180,7 +243,10 @@ describe("GET /api/users/:username/collections — cover_photo extraction", () =
       "whose user is missing username",
       {
         id: "p1",
+        height: 400,
+        width: 600,
         links: { html: "https://unsplash.com/x" },
+        urls: { regular: "https://images.unsplash.com/p1" },
         user: { name: "Someone", links: { html: "https://unsplash.com/@x" } },
       },
     ],
@@ -188,7 +254,10 @@ describe("GET /api/users/:username/collections — cover_photo extraction", () =
       "whose user is missing links.html (sparse user object)",
       {
         id: "p1",
+        height: 400,
+        width: 600,
         links: { html: "https://unsplash.com/x" },
+        urls: { regular: "https://images.unsplash.com/p1" },
         user: { name: "Someone", username: "someone" },
       },
     ],
