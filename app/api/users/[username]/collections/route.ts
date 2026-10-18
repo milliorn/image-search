@@ -15,18 +15,10 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { IMAGES_PER_PAGE } from "@/app/utils/constants";
+import type { ValidCoverPhoto } from "@/app/models/ImageDetails";
 
 type UnsplashCollection = {
   cover_photo: unknown | null;
-};
-
-type ValidCoverPhoto = {
-  id: string;
-  height: number;
-  width: number;
-  links: { html: string };
-  urls: { regular: string };
-  user: { name: string; username: string; links: { html: string } };
 };
 
 /** Narrows a cover_photo to the minimal shape ImageCard, ImageGrid, and ImageDetailsDisplay destructure without a fallback, filtering out malformed entries before they reach the client. */

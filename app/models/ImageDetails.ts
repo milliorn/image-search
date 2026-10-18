@@ -136,3 +136,13 @@ type Photo = {
 };
 
 export type ImageDetails = Photo;
+
+/** Minimal Photo shape ImageCard, ImageGrid, and ImageDetailsDisplay destructure without a fallback. Used to validate cover_photo entries from the collections endpoint before they reach the client. */
+export type ValidCoverPhoto = {
+  id: string;
+  height: number;
+  width: number;
+  links: { html: string };
+  urls: { regular: string };
+  user: { name: string; username: string; links: { html: string } };
+};
