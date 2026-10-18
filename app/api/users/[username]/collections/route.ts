@@ -15,10 +15,47 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { IMAGES_PER_PAGE } from "@/app/utils/constants";
+import type { ValidCoverPhoto } from "@/app/models/ImageDetails";
 
 type UnsplashCollection = {
   cover_photo: unknown | null;
 };
+
+/** Narrows a cover_photo to the minimal shape ImageCard, ImageGrid, and ImageDetailsDisplay destructure without a fallback, filtering out malformed entries before they reach the client. */
+function hasValidCoverPhotoShape(photo: unknown): photo is ValidCoverPhoto {
+  if (typeof photo !== "object" || photo === null) {
+    return false;
+  }
+
+  const { id, height, width, links, urls, user } = photo as Record<
+    string,
+    unknown
+  >;
+  const {
+    name,
+    username,
+    links: userLinks,
+  } = (user ?? {}) as Record<string, unknown>;
+
+  return (
+    typeof id === "string" &&
+    typeof height === "number" &&
+    typeof width === "number" &&
+    typeof links === "object" &&
+    links !== null &&
+    typeof (links as Record<string, unknown>)["html"] === "string" &&
+    typeof urls === "object" &&
+    urls !== null &&
+    typeof (urls as Record<string, unknown>)["regular"] === "string" &&
+    typeof user === "object" &&
+    user !== null &&
+    typeof name === "string" &&
+    typeof username === "string" &&
+    typeof userLinks === "object" &&
+    userLinks !== null &&
+    typeof (userLinks as Record<string, unknown>)["html"] === "string"
+  );
+}
 
 async function GET(
   req: NextRequest,
@@ -64,7 +101,7 @@ async function GET(
     client_id: unsplashKey,
   });
 
-  const apiUrl = `https://api.unsplash.com/users/${username}/collections?${apiParams.toString()}`;
+  const apiUrl = `https://api.unsplash.com/users/${encodeURIComponent(username)}/collections?${apiParams.toString()}`;
 
   try {
     const response = await fetch(apiUrl, { next: { revalidate: 3600 } });
@@ -95,9 +132,13 @@ async function GET(
     const collections = (await response.json()) as UnsplashCollection[];
     const total_pages = Math.ceil(total / perPageNum);
 
-    const results = collections
-      .map((c) => c.cover_photo)
-      .filter((photo) => photo !== null);
+    const results = collections.reduce<ValidCoverPhoto[]>((acc, c) => {
+      if (hasValidCoverPhotoShape(c.cover_photo)) {
+        acc.push(c.cover_photo);
+      }
+
+      return acc;
+    }, []);
 
     return NextResponse.json({ results, total_pages });
   } catch (error) {

@@ -87,9 +87,7 @@ Every successful response follows the same JSON shape so the `useFetchImages` ho
 
 ```json
 {
-  "results": [
-    /* ImageDetails[] */
-  ],
+  "results": [/* ImageDetails[] */],
   "total_pages": 42
 }
 ```
@@ -201,6 +199,7 @@ Or deploy to [Vercel](https://vercel.com). The project is pre-configured for zer
 | `npm start`                | Start the production server (requires a prior `build`) |
 | `npm run lint`             | Run ESLint across all source files                     |
 | `npm run lint:fix`         | Run ESLint with auto-fix enabled                       |
+| `npm run typecheck`        | Type-check the project with `tsc --noEmit`             |
 | `npm run prettier:check`   | Check source formatting with Prettier                  |
 | `npm run prettier:fix`     | Auto-format all source files with Prettier             |
 | `npm test`                 | Run the full test suite                                |
@@ -254,10 +253,11 @@ Before opening a PR, ensure all of the following pass:
 
 ```bash
 npm run lint
+npm run typecheck
 npm run prettier:check
 npm test
 ```
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE.md](LICENSE.md) for details.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
