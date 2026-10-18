@@ -16,6 +16,7 @@ on:
       - "package.json"
       - "package-lock.json"
       - "tsconfig.json"
+      - ".prettierignore"
       - ".github/workflows/ci.yml"
 
 # Cancel any in-progress run for the same PR branch when a new commit is pushed.
